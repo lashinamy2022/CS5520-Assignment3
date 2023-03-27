@@ -10,6 +10,7 @@ import CommonStyles from "./style/CommonStyles";
 import Label from "./components/Label";
 import { writeToDB } from "./firebase/firebase-helper";
 import ListScreen from "./screens/ListScreen";
+import MeScreen from "./screens/MeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -99,6 +100,12 @@ export default function App() {
             headerTitleAlign: "center",
           }}
         >
+          <Stack.Screen
+            name="Me"
+            component={MeScreen}
+            // options={{ headerStyle: { backgroundColor: "red", height: 100 } }}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="List"
             component={ListScreen}

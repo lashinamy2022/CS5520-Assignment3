@@ -10,7 +10,7 @@ export default function Square({ image, title, id, userPhoto }) {
   }
 
   function showDetails() {
-    console.log("show details"); 
+    console.log("show details");
   }
 
   return (
@@ -28,12 +28,7 @@ export default function Square({ image, title, id, userPhoto }) {
         <View style={styles.rowContainer}>
           <View style={{ flexDirection: "row" }}>
             <Image
-              style={{
-                height: 20,
-                width: 20,
-                borderRadius: 20,
-                marginRight: 5,
-              }}
+              style={styles.image}
               source={require("../assets/scenery.jpg")} //need change
               // source={require({ userPhoto })} //need change
             />
@@ -71,5 +66,11 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  image: {
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+    marginRight: 5,
   },
 });
