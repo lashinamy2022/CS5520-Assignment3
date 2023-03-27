@@ -10,7 +10,7 @@ export default function Square({ image, title, id, userPhoto }) {
   }
 
   function showDetails() {
-    console.log("show details");
+    console.log("show details"); 
   }
 
   return (
