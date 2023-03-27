@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 
-export default function Square({ image, title, id }) {
+export default function Square({ image, title, id, userPhoto }) {
   const [collect, setCollect] = useState(false); //edit added
   function pressedTest() {
     setCollect(!collect);
@@ -19,24 +19,36 @@ export default function Square({ image, title, id }) {
         <View style={styles.squareItem}>
           <Text>{image}</Text>
         </View>
-
-        <View>
-          <View>
-            <Text style={styles.title}>{title}</Text>
-          </View>
-
-          <View style={styles.rowContainer}>
-            <Text style={styles.id}>{id}</Text>
-            <PressableArea areaPressed={pressedTest}>
-              {collect ? (
-                <AntDesign name="hearto" size={22} color="grey" />
-              ) : (
-                <AntDesign name="heart" size={22} color="red" />
-              )}
-            </PressableArea>
-          </View>
-        </View>
       </PressableArea>
+      <View>
+        <View>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "row" }}>
+            <Image
+              style={{
+                height: 20,
+                width: 20,
+                borderRadius: 20,
+                marginRight: 5,
+              }}
+              source={require("../assets/scenery.jpg")} //need change
+            />
+            <Text style={styles.id}>{id}</Text>
+          </View>
+
+          {/* heart icon*/}
+          <PressableArea areaPressed={pressedTest}>
+            {collect ? (
+              <AntDesign name="hearto" size={22} color="grey" />
+            ) : (
+              <AntDesign name="heart" size={22} color="red" />
+            )}
+          </PressableArea>
+        </View>
+      </View>
     </View>
   );
 }
