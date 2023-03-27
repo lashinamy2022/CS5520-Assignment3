@@ -9,6 +9,8 @@ import PressableArea from "./components/PressableArea";
 import CommonStyles from "./style/CommonStyles";
 import Label from "./components/Label";
 import { writeToDB } from "./firebase/firebase-helper";
+import { ListScreen } from "./screens/ListScreen";
+
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -38,13 +40,19 @@ function MyTabs() {
             areaPressed={() => {
               richText.current?.dismissKeyboard();
               const replaceHTML = article.replace(/<(.|\n)*?>/g, "").trim();
-              const replaceWhiteSpace = replaceHTML.replace(/&nbsp;/g, "").trim();
-              if (replaceWhiteSpace.length <= 0 || title === "" || articleStatus === "") {
+              const replaceWhiteSpace = replaceHTML
+                .replace(/&nbsp;/g, "")
+                .trim();
+              if (
+                replaceWhiteSpace.length <= 0 ||
+                title === "" ||
+                articleStatus === ""
+              ) {
                 Alert.alert("Invalid input", "Please check your input values", [
                   { text: "OK", onPress: () => console.log("OK Pressed") },
                 ]);
                 return;
-              } 
+              }
               const diary = {
                 title: title,
                 articleStatus: articleStatus,
@@ -52,7 +60,6 @@ function MyTabs() {
               };
               console.log(diary);
               writeToDB(diary);
-  
             }}
           >
             {/* <Label
@@ -92,6 +99,11 @@ export default function App() {
             headerTitleAlign: "center",
           }}
         >
+          <Stack.Screen
+            name="List"
+            component={ListScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Home"
             component={MyTabs}
