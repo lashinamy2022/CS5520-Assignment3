@@ -25,7 +25,7 @@ export default function Square({ image, title, id, userPhoto }) {
           <Text style={styles.title}>{title}</Text>
         </View>
 
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={styles.rowContainer}>
           <View style={{ flexDirection: "row" }}>
             <Image
               style={{
@@ -35,6 +35,7 @@ export default function Square({ image, title, id, userPhoto }) {
                 marginRight: 5,
               }}
               source={require("../assets/scenery.jpg")} //need change
+              // source={require({ userPhoto })} //need change
             />
             <Text style={styles.id}>{id}</Text>
           </View>
