@@ -6,7 +6,10 @@ export default function ListScreen() {
   return (
     <View>
       <Text>ListScreen</Text>
-      <Square />
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <Square />
+        <Square />
+      </View>
     </View>
   );
 }

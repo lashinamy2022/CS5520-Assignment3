@@ -3,17 +3,23 @@ import React from "react";
 
 export default function Square() {
   return (
-    <View style={styles.SquareItem}>
-      <Text>Square</Text>
+    <View>
+      <View style={styles.squareItem}>
+        <Text>Square</Text>
+      </View>
+      <View style={{ alignItems: "center" }}>
+        <Text>Title for each item</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  SquareItem: {
-    height: 300,
-    width: Dimensions.get("window") / 2 - 16,
-    borderRadius: 5,
+  squareItem: {
     backgroundColor: "red",
+    height: 200,
+    width: Dimensions.get("window").width / 2 - 16,
+    borderRadius: 5,
+    margin: 5,
   },
 });

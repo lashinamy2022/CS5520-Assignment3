@@ -9,7 +9,7 @@ import PressableArea from "./components/PressableArea";
 import CommonStyles from "./style/CommonStyles";
 import Label from "./components/Label";
 import { writeToDB } from "./firebase/firebase-helper";
-import { ListScreen } from "./screens/ListScreen";
+import ListScreen from "./screens/ListScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -102,7 +102,7 @@ export default function App() {
           <Stack.Screen
             name="List"
             component={ListScreen}
-            options={{ headerShown: false }}
+            // options={{ headerShown: false }}
           />
           <Stack.Screen
             name="Home"
