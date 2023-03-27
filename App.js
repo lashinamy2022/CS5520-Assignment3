@@ -65,7 +65,7 @@ function MyTabs() {
         ),
       })}
     >
-      <Tab.Screen name="all" options={{ title: "create", headerTitle: "" }}>
+      <Tab.Screen name="create" options={{ title: "create", headerTitle: "" }}>
         {() => (
           <EditDiary
             richText={richText}
