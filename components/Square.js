@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 
-export default function Square() {
+export default function Square({ image, title }) {
   const [collect, setCollect] = useState(false); //edit added
   function pressedTest() {
     setCollect(!collect);
@@ -12,11 +12,11 @@ export default function Square() {
   return (
     <View>
       <View style={styles.squareItem}>
-        <Text>Square</Text>
+        <Text>{image}</Text>
       </View>
 
       <View style={styles.rowContainer}>
-        <Text style={styles.title}>Title for each item</Text>
+        <Text style={styles.title}>{title}</Text>
         <PressableArea
           areaPressed={pressedTest}
           customizedStyle={{ marginLeft: 5 }}
@@ -38,13 +38,14 @@ const styles = StyleSheet.create({
     height: 200,
     width: Dimensions.get("window").width / 2 - 16,
     borderRadius: 5,
-    margin: 5,
+    margin: 8,
   },
   title: {
     fontSize: 16,
   },
   rowContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    marginHorizontal: 8,
   },
 });
