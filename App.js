@@ -9,6 +9,8 @@ import PressableArea from "./components/PressableArea";
 import CommonStyles from "./style/CommonStyles";
 import Label from "./components/Label";
 import { writeToDB } from "./firebase/firebase-helper";
+import * as ImagePicker from "expo-image-picker";
+
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -50,9 +52,8 @@ function MyTabs() {
                 articleStatus: articleStatus,
                 article: article,
               };
-              console.log(diary);
-              writeToDB(diary);
-  
+             // console.log(diary);
+             writeToDB(diary);
             }}
           >
             {/* <Label
