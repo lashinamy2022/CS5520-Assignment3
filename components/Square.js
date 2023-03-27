@@ -15,7 +15,7 @@ export default function Square() {
         <Text>Square</Text>
       </View>
 
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+      <View style={styles.rowContainer}>
         <Text style={styles.title}>Title for each item</Text>
         <PressableArea
           areaPressed={pressedTest}
@@ -42,5 +42,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
+  },
+  rowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 });
