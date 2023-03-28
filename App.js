@@ -7,9 +7,9 @@ import { Ionicons } from "@expo/vector-icons";
 import EditDiary from "./screens/EditDiary";
 import PressableArea from "./components/PressableArea";
 import CommonStyles from "./style/CommonStyles";
-import Label from "./components/Label";
-import { writeToDB } from "./firebase/firebase-helper";
-import * as ImagePicker from "expo-image-picker";
+import { writeTravelDiaryToDB } from "./firebase/firebase-helper";
+import EditItinerary from "./screens/EditItinerary";
+import Itinerary from "./screens/Itinerary";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,45 +27,64 @@ function MyTabs() {
         headerTitleAlign: "center",
         tabBarStyle: CommonStyles.lightGreenBackground,
         tabBarActiveTintColor: "rgb(235,187,66)",
-        tabBarIcon: ({ focused, color, size }) => {
-          return (
-            <Ionicons name="add-circle" size="35" color={color}></Ionicons>
-          );
-        },
-        headerLeft: () => (
-          <Ionicons name="close-outline" size={30} color="#fff" />
-        ),
-        headerRight: () => (
-          <PressableArea
-            areaPressed={() => {
-              richText.current?.dismissKeyboard();
-              const replaceHTML = article.replace(/<(.|\n)*?>/g, "").trim();
-              const replaceWhiteSpace = replaceHTML.replace(/&nbsp;/g, "").trim();
-              if (replaceWhiteSpace.length <= 0 || title === "" || articleStatus === "") {
-                Alert.alert("Invalid input", "Please check your input values", [
-                  { text: "OK", onPress: () => console.log("OK Pressed") },
-                ]);
-                return;
-              } 
-              const diary = {
-                title: title,
-                articleStatus: articleStatus,
-                article: article,
-              };
-             // console.log(diary);
-             writeToDB(diary);
-            }}
-          >
-            {/* <Label
-              content="submit"
-              customizedStyle={{ color: "#fff", fontSize: 15 }}
-            /> */}
-            <Ionicons name="checkmark-outline" size={30} color="#fff" />
-          </PressableArea>
-        ),
       })}
     >
-      <Tab.Screen name="create" options={{ title: "create", headerTitle: "" }}>
+      <Tab.Screen
+        name="create"
+        options={{
+          title: "create",
+          headerTitle: "",
+          tabBarIcon: ({ focused, color, size }) => {
+            return (
+              <Ionicons name="add-circle" size={35} color={color}></Ionicons>
+            );
+          },
+          headerLeft: () => (
+            <Ionicons name="close-outline" size={30} color="#fff" />
+          ),
+          headerRight: () => (
+            <PressableArea
+              areaPressed={() => {
+                richText.current?.dismissKeyboard();
+                const replaceHTML = article.replace(/<(.|\n)*?>/g, "").trim();
+                const replaceWhiteSpace = replaceHTML
+                  .replace(/&nbsp;/g, "")
+                  .trim();
+                if (
+                  replaceWhiteSpace.length <= 0 ||
+                  title === "" ||
+                  articleStatus === ""
+                ) {
+                  Alert.alert(
+                    "Invalid input",
+                    "Please check your input values",
+                    [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+                  );
+                  return;
+                }
+                Alert.alert("Post", "Are you sure you want to post this?", [
+                  { text: "NO", onPress: () => console.log("No Pressed") },
+                  {
+                    text: "YES",
+                    onPress: () => {
+                      const diary = {
+                        title: title,
+                        articleStatus: articleStatus,
+                        article: article,
+                        createAt: new Date(),
+                        updateAt: new Date(),
+                      };
+                      writeTravelDiaryToDB(diary);
+                    },
+                  },
+                ]);
+              }}
+            >
+              <Ionicons name="checkmark-outline" size={30} color="#fff" />
+            </PressableArea>
+          ),
+        }}
+      >
         {() => (
           <EditDiary
             richText={richText}
@@ -76,6 +95,27 @@ function MyTabs() {
           />
         )}
       </Tab.Screen>
+      <Tab.Screen
+        name="itinerary"
+        options={{
+          title: "itinerary",
+          headerTitle: "",
+          tabBarIcon: ({ focused, color, size }) => {
+            return <Ionicons name="cafe" size={35} color={color}></Ionicons>;
+          },
+          headerLeft: () => (
+            <Ionicons name="close-outline" size={30} color="#fff" />
+          ),
+          headerRight: () => (
+            <PressableArea areaPressed={()=>{
+
+            }}>
+              <Ionicons name="add" size={30} color="#fff" />
+            </PressableArea>
+          ),
+        }}
+        component={Itinerary}
+      />
     </Tab.Navigator>
   );
 }

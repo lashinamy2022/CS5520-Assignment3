@@ -28,7 +28,8 @@
     "react-native-pell-rich-editor": "^1.8.8",
     "react-native-radio-buttons-group": "^2.3.2",
     "react-native-safe-area-context": "4.4.1",
-    "react-native-screens": "~3.18.0"
+    "react-native-screens": "~3.18.0",
+    "react-native-timeline-flatlist": "^0.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

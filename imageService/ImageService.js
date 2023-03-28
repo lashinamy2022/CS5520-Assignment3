@@ -1,19 +1,23 @@
-import {Alert } from 'react-native';
-import React from 'react';
+import { Alert } from "react-native";
+import React from "react";
 import * as ImagePicker from "expo-image-picker";
-import { ref, uploadBytesResumable } from "firebase/storage";
-import { firestore,storage } from "../firebase/firebase-setup";
+import {
+  ref,
+  uploadBytesResumable,
+  getStorage,
+  getDownloadURL,
+} from "firebase/storage";
+import { firestore, storage } from "../firebase/firebase-setup";
 
-
-export const verifyPermission = async(permissionInfo, requestPermission) => {
+export const verifyPermission = async (permissionInfo, requestPermission) => {
   if (permissionInfo.granted) {
     return true;
   }
   const permissionResult = await requestPermission();
   console.log(permissionResult);
-}
+};
 
-export const takePhoto = async(permissionInfo, requestPermission)=> {
+export const takePhoto = async (permissionInfo, requestPermission) => {
   const hasPermission = await verifyPermission(permissionInfo);
   if (!hasPermission) {
     Alert.alert("You need to give access to the camera");
@@ -30,9 +34,9 @@ export const takePhoto = async(permissionInfo, requestPermission)=> {
   } catch (err) {
     console.log("launch camera error", err);
   }
-}
+};
 
-export const pickPhoto = async(permissionInfo, requestPermission)=> {
+export const pickPhoto = async (permissionInfo, requestPermission) => {
   const hasPermission = await verifyPermission(permissionInfo);
   if (!hasPermission) {
     Alert.alert("You need to give access to the gallery");
@@ -52,13 +56,13 @@ export const pickPhoto = async(permissionInfo, requestPermission)=> {
   } catch (err) {
     console.log("launch gallery error", err);
   }
-}
+};
 
 export const fetchImage = async (uri) => {
   try {
     const response = await fetch(uri);
     const imageBlog = await response.blob();
-    const imageName = uri.substring(uri.lastIndexOf('/') + 1);
+    const imageName = uri.substring(uri.lastIndexOf("/") + 1);
     const imageRef = await ref(storage, `images/${imageName}`);
     const uploadResult = await uploadBytesResumable(imageRef, imageBlog);
     console.log(uploadResult.metadata.fullPath);
@@ -66,4 +70,16 @@ export const fetchImage = async (uri) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
+
+export const getImage = async (uri) => {
+  const storage = getStorage();
+  const storageRef = ref(storage, uri);
+  try {
+    const url = await getDownloadURL(storageRef);
+    return url;
+  } catch (error) {
+    console.log("getImageErr", error);
+    return null;
+  }
+};
