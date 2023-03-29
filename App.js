@@ -159,6 +159,8 @@ function MyTabs() {
 
       <Tab.Screen
         options={{
+          headerLeft: null,
+          headerRight: null,
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
@@ -175,11 +177,12 @@ function MyTabs() {
           },
         }}
         name="Notification"
-        component={EditPlace}
+        component={Notification}
       />
 
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => {
             return (
               <FontAwesome
@@ -196,7 +199,7 @@ function MyTabs() {
           },
         }}
         name="Me"
-        component={AddPlace}
+        component={MeScreen}
       />
     </Tab.Navigator>
   );
@@ -215,16 +218,16 @@ export default function App() {
             headerTitleAlign: "center",
           }}
         >
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Notification"
             component={Notification}
             options={{ headerShown: true }}
-          />
-          <Stack.Screen
+          /> */}
+          {/* <Stack.Screen
             name="Me"
             component={MeScreen}
             options={{ headerShown: false }}
-          />
+          /> */}
           <Stack.Screen
             name="Home"
             component={MyTabs}
