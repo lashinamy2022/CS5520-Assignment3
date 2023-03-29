@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { firestore } from "../firebase/firebase-setup";
 import Timeline from "react-native-timeline-flatlist";
 import CommonStyles from "../style/CommonStyles";
-import { getImage } from "../imageService/ImageService";
+import { getImage } from "../service/ImageService";
 import {
   collection,
   onSnapshot,
