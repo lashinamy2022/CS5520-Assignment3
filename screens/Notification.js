@@ -1,6 +1,8 @@
 // import { View, Text } from 'react-native'
 import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import React from "react";
+import { MaterialIcons } from "@expo/vector-icons";
+import PressableArea from "../components/PressableArea";
 
 export default function Notification() {
   const data = [
@@ -32,8 +34,13 @@ export default function Notification() {
         data={data}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Text style={styles.titleText}>{item.title}</Text>
-            <Text style={styles.contentText}>{item.content}</Text>
+            <View>
+              <Text style={styles.titleText}>{item.title}</Text>
+              <Text style={styles.contentText}>{item.content}</Text>
+            </View>
+            <PressableArea>
+              <MaterialIcons name="delete" size={24} color="black" />
+            </PressableArea>
           </View>
           //   <Card customizedStyle={styles.item}>
           //     <Text style={styles.titleText}>{item.title}</Text>
@@ -62,9 +69,10 @@ const styles = StyleSheet.create({
   item: {
     borderBottomWidth: 2,
     borderColor: "lightgrey",
-    // backgroundColor: "lightgrey",
     padding: 10,
     margin: 10,
     width: 380,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
