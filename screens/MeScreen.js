@@ -5,14 +5,34 @@ import CommonStyles from "../style/CommonStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import ListScreen from "./ListScreen";
+import SquareList from "../components/SquareList";
+import Square from "../components/Square";
 
 const Tab = createMaterialTopTabNavigator();
+
+function TravelDiaryList() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      {/* <Text>TravelDiaryList!</Text> */}
+      <SquareList title={"Travel Diary"} />
+    </View>
+  );
+}
+
+function ItineraryList() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      {/* <Text>ItineraryList!</Text> */}
+      <SquareList title={"Itinerary"} />
+    </View>
+  );
+}
 
 function MyTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Itinerary" component={HomeScreen} />
-      <Tab.Screen name="Diary" component={SettingsScreen} />
+      <Tab.Screen name="diary" component={TravelDiaryList} />
+      <Tab.Screen name="itinerary" component={ItineraryList} />
     </Tab.Navigator>
   );
 }
@@ -39,11 +59,16 @@ export default function MeScreen() {
       </View>
 
       <View style={styles.bottomContainer}>
-        <View>
-          {/* <Text>Itinerary</Text>
+        {/* <NavigationContainer> */}
+        <MyTabs />
+        {/* </NavigationContainer> */}
+
+        {/* <Text style={{ backgroundColor: "red" }}>hi there</Text> */}
+        {/* <View> */}
+        {/* <Text>Itinerary</Text>
           <Text>Travel Diary</Text> */}
-          <ListScreen />
-        </View>
+        {/* <ListScreen /> */}
+        {/* </View> */}
       </View>
     </View>
   );
