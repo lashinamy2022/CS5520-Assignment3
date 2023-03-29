@@ -2,6 +2,8 @@
 import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import React from "react";
 
+function Card() {}
+
 export default function Notification() {
   const data = [
     {
@@ -61,5 +63,14 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     width: 350,
+  },
+  cardDefault: {
+    shadowOffset: { width: 5, height: 5 },
+    shadowRadius: 4,
+    shadowOpacity: 0.5,
+    borderRadius: 5,
+    shadowColor: "grey",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
