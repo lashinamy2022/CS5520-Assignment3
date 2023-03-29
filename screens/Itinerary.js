@@ -1,9 +1,27 @@
-import { View, Text, StyleSheet, Pressable, SafeAreaView } from 'react-native';
-import React from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import React, { useEffect } from 'react';
 import TimelineList from '../components/TimelineList';
 import Label from '../components/Label';
 import CommonStyles from '../style/CommonStyles';
-const Itinerary = () => {
+import PressableArea from '../components/PressableArea';
+import { Ionicons } from "@expo/vector-icons";
+
+const Itinerary = ({navigation}) => {
+  useEffect(()=>{
+    navigation.setOptions({
+      headerLeft: () => (
+        <Ionicons name="close-outline" size={30} color="#fff" />
+      ),
+      headerRight: () => (
+        <PressableArea areaPressed={()=>{
+          navigation.navigate("AddPlace");
+        }}>
+          <Ionicons name="add" size={30} color="#fff" />
+        </PressableArea>
+      )
+    });
+
+  },[navigation]);
   return (
     <SafeAreaView style={styles.container}>
       <Label content="Vancouver" customizedStyle={{fontSize: 30, paddingLeft: 15, paddingTop: 5}}/>

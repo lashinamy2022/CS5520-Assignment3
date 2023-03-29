@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { firestore } from "../firebase/firebase-setup";
 import Timeline from "react-native-timeline-flatlist";
 import CommonStyles from "../style/CommonStyles";
-import { getImage } from "../service/ImageService";
+import { getImageURL } from "../service/ImageService";
 import {
   collection,
   onSnapshot,
@@ -17,7 +17,7 @@ const TimelineList = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(firestore, "itinerary"), orderBy("time", "asc"));
+    const q = query(collection(firestore, "itineraryItems"), orderBy("time", "asc"));
     const unsubscribe = onSnapshot(q, async (querySnapshot) => {
       if (querySnapshot.empty) {
         setItems([]);
@@ -30,12 +30,12 @@ const TimelineList = () => {
             } else {
               entity = { ...entity, ...CommonStyles.taskNotDone };
             }
-            const uri = await getImage(doc.data().img);
+            const uri = await getImageURL(doc.data().img);
             entity.img = uri;
             return entity;
           })
         );
-        setItems([...updatedItems, ...updatedItems, ...updatedItems]);
+        setItems([...updatedItems]);
       }
     });
 

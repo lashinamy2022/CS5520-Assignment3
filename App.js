@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, TextInput, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Alert,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 import { useRef, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -8,8 +16,10 @@ import EditDiary from "./screens/EditDiary";
 import PressableArea from "./components/PressableArea";
 import CommonStyles from "./style/CommonStyles";
 import { writeTravelDiaryToDB } from "./firebase/firebase-helper";
-import EditItinerary from "./screens/EditItinerary";
 import Itinerary from "./screens/Itinerary";
+import AddPlace from "./screens/AddPlace";
+import DateTime from "./components/DateTime";
+import PlacesAutoComplete from "./components/PlacesAutoComplete";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,6 +30,7 @@ function MyTabs() {
   const [article, setArticle] = useState("");
 
   return (
+    
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
         headerStyle: CommonStyles.lightGreenBackground,
@@ -92,6 +103,7 @@ function MyTabs() {
             setArticle={setArticle}
             setArticleStatus={setArticleStatus}
             articleStatus={articleStatus}
+
           />
         )}
       </Tab.Screen>
@@ -102,17 +114,7 @@ function MyTabs() {
           headerTitle: "",
           tabBarIcon: ({ focused, color, size }) => {
             return <Ionicons name="cafe" size={35} color={color}></Ionicons>;
-          },
-          headerLeft: () => (
-            <Ionicons name="close-outline" size={30} color="#fff" />
-          ),
-          headerRight: () => (
-            <PressableArea areaPressed={()=>{
-
-            }}>
-              <Ionicons name="add" size={30} color="#fff" />
-            </PressableArea>
-          ),
+          }
         }}
         component={Itinerary}
       />
@@ -123,6 +125,7 @@ function MyTabs() {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  
   return (
     <>
       <NavigationContainer>
@@ -138,6 +141,23 @@ export default function App() {
             component={MyTabs}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="TimePicker"
+            component={DateTime}
+            options={{ title: "Select Visiting Datetime", headerShown: true}}
+          />
+           <Stack.Screen
+            name="LocationSelector"
+            component={PlacesAutoComplete}
+            options={{ title: "Select A Visiting Location", headerShown: true}}
+          />
+
+          <Stack.Screen
+            name="AddPlace"
+            component={AddPlace}
+            options={{ title: "Add a place ", headerShown: true}}
+          />  
+
         </Stack.Navigator>
       </NavigationContainer>
     </>

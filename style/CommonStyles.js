@@ -27,7 +27,7 @@ const CommonStyles = StyleSheet.create({
   },
  
   taskCompleted: {
-    icon: require('../asserts/archery.png'),
+    icon: require('../assets/archery.png'),
     lineColor:'rgb(135, 173, 132)', 
   }
 });

@@ -41,3 +41,13 @@ export async function updateTravelDiaryById(updatedId, updatedData) {
     console.log("updateTravelDiaryById",err);
   }
 }
+
+export async function writeItineraryItemToDB(item) {
+  item = {...item, createdAt: new Date(), updatedAt: new Date()}
+  try {
+    const docRef = await addDoc(collection(firestore, "itineraryItems"), item);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (err) {
+    console.log("writeItineraryItemToDB", err);
+  }
+}

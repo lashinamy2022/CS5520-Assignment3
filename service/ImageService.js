@@ -6,14 +6,14 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { firestore, storage } from "../firebase/firebase-setup";
+import { storage } from "../firebase/firebase-setup";
 
 export const verifyPermission = async (permissionInfo, requestPermission) => {
   if (permissionInfo.granted) {
     return true;
   }
   const permissionResult = await requestPermission();
-  console.log(permissionResult);
+  return permissionResult.granted;
 };
 
 export const takePhoto = async (permissionInfo, requestPermission) => {
@@ -58,6 +58,9 @@ export const pickPhoto = async (permissionInfo, requestPermission) => {
 };
 
 export const fetchImage = async (uri) => {
+  if (!uri || uri === "") {
+    return;
+  }
   try {
     const response = await fetch(uri);
     const imageBlog = await response.blob();
@@ -71,7 +74,10 @@ export const fetchImage = async (uri) => {
   }
 };
 
-export const getImage = async (uri) => {
+export const getImageURL = async (uri) => {
+  if (!uri || uri === "") {
+    return;
+  }
   const storageRef = ref(storage, uri);
   try {
     const url = await getDownloadURL(storageRef);
