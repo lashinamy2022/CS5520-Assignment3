@@ -12,6 +12,8 @@ import PressableArea from "./components/PressableArea";
 import CommonStyles from "./style/CommonStyles";
 import Label from "./components/Label";
 import { writeToDB } from "./firebase/firebase-helper";
+import MeScreen from "./screens/MeScreen";
+import Notification from "./screens/Notification";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import EditPlace from "./screens/EditPlace";
@@ -213,6 +215,16 @@ export default function App() {
             headerTitleAlign: "center",
           }}
         >
+          <Stack.Screen
+            name="Notification"
+            component={Notification}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Me"
+            component={MeScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Home"
             component={MyTabs}
