@@ -2,14 +2,22 @@ import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Square({ image, title, id, userPhoto }) {
+  const navigation = useNavigation();
   const [collect, setCollect] = useState(false); //edit added
   function pressedTest() {
     setCollect(!collect);
   }
 
   function showDetails() {
+    navigation.navigate("DiaryDetail", {
+      image: image,
+      title: "title test",
+      id: id,
+      userPhoto,
+    });
     console.log("show details");
   }
 

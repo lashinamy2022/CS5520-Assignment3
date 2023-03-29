@@ -10,25 +10,25 @@ const Tab = createMaterialTopTabNavigator();
 
 function TravelDiaryList() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <SquareList title={"Travel Diary"} />
-    </View>
+    // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <SquareList title={"Travel Diary"} />
+    // </View>
   );
 }
 
 function ItineraryList() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <SquareList title={"Itinerary"} />
-    </View>
+    // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <SquareList title={"Itinerary"} />
+    // </View>
   );
 }
 
 function MyTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="diary" component={TravelDiaryList} />
       <Tab.Screen name="itinerary" component={ItineraryList} />
+      <Tab.Screen name="travel diary" component={TravelDiaryList} />
     </Tab.Navigator>
   );
 }
@@ -63,15 +63,18 @@ export default function MeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  topContainer: {
-    flex: 2,
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "grey",
-    // padding: 5,
-    paddingTop: 40,
-    flexDirection: "row",
-  },
+  topContainer: [
+    {
+      flex: 2,
+      justifyContent: "space-around",
+      alignItems: "center",
+      // backgroundColor: "grey",
+      // padding: 5,
+      paddingTop: 40,
+      flexDirection: "row",
+    },
+    CommonStyles.lightGreenBackground,
+  ],
   bottomContainer: { flex: 12 },
   rowContainer: {
     flexDirection: "row",
