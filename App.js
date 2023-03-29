@@ -21,6 +21,7 @@ import AddPlace from "./screens/AddPlace";
 import Collected from "./screens/Collected";
 import HomeTabScreen from "./screens/HomeTabScreen";
 import DiaryDetail from "./screens/DiaryDetail";
+import Settings from "./screens/Settings";
 
 const Tab = createBottomTabNavigator();
 
