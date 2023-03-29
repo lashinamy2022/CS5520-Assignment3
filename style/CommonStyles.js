@@ -17,7 +17,12 @@ const CommonStyles = StyleSheet.create({
   },
   yellowBorder: {
     borderColor: "#c6c3b3",
-  }
+  },
+
+  yellowActiveTab: "rgb(235,187,66)",
+  greyInactiveTab: "#808080",
+  addScreen: "#000000AA",
+  addScreenIcon: "#dcdcdc",
 });
 
 export default CommonStyles;

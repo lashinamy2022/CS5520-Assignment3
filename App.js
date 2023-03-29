@@ -4,6 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import EditDiary from "./screens/EditDiary";
 import PressableArea from "./components/PressableArea";
 import CommonStyles from "./style/CommonStyles";
@@ -11,6 +14,10 @@ import Label from "./components/Label";
 import { writeToDB } from "./firebase/firebase-helper";
 import MeScreen from "./screens/MeScreen";
 import Notification from "./screens/Notification";
+import LoginScreen from "./screens/LoginScreen";
+import SignupScreen from "./screens/SignupScreen";
+import EditPlace from "./screens/EditPlace";
+import AddPlace from "./screens/AddPlace";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,11 +35,17 @@ function MyTabs() {
         headerTitleAlign: "center",
         tabBarStyle: CommonStyles.lightGreenBackground,
         tabBarActiveTintColor: "rgb(235,187,66)",
-        tabBarIcon: ({ focused, color, size }) => {
-          return (
-            <Ionicons name="add-circle" size="35" color={color}></Ionicons>
-          );
+        tabBarLabelStyle: {
+          fontSize: 15,
+          // marginTop: 5,
         },
+        // tabBarIcon: ({ focused, color, size }) => {
+        //   return (
+        //     <>
+        //       <Ionicons name="add-circle" size="35" color={color}></Ionicons>
+        //     </>
+        //   );
+        // },
         headerLeft: () => (
           <Ionicons name="close-outline" size={30} color="#fff" />
         ),
@@ -72,7 +85,67 @@ function MyTabs() {
         ),
       })}
     >
-      <Tab.Screen name="all" options={{ title: "create", headerTitle: "" }}>
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Entypo
+                name="home"
+                size={24}
+                style={[{ marginRight: 1 }, { marginTop: 8 }]}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+        name="Home"
+        component={LoginScreen}
+      />
+
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <AntDesign
+                name="heart"
+                size={24}
+                style={[{ marginRight: 1 }, { marginTop: 10 }]}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+        name="Collected"
+        component={SignupScreen}
+      />
+
+      <Tab.Screen
+        name="Create"
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name="add-circle"
+                style={[{ marginRight: 1 }, { marginTop: 5 }]}
+                size={28}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+      >
         {() => (
           <EditDiary
             richText={richText}
@@ -83,6 +156,48 @@ function MyTabs() {
           />
         )}
       </Tab.Screen>
+
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name="ios-notifications"
+                size={24}
+                style={[{ marginRight: 1 }, { marginTop: 8 }]}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+        name="Notification"
+        component={EditPlace}
+      />
+
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <FontAwesome
+                name="user-circle-o"
+                style={[{ marginRight: 1 }, { marginTop: 8 }]}
+                size={24}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+        name="Me"
+        component={AddPlace}
+      />
     </Tab.Navigator>
   );
 }
