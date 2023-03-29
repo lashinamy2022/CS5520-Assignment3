@@ -19,6 +19,7 @@ import SignupScreen from "./screens/SignupScreen";
 import EditPlace from "./screens/EditPlace";
 import AddPlace from "./screens/AddPlace";
 import Collected from "./screens/Collected";
+import HomeTabScreen from "./screens/HomeTabScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -88,6 +89,7 @@ function MyTabs() {
     >
       <Tab.Screen
         options={{
+          title: "Home",
           tabBarIcon: ({ focused }) => {
             return (
               <Entypo
@@ -104,7 +106,7 @@ function MyTabs() {
           },
         }}
         name="HomeTab"
-        component={LoginScreen}
+        component={HomeTabScreen}
       />
 
       <Tab.Screen
@@ -219,18 +221,8 @@ export default function App() {
             headerTitleAlign: "center",
           }}
         >
-          {/* <Stack.Screen
-            name="Notification"
-            component={Notification}
-            options={{ headerShown: true }}
-          /> */}
-          {/* <Stack.Screen
-            name="Me"
-            component={MeScreen}
-            options={{ headerShown: false }}
-          /> */}
           <Stack.Screen
-            name="HomeTab"
+            name="Home"
             component={MyTabs}
             options={{ headerShown: false }}
           />
