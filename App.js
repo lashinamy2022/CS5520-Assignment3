@@ -16,6 +16,7 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import EditPlace from "./screens/EditPlace";
 import AddPlace from "./screens/AddPlace";
+import Settings from "./screens/Settings";
 
 const Tab = createBottomTabNavigator();
 
@@ -101,7 +102,7 @@ function MyTabs() {
           },
         }}
         name="Home"
-        component={LoginScreen}
+        component={Settings}
       />
 
       <Tab.Screen
