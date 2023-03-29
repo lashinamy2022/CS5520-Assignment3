@@ -106,11 +106,11 @@ export default function App() {
             // options={{ headerStyle: { backgroundColor: "red", height: 100 } }}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="List"
             component={ListScreen}
-            // options={{ headerShown: false }}
-          />
+            options={{ headerShown: false }}
+          /> */}
           <Stack.Screen
             name="Home"
             component={MyTabs}

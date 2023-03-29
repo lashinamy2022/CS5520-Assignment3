@@ -3,6 +3,19 @@ import React from "react";
 import PressableArea from "../components/PressableArea";
 import CommonStyles from "../style/CommonStyles";
 import { Ionicons } from "@expo/vector-icons";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import ListScreen from "./ListScreen";
+
+const Tab = createMaterialTopTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Itinerary" component={HomeScreen} />
+      <Tab.Screen name="Diary" component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+}
 
 export default function MeScreen() {
   return (
@@ -15,12 +28,22 @@ export default function MeScreen() {
           />
           <Text style={styles.IDText}>MeScreen</Text>
         </View>
-        <PressableArea>
-          <View style={styles.settingContainer}>
-            <Ionicons name="settings" size={20} color="black" />
-            <Text style={styles.settingText}>Setting</Text>
-          </View>
-        </PressableArea>
+        <View>
+          <PressableArea>
+            <View style={styles.settingContainer}>
+              <Ionicons name="settings" size={20} color="black" />
+              <Text style={styles.settingText}>Setting</Text>
+            </View>
+          </PressableArea>
+        </View>
+      </View>
+
+      <View style={styles.bottomContainer}>
+        <View>
+          {/* <Text>Itinerary</Text>
+          <Text>Travel Diary</Text> */}
+          <ListScreen />
+        </View>
       </View>
     </View>
   );
@@ -29,12 +52,15 @@ export default function MeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   topContainer: {
-    justifyContent: "center",
-    height: Dimensions.get("window").height / 4,
+    flex: 2,
+    justifyContent: "space-around",
+    alignItems: "center",
     backgroundColor: "grey",
-    padding: 10,
+    // padding: 5,
     paddingTop: 40,
+    flexDirection: "row",
   },
+  bottomContainer: { flex: 12 },
   rowContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -60,7 +86,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     width: 100,
     borderRadius: 10,
-    marginTop: 20,
+    // marginTop: 20,
   },
   settingText: {
     fontSize: 15,
