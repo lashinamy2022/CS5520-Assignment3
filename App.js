@@ -20,6 +20,7 @@ import EditPlace from "./screens/EditPlace";
 import AddPlace from "./screens/AddPlace";
 import Collected from "./screens/Collected";
 import HomeTabScreen from "./screens/HomeTabScreen";
+import DiaryDetail from "./screens/DiaryDetail";
 
 const Tab = createBottomTabNavigator();
 
@@ -225,6 +226,11 @@ export default function App() {
             name="Home"
             component={MyTabs}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DiaryDetail"
+            component={DiaryDetail}
+            options={{ title: "Travel Diary" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
