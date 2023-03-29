@@ -18,6 +18,7 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import EditPlace from "./screens/EditPlace";
 import AddPlace from "./screens/AddPlace";
+import Collected from "./screens/Collected";
 
 const Tab = createBottomTabNavigator();
 
@@ -102,7 +103,7 @@ function MyTabs() {
             );
           },
         }}
-        name="Home"
+        name="HomeTab"
         component={LoginScreen}
       />
 
@@ -124,7 +125,7 @@ function MyTabs() {
           },
         }}
         name="Collected"
-        component={SignupScreen}
+        component={Collected}
       />
 
       <Tab.Screen
@@ -229,7 +230,7 @@ export default function App() {
             options={{ headerShown: false }}
           /> */}
           <Stack.Screen
-            name="Home"
+            name="HomeTab"
             component={MyTabs}
             options={{ headerShown: false }}
           />

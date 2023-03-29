@@ -27,8 +27,8 @@ function ItineraryList() {
 function MyTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="diary" component={TravelDiaryList} />
       <Tab.Screen name="itinerary" component={ItineraryList} />
+      <Tab.Screen name="travel diary" component={TravelDiaryList} />
     </Tab.Navigator>
   );
 }
