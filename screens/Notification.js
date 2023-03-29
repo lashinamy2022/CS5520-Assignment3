@@ -30,12 +30,12 @@ export default function Notification() {
     <View style={styles.container}>
       <FlatList
         data={data}
-        renderItem={({ item }) => {
-          <View>
-            <Text>{item.title}</Text>
-            <Text>{item.content}</Text>
-          </View>;
-        }}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text style={styles.titleText}>{item.title}</Text>
+            <Text style={styles.contentText}>{item.content}</Text>
+          </View>
+        )}
       />
     </View>
   );
@@ -43,7 +43,23 @@ export default function Notification() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  contentText: {
+    fontSize: 15,
+    fontWeight: "300",
+  },
+  item: {
+    borderBottomWidth: 2,
+    borderColor: "lightgrey",
+    padding: 10,
+    margin: 10,
+    width: 350,
   },
 });
