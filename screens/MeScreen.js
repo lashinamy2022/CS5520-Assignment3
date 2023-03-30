@@ -33,7 +33,7 @@ function MyTabs() {
   );
 }
 
-export default function MeScreen() {
+export default function MeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -45,7 +45,11 @@ export default function MeScreen() {
           <Text style={styles.IDText}>MeScreen</Text>
         </View>
         <View>
-          <PressableArea>
+          <PressableArea
+            areaPressed={() => {
+              navigation.navigate("Setting");
+            }}
+          >
             <View style={styles.settingContainer}>
               <Ionicons name="settings" size={20} color="black" />
               <Text style={styles.settingText}>Setting</Text>
