@@ -14,16 +14,8 @@ export default function TestScreen() {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+
   const [confirmPassword, setConfirmPassword] = useState(null);
-
-  function modalVisibleFunction() {
-    setModalVisible(true);
-  }
-
-  function modalInvisibleFunction() {
-    setModalVisible(false);
-  }
 
   return (
     <SafeAreaView style={styles.container}>

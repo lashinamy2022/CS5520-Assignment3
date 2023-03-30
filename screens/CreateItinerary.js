@@ -9,10 +9,16 @@ import {
 import React from "react";
 import { useState } from "react";
 import PressableArea from "../components/PressableArea";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CreateItinerary() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+
+  function createButtonPressed() {
+    navigation.navigate("Itinerary");
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,7 +52,10 @@ export default function CreateItinerary() {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <PressableArea customizedStyle={styles.custmomizedStyle}>
+        <PressableArea
+          areaPressed={createButtonPressed}
+          customizedStyle={styles.custmomizedStyle}
+        >
           <Text style={styles.buttonText}>Create</Text>
         </PressableArea>
       </View>
