@@ -233,6 +233,7 @@ export default function App() {
             component={DiaryDetail}
             options={{ title: "Travel Diary" }}
           />
+          <Stack.Screen name="Setting" component={Settings} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
