@@ -4,8 +4,14 @@ import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import CommonStyles from "../style/CommonStyles";
 import PressableArea from "../components/PressableArea";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AddNewItem({ modalVisible, modalInvisibleFunction }) {
+  const navigation = useNavigation();
+
+  function itineraryPressed() {
+    navigation.navigate("CreateItinerary");
+  }
   return (
     <View style={styles.modalContainer}>
       <Modal visible={modalVisible} transparent={true}>
@@ -25,20 +31,24 @@ export default function AddNewItem({ modalVisible, modalInvisibleFunction }) {
           </View>
           <View style={styles.bottomcontainer}>
             <View style={styles.itemContainer}>
-              <Text style={styles.text}>Add an itinerary</Text>
-              <Feather
-                name="map-pin"
-                size={24}
-                color={CommonStyles.addScreenIcon}
-              />
+              <PressableArea>
+                <Text style={styles.text}>Add an itinerary</Text>
+                <Feather
+                  name="map-pin"
+                  size={24}
+                  color={CommonStyles.addScreenIcon}
+                />
+              </PressableArea>
             </View>
             <View style={styles.itemContainer}>
-              <Text style={styles.text}>Add a travel diary</Text>
-              <Feather
-                name="book-open"
-                size={24}
-                color={CommonStyles.addScreenIcon}
-              />
+              <PressableArea>
+                <Text style={styles.text}>Add a travel diary</Text>
+                <Feather
+                  name="book-open"
+                  size={24}
+                  color={CommonStyles.addScreenIcon}
+                />
+              </PressableArea>
             </View>
           </View>
         </View>
