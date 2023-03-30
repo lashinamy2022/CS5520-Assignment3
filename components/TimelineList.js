@@ -13,11 +13,12 @@ import {
   query,
 } from "firebase/firestore";
 
-const TimelineList = () => {
+const TimelineList = ({itineraryID}) => {
+  console.log("terstdsatesa", itineraryID);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(firestore, "itineraryItems"), orderBy("time", "asc"));
+    const q = query(collection(firestore, "itinerary", itineraryID, "items"), orderBy("time", "asc"));
     const unsubscribe = onSnapshot(q, async (querySnapshot) => {
       if (querySnapshot.empty) {
         setItems([]);

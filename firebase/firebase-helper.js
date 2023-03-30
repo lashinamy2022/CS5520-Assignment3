@@ -11,6 +11,7 @@ import { firestore, auth } from "./firebase-setup";
 //
 // Add a new document with a generated id.
 export async function writeTravelDiaryToDB(diary) {
+  diary = {...diary, createdAt: new Date(), updatedAt: new Date()};
   //replace db with the firestore variable exported in firebase-setup
   try {
     const docRef = await addDoc(collection(firestore, "travelDiary"), diary);
@@ -21,7 +22,7 @@ export async function writeTravelDiaryToDB(diary) {
 }
 
 export function queryTravelDiary(articleStatus) {
-  const q =  query(collection(firestore, "travelDiary"),  where("articleStatus", "==", articleStatus), orderBy("createAt", "desc"));
+  const q =  query(collection(firestore, "travelDiary"),  where("articleStatus", "==", articleStatus), orderBy("createdAt", "desc"));
 
 }
 
@@ -42,10 +43,22 @@ export async function updateTravelDiaryById(updatedId, updatedData) {
   }
 }
 
-export async function writeItineraryItemToDB(item) {
-  item = {...item, createdAt: new Date(), updatedAt: new Date()}
+export async function writeItineraryToDB(itinerary) {
+  itinerary = {...itinerary, createdAt: new Date(), updatedAt: new Date()}
   try {
-    const docRef = await addDoc(collection(firestore, "itineraryItems"), item);
+    const docRef = await addDoc(collection(firestore, "itinerary"), itinerary);
+    console.log("Document written with ID: ", docRef.id);
+    return docRef.id;
+  } catch (err) {
+    console.log("writeItineraryToDB", err);
+  }
+}
+
+
+export async function writeItineraryItemToDB(itineraryID, item) {
+  item = {...item, createdAt: new Date(), updatedAt: new Date()};
+  try {
+    const docRef = await addDoc(collection(firestore, "itinerary", itineraryID, "items"), item);
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
     console.log("writeItineraryItemToDB", err);

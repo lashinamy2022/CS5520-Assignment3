@@ -1,32 +1,40 @@
 import { View, Text, StyleSheet, Modal } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import CommonStyles from "../style/CommonStyles";
 import PressableArea from "../components/PressableArea";
 import { useNavigation } from "@react-navigation/native";
 
-export default function AddNewItem({ modalVisible, modalVisibleHandle }) {
+export default function Create() {
   const navigation = useNavigation();
+  const [visibility, setVisibility] = useState(false);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setVisibility(true);
+    });
 
+    return unsubscribe;
+  }, [navigation]);
+  
   function itineraryPressed() {
+    setVisibility(false);
     navigation.navigate("CreateItinerary");
-    modalVisibleHandle(false);
   }
 
   function diaryPressed() {
-    navigation.navigate("EditDiary");
-    modalVisibleHandle(false);
+    setVisibility(false);
+    navigation.navigate("CreateDiary");
   }
 
   function crossPressed() {
+    setVisibility(false);
     navigation.navigate("HomeTab");
-    modalVisibleHandle(false);
   }
 
   return (
     <View style={styles.modalContainer}>
-      <Modal visible={modalVisible} transparent={true}>
+      <Modal visible={visibility} transparent={true}>
         <View style={styles.container}>
           <View style={styles.cross}>
             <PressableArea areaPressed={crossPressed}>

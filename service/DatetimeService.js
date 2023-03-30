@@ -37,3 +37,4 @@ export const convertTimeToStrWithoutSeconds =  (date) => {
         return date.toLocaleTimeString().substring(0, 5);
     }
 };
+

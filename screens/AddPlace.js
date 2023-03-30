@@ -15,7 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Input from "../components/Input";
 import { writeItineraryItemToDB } from "../firebase/firebase-helper";
 import { fetchImage } from "../service/ImageService";
-const AddPlace = ({ navigation, route, itineraryID }) => {
+const AddPlace = ({ navigation, route }) => {
+  const [itineraryID, setItineraryID] = useState(route.params.itineraryID);
   const [permissionInfo, requestPermission] =
     ImagePicker.useCameraPermissions();
   const [datetime, setDatetime] = useState("");
@@ -27,9 +28,7 @@ const AddPlace = ({ navigation, route, itineraryID }) => {
       headerRight: () => (
         <PressableArea areaPressed={async () => {
           //validate data
-          console.log(datetime);
-          console.log(location);
-
+    
           if (datetime === '' || location === '') {
             Alert.alert(
               "Invalid input",
@@ -40,8 +39,8 @@ const AddPlace = ({ navigation, route, itineraryID }) => {
           }
           //uploadImage
           
-          const uri = "";
-          if (!imageUri && imageUri !== "") {
+          let uri = "";
+          if (imageUri && imageUri !== "") {
             uri = await fetchImage(imageUri);
           }
           //write data to db
@@ -53,8 +52,8 @@ const AddPlace = ({ navigation, route, itineraryID }) => {
             note: note,
             completed: false
           }
-          writeItineraryItemToDB(item);
-          navigation.navigate("itinerary");
+          writeItineraryItemToDB(itineraryID, item);
+          navigation.navigate("Itinerary", {itineraryID: itineraryID});
         }}>
           <Ionicons name="checkmark-outline" size={30} color="#fff" />
         </PressableArea>

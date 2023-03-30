@@ -5,19 +5,53 @@ import {
   SafeAreaView,
   TextInput,
   StatusBar,
+  Alert
 } from "react-native";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PressableArea from "../components/PressableArea";
-import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import { writeItineraryToDB } from "../firebase/firebase-helper";
 
-export default function CreateItinerary() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigation = useNavigation();
+export default function CreateItinerary({navigation}) {
+  const [name, setName] = useState("");
+  const [days, setDays] = useState("");
+  useEffect(()=>{
+    navigation.setOptions({
+      headerLeft: () => (
+        <PressableArea areaPressed={()=>{
+          navigation.navigate("HomeTab");
+        }}>
+        <Ionicons name="close-outline" size={30} color="#fff" />
+        </PressableArea>
+      )
+    });
 
-  function createButtonPressed() {
-    navigation.navigate("Itinerary");
+  },[]);
+
+  async function createButtonPressed() {
+    if (name === "" || days === "") {
+      Alert.alert(
+        "Invalid input",
+        "Please check your input values",
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+      );
+      return;
+    }
+    if (!days.match(/^[0-9]*$/)) {
+      Alert.alert(
+        "Invalid input",
+        "Please enter numbers for days",
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+      );
+      return;
+    }
+    const itinerary = {
+      name: name,
+      days: days
+    };
+    const id = await writeItineraryToDB(itinerary);
+    navigation.navigate("Itinerary", {itineraryID: id});
   }
 
   return (
@@ -29,10 +63,10 @@ export default function CreateItinerary() {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              value={email}
+              value={name}
               autoCapitalize="none"
-              onChangeText={(emailInput) => {
-                setEmail(emailInput);
+              onChangeText={(changedText) => {
+                setName(changedText);
               }}
             />
           </View>
@@ -42,10 +76,10 @@ export default function CreateItinerary() {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              value={password}
+              value={days}
               autoCapitalize="none"
-              onChangeText={(numberInput) => {
-                setPassword(numberInput);
+              onChangeText={(changedText) => {
+                setDays(changedText);
               }}
             />
           </View>

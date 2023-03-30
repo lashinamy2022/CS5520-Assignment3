@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import EditDiary from "./screens/EditDiary";
+import CreateDiary from "./screens/CreateDiary";
 import PressableArea from "./components/PressableArea";
 import CommonStyles from "./style/CommonStyles";
 import Label from "./components/Label";
@@ -23,18 +23,14 @@ import HomeTabScreen from "./screens/HomeTabScreen";
 import DiaryDetail from "./screens/DiaryDetail";
 import Settings from "./screens/Settings";
 import CreateItinerary from "./screens/CreateItinerary";
-import AddNewItem from "./screens/AddNewItem";
+import Create from "./screens/Create";
 import Itinerary from "./screens/Itinerary";
+import DateTime from "./components/DateTime";
+import PlaceAutoComplete from "./components/PlacesAutoComplete";
 
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
-  const [modalVisible, setModalVisible] = useState(true);
-
-  function modalVisibleHandle(res) {
-    setModalVisible(res);
-  }
-
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -50,6 +46,7 @@ function MyTabs() {
     >
       <Tab.Screen
         options={{
+          headerTitle:"Travel Assistant",
           title: "Home",
           tabBarIcon: ({ focused }) => {
             return (
@@ -96,38 +93,24 @@ function MyTabs() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <PressableArea
-                areaPressed={() => {
-                  setModalVisible(true);
-                }}
-              >
-                <Ionicons
-                  name="add-circle"
-                  style={[{ marginRight: 1 }, { marginTop: 5 }]}
-                  size={28}
-                  color={
-                    focused
-                      ? CommonStyles.yellowActiveTab
-                      : CommonStyles.greyInactiveTab
-                  }
-                />
-              </PressableArea>
+              <Ionicons
+                name="add-circle"
+                style={[{ marginRight: 1 }, { marginTop: 5 }]}
+                size={28}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
             );
           },
         }}
-      >
-        {() => (
-          <AddNewItem
-            modalVisible={modalVisible}
-            modalVisibleHandle={modalVisibleHandle}
-          />
-        )}
-      </Tab.Screen>
+        component={Create}
+      />
 
       <Tab.Screen
         options={{
-          headerLeft: null,
-          headerRight: null,
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
@@ -175,10 +158,6 @@ function MyTabs() {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const richText = useRef();
-  const [title, setTitle] = useState("");
-  const [articleStatus, setArticleStatus] = useState("1");
-  const [article, setArticle] = useState("");
   return (
     <>
       <NavigationContainer>
@@ -192,7 +171,7 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={MyTabs}
-            options={{ headerShown: false }}
+            options={{headerShown: false }}
           />
           <Stack.Screen
             name="DiaryDetail"
@@ -202,71 +181,14 @@ export default function App() {
           <Stack.Screen
             name="CreateItinerary"
             component={CreateItinerary}
-            options={{ headerShown: false }}
+            options={{ title:"Create Your Itinerary" }}
           />
 
-          <Stack.Screen
-            name="Itinerary"
-            component={Itinerary}
-            // options={{ headerLeft: null }}
-          />
-          <Stack.Screen
-            name="EditDiary"
-            options={{
-              headerLeft: () => (
-                <Ionicons name="close-outline" size={30} color="#fff" />
-              ),
-              headerRight: () => (
-                <PressableArea
-                  areaPressed={() => {
-                    richText.current?.dismissKeyboard();
-                    const replaceHTML = article
-                      .replace(/<(.|\n)*?>/g, "")
-                      .trim();
-                    const replaceWhiteSpace = replaceHTML
-                      .replace(/&nbsp;/g, "")
-                      .trim();
-                    if (
-                      replaceWhiteSpace.length <= 0 ||
-                      title === "" ||
-                      articleStatus === ""
-                    ) {
-                      Alert.alert(
-                        "Invalid input",
-                        "Please check your input values",
-                        [
-                          {
-                            text: "OK",
-                            onPress: () => console.log("OK Pressed"),
-                          },
-                        ]
-                      );
-                      return;
-                    }
-                    const diary = {
-                      title: title,
-                      articleStatus: articleStatus,
-                      article: article,
-                    };
-                    console.log(diary);
-                    writeToDB(diary);
-                  }}
-                >
-                  <Ionicons name="checkmark-outline" size={30} color="#fff" />
-                </PressableArea>
-              ),
-            }}
-          >
-            {() => (
-              <EditDiary
-                richText={richText}
-                setTitle={setTitle}
-                setArticle={setArticle}
-                setArticleStatus={setArticleStatus}
-                articleStatus={articleStatus}
-              />
-            )}
-          </Stack.Screen>
+          <Stack.Screen name="CreateDiary" component={CreateDiary} />
+          <Stack.Screen name="Itinerary" component={Itinerary} />
+          <Stack.Screen name="AddPlace" component={AddPlace}  options={{ title:"Add A Place" }} />
+          <Stack.Screen name="TimePicker" component={DateTime}  options={{ title:"Set Visiting Time" }} />
+          <Stack.Screen name="LocationSelector" component={PlaceAutoComplete}  options={{ title:"Set Visiting Place" }} />
           <Stack.Screen name="Setting" component={Settings} />
         </Stack.Navigator>
       </NavigationContainer>

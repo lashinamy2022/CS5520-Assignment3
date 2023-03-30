@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import SquareList from "../components/SquareList";
+import DiaryList from "../components/DiaryList";
 
 export default function Collected() {
   return (
     <View style={styles.container}>
-      <SquareList title={"this is the collection"} />
+      <DiaryList title={"this is the collection"} articleStatus="2"/>
     </View>
   );
 }
