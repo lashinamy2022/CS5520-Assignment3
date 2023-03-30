@@ -23,6 +23,7 @@ import HomeTabScreen from "./screens/HomeTabScreen";
 import DiaryDetail from "./screens/DiaryDetail";
 import Settings from "./screens/Settings";
 import CreateItinerary from "./screens/CreateItinerary";
+import AddNewItem from "./screens/AddNewItem";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,6 +32,19 @@ function MyTabs() {
   const [title, setTitle] = useState("");
   const [articleStatus, setArticleStatus] = useState("1");
   const [article, setArticle] = useState("");
+  const [modalVisible, setModalVisible] = useState(true);
+
+  // function modalVisibleFunction() {
+  //   setModalVisible(true);
+  // }
+
+  // function modalInvisibleFunction() {
+  //   setModalVisible(false);
+  // }
+
+  function modalVisibleHandle(res) {
+    setModalVisible(res);
+  }
 
   return (
     <Tab.Navigator
@@ -153,6 +167,32 @@ function MyTabs() {
         }}
       >
         {() => (
+          <AddNewItem
+            modalVisible={modalVisible}
+            modalVisibleHandle={modalVisibleHandle}
+          />
+        )}
+      </Tab.Screen>
+      {/* <Tab.Screen
+        name="Create"
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name="add-circle"
+                style={[{ marginRight: 1 }, { marginTop: 5 }]}
+                size={28}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+      >
+        {() => (
           <EditDiary
             richText={richText}
             setTitle={setTitle}
@@ -161,7 +201,7 @@ function MyTabs() {
             articleStatus={articleStatus}
           />
         )}
-      </Tab.Screen>
+      </Tab.Screen> */}
 
       <Tab.Screen
         options={{

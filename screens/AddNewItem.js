@@ -6,11 +6,12 @@ import CommonStyles from "../style/CommonStyles";
 import PressableArea from "../components/PressableArea";
 import { useNavigation } from "@react-navigation/native";
 
-export default function AddNewItem({ modalVisible, modalInvisibleFunction }) {
+export default function AddNewItem({ modalVisible, modalVisibleHandle }) {
   const navigation = useNavigation();
 
   function itineraryPressed() {
     navigation.navigate("CreateItinerary");
+    modalVisibleHandle(false);
   }
   return (
     <View style={styles.modalContainer}>
@@ -19,7 +20,7 @@ export default function AddNewItem({ modalVisible, modalInvisibleFunction }) {
           <View style={styles.cross}>
             <PressableArea
               areaPressed={() => {
-                modalInvisibleFunction();
+                modalVisibleHandle(false);
               }}
             >
               <Entypo
@@ -30,26 +31,26 @@ export default function AddNewItem({ modalVisible, modalInvisibleFunction }) {
             </PressableArea>
           </View>
           <View style={styles.bottomcontainer}>
-            <View style={styles.itemContainer}>
-              <PressableArea>
+            <PressableArea areaPressed={itineraryPressed}>
+              <View style={styles.itemContainer}>
                 <Text style={styles.text}>Add an itinerary</Text>
                 <Feather
                   name="map-pin"
                   size={24}
                   color={CommonStyles.addScreenIcon}
                 />
-              </PressableArea>
-            </View>
-            <View style={styles.itemContainer}>
-              <PressableArea>
+              </View>
+            </PressableArea>
+            <PressableArea>
+              <View style={styles.itemContainer}>
                 <Text style={styles.text}>Add a travel diary</Text>
                 <Feather
                   name="book-open"
                   size={24}
                   color={CommonStyles.addScreenIcon}
                 />
-              </PressableArea>
-            </View>
+              </View>
+            </PressableArea>
           </View>
         </View>
       </Modal>
