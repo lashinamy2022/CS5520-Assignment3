@@ -11,6 +11,7 @@ import { firestore, auth } from "./firebase-setup";
 //
 // Add a new document with a generated id.
 export async function writeTravelDiaryToDB(diary) {
+  diary = {...diary, createdAt: new Date(), updatedAt: new Date()}
   //replace db with the firestore variable exported in firebase-setup
   try {
     const docRef = await addDoc(collection(firestore, "travelDiary"), diary);

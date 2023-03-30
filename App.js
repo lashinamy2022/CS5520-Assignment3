@@ -42,15 +42,7 @@ function MyTabs() {
         tabBarActiveTintColor: "rgb(235,187,66)",
         tabBarLabelStyle: {
           fontSize: 15,
-          // marginTop: 5,
         },
-        // tabBarIcon: ({ focused, color, size }) => {
-        //   return (
-        //     <>
-        //       <Ionicons name="add-circle" size="35" color={color}></Ionicons>
-        //     </>
-        //   );
-        // },
         headerLeft: () => (
           <Ionicons name="close-outline" size={30} color="#fff" />
         ),
@@ -78,7 +70,7 @@ function MyTabs() {
                 article: article,
               };
               console.log(diary);
-              writeToDB(diary);
+              writeTravelDiaryToDB(diary);
             }}
           >
             {/* <Label
