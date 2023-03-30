@@ -234,12 +234,12 @@ export default function App() {
             component={DiaryDetail}
             options={{ title: "Travel Diary" }}
           />
-
           <Stack.Screen
             name="CreateItinerary"
             component={CreateItinerary}
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="Setting" component={Settings} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

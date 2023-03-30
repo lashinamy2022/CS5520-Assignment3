@@ -38,7 +38,7 @@ export default function Notification() {
               <Text style={styles.titleText}>{item.title}</Text>
               <Text style={styles.contentText}>{item.content}</Text>
             </View>
-            <PressableArea>
+            <PressableArea customizedStyle={{ marginRight: 20 }}>
               <MaterialIcons name="delete" size={24} color="black" />
             </PressableArea>
           </View>
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    // padding: 10,
   },
   titleText: {
     fontSize: 20,
@@ -74,5 +75,6 @@ const styles = StyleSheet.create({
     width: 380,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
 });
