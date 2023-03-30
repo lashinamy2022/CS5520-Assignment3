@@ -18,7 +18,17 @@ const CommonStyles = StyleSheet.create({
   yellowBorder: {
     borderColor: "#c6c3b3",
   },
-
+  pinkBackgroundColor : {
+    backgroundColor: "#ff9797",
+  },
+  taskNotDone: {
+    lineColor:'#ffde97', 
+    circleColor:'#ffde97'
+  },
+  taskCompleted: {
+    icon: require('../assets/archery.png'),
+    lineColor:'rgb(135, 173, 132)', 
+  },
   yellowActiveTab: "rgb(235,187,66)",
   greyInactiveTab: "#808080",
   addScreen: "#000000AA",

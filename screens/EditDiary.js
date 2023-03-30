@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import Editor from "../components/Editor";
 import Input from "../components/Input";
+import PressableArea from "../components/PressableArea";
 import Radio from "../components/Radio";
 import CommonStyles from "../style/CommonStyles";
 
@@ -12,6 +13,9 @@ export default function EditDiary({richText, setTitle, setArticle, setArticleSta
   return (
     <SafeAreaView edges={["bottom", "left", "right"]} style={{ flex: 1 }}>
       <View style={styles.container}>
+        <PressableArea areaPressed={()=>{
+           richText.current?.dismissKeyboard();
+        }}>
         <View>
           <Input
             placeholder="Input title here..."
@@ -38,6 +42,7 @@ export default function EditDiary({richText, setTitle, setArticle, setArticleSta
             setSelectedValue={setArticleStatus}
           />
         </View>
+        </PressableArea>
         <View style={{ paddingTop: 20 }}>
           <Editor richText={richText} setArticle={setArticle} />
         </View>
@@ -49,6 +54,6 @@ export default function EditDiary({richText, setTitle, setArticle, setArticleSta
 const styles = StyleSheet.create({
   container: [{
     flex: 1,
-    padding: 25,
+    padding: 15,
   }],
 });

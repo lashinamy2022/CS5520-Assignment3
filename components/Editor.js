@@ -5,19 +5,15 @@ import {
   RichToolbar,
 } from "react-native-pell-rich-editor";
 import * as ImagePicker from "expo-image-picker";
-
 import CommonStyles from "../style/CommonStyles";
+import {pickPhoto, fetchImage, getImageURL} from "../service/ImageService";
+import { useState } from "react";
+
+
 
 export default function Editor({ richText, setArticle }) {
-  const [permissionInfo, requestPermission] =
-    ImagePicker.useCameraPermissions();
-
-  async function verifyPermission() {
-    if (permissionInfo.granted) {
-      return true;
-    }
-    const permissionResult = await requestPermission();
-  }
+  const [permissionInfo, requestPermission] = ImagePicker.useCameraPermissions();
+  const [content, setContent] = useState("");
   return (
     <View>
       <RichToolbar
@@ -37,36 +33,33 @@ export default function Editor({ richText, setArticle }) {
         ]}
         style={styles.richTextToolbarStyle}
         onPressAddImage={async () => {
-          const hasPermission = await verifyPermission();
-          if (!hasPermission) {
-            Alert.alert("You need to give access to the camera");
-            return;
+          const imageUri = await pickPhoto(permissionInfo, requestPermission);
+          if (!imageUri || imageUri === "") {
+            return ;
           }
-          try {
-            const result = await ImagePicker.launchImageLibraryAsync({
-              mediaTypes: ImagePicker.MediaTypeOptions.Images,
-              allowsEditing: true,
-              quality: 1,
-              base64: false,
-            });
-            if (!result.canceled) {
-              console.log(result.assets[0].uri);
-              // richText.current?.setContentHTML(`<div><img src="data:image/jpeg;base64,${result.assets[0].base64}"/></div>`);
+          const filePath = await fetchImage(imageUri);
+          getImageURL(filePath)
+          .then((url) => {
+            setArticle(content + '<div><img src="'+url+'" style="width: 100%"/></div>');
+            richText.current?.setContentHTML(content + '<div><img src="'+url+'" style="width: 100%"/></div>');
 
-            }
-          } catch (err) {
-            console.log("launch camera error", err);
-          }
+          })
+          .catch((error) => {
+            console.log("Image Url error", error);
+          });
         }}
       />
       <ScrollView bounces={false}>
         <RichEditor
           ref={richText}
-          onChange={setArticle}
+          onChange={(html)=>{
+            setArticle(html);
+            setContent(html);
+          }}
           placeholder="Write your travel diary here :)"
           androidHardwareAccelerationDisabled={true}
           style={styles.richTextEditorStyle}
-          initialHeight={450}
+          initialHeight={1000}
         />
       </ScrollView>
     </View>
