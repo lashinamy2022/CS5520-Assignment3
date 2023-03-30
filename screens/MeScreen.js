@@ -4,22 +4,22 @@ import PressableArea from "../components/PressableArea";
 import CommonStyles from "../style/CommonStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import SquareList from "../components/SquareList";
-
+import DiaryList from "../components/DiaryList";
+import ItineraryList from "../components/ItineraryList";
 const Tab = createMaterialTopTabNavigator();
 
-function TravelDiaryList() {
+function MyTravelDiaryList() {
   return (
     // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <SquareList title={"Travel Diary"} />
+    <DiaryList title={"Travel Diary"} articleStatus="1" />
     // </View>
   );
 }
 
-function ItineraryList() {
+function MyItineraryList() {
   return (
     // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <SquareList title={"Itinerary"} />
+    <ItineraryList title={"Itinerary"}  />
     // </View>
   );
 }
@@ -27,8 +27,8 @@ function ItineraryList() {
 function MyTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="itinerary" component={ItineraryList} />
-      <Tab.Screen name="travel diary" component={TravelDiaryList} />
+      <Tab.Screen name="itinerary" component={MyItineraryList} />
+      <Tab.Screen name="travel diary" component={MyTravelDiaryList} />
     </Tab.Navigator>
   );
 }

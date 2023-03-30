@@ -25,12 +25,15 @@ export default function Square({ image, title, id, userPhoto }) {
     <View style={{ margin: 5 }}>
       <PressableArea areaPressed={showDetails}>
         <View style={styles.squareItem}>
-          <Text>{image}</Text>
+        <Image
+              source={{ uri: `${image}` }}
+              style={{width: Dimensions.get("window").width / 2 - 16, height: 200}}
+            />
         </View>
       </PressableArea>
       <View>
         <View>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>{title}</Text>
         </View>
 
         <View style={styles.rowContainer}>
@@ -38,9 +41,8 @@ export default function Square({ image, title, id, userPhoto }) {
             <Image
               style={styles.image}
               source={require("../assets/scenery.jpg")} //need change
-              // source={require({ userPhoto })} //need change
             />
-            <Text style={styles.id}>{id}</Text>
+            <Text style={styles.id}>Bella</Text>
           </View>
 
           {/* heart icon*/}
@@ -70,6 +72,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    width: 170,
+    
   },
   rowContainer: {
     flexDirection: "row",
