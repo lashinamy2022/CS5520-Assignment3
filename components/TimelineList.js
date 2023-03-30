@@ -68,7 +68,7 @@ const TimelineList = () => {
         innerCircle={"icon"}
         circleColor="rgba(0,0,0,0)"
         renderDetail={(rowData, sectionID, rowID) => {
-          let title = <Text style={[styles.title]}>{rowData.title}</Text>;
+          let title = <Text style={[styles.title]}  numberOfLines={1} ellipsizeMode='tail'>{rowData.title}</Text>;
           var desc = null;
           if (rowData.note && rowData.img) {
             desc = (
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: "bold",
+    width: 250
   },
   descriptionContainer: {
     flexDirection: "row",

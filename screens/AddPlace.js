@@ -39,7 +39,11 @@ const AddPlace = ({ navigation, route, itineraryID }) => {
             return;
           }
           //uploadImage
-          const uri = await fetchImage(imageUri);
+          
+          const uri = "";
+          if (!imageUri && imageUri !== "") {
+            uri = await fetchImage(imageUri);
+          }
           //write data to db
           const item = {
             //itineraryID: itineraryID,
