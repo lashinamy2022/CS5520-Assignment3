@@ -13,16 +13,23 @@ export default function AddNewItem({ modalVisible, modalVisibleHandle }) {
     navigation.navigate("CreateItinerary");
     modalVisibleHandle(false);
   }
+
+  function diaryPressed() {
+    navigation.navigate("EditDiary");
+    modalVisibleHandle(false);
+  }
+
+  function crossPressed() {
+    navigation.navigate("HomeTab");
+    modalVisibleHandle(false);
+  }
+
   return (
     <View style={styles.modalContainer}>
       <Modal visible={modalVisible} transparent={true}>
         <View style={styles.container}>
           <View style={styles.cross}>
-            <PressableArea
-              areaPressed={() => {
-                modalVisibleHandle(false);
-              }}
-            >
+            <PressableArea areaPressed={crossPressed}>
               <Entypo
                 name="cross"
                 size={40}
@@ -41,7 +48,7 @@ export default function AddNewItem({ modalVisible, modalVisibleHandle }) {
                 />
               </View>
             </PressableArea>
-            <PressableArea>
+            <PressableArea areaPressed={diaryPressed}>
               <View style={styles.itemContainer}>
                 <Text style={styles.text}>Add a travel diary</Text>
                 <Feather
