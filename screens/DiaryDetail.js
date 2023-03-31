@@ -49,13 +49,24 @@ export default function DiaryDetail({ route, navigation }) {
         }
       }
     );
+    // console.log(title);
+    return function cleanup() {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
     navigation.setOptions({
       headerRight: ({}) => {
         return (
           <PressableArea
             customizedStyle={{ marginTop: 3 }}
             areaPressed={() => {
-              navigation.navigate("CreateDiary", { type: "edit" });
+              navigation.navigate("CreateDiary", {
+                type: "edit",
+                title: title,
+                article: article,
+              });
             }}
           >
             <Feather name="edit-3" size={20} color="white" />
@@ -63,10 +74,7 @@ export default function DiaryDetail({ route, navigation }) {
         );
       },
     });
-    return function cleanup() {
-      unsubscribe();
-    };
-  }, []);
+  }, [title, article]);
 
   return (
     <View style={{ flex: 1 }}>

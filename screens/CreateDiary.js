@@ -9,19 +9,19 @@ import { Ionicons } from "@expo/vector-icons";
 import { writeTravelDiaryToDB } from "../firebase/firebase-helper";
 
 export default function CreateDiary({ navigation, route }) {
-  // console.log(route);
-  if (route.params.type === "edit") {
-    console.log("edit path");
-  } else {
-    console.log("new path");
-  }
-  //edit type: create an new diary, new type : edit one existing diary
-  const pathType = route.params.type;
+  console.log(route);
 
   const richText = useRef();
   const [title, setTitle] = useState("");
   const [articleStatus, setArticleStatus] = useState("1"); //1 for private, 2 for public
   const [article, setArticle] = useState("");
+
+  // useEffect(() => {
+  //   if (route.params.title) {
+  //     setTitle(route.params.title);
+  //   }
+  // }, [route.params.title]);
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -82,6 +82,7 @@ export default function CreateDiary({ navigation, route }) {
           <View>
             <Input
               placeholder="Input title here..."
+              value={route.params.type === "edit" ? route.params.title : title}
               customizedStyle={[
                 { width: "100%" },
                 CommonStyles.lightGreenBorder,
