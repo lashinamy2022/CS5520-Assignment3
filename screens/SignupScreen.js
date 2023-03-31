@@ -69,14 +69,14 @@ export default function TestScreen() {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <View style={styles.buttonView}>
+          <View style={styles.signupButton}>
             <PressableArea>
-              <Text style={styles.text}>Sign Up</Text>
+              <Text style={styles.buttonText}>Sign Up</Text>
             </PressableArea>
           </View>
           <View style={styles.buttonView}>
             <PressableArea>
-              <Text style={styles.text}>Already Registered</Text>
+              <Text style={styles.buttonText}>Already Registered</Text>
             </PressableArea>
           </View>
         </View>
@@ -125,9 +125,28 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 40,
+    padding: 50,
   },
   buttonView: {
-    marginTop: 15,
+    marginTop: 25,
+    borderBottomWidth: 1,
+    width: 180,
+    borderBottomColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 8,
+  },
+
+  signupButton: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "black",
+    justifyContent: "center",
+    marginRight: 5,
+    padding: 5,
+  },
+
+  buttonText: {
+    fontSize: 17,
   },
 });
