@@ -16,6 +16,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "../components/PressableArea";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import CommonStyles from "../style/CommonStyles";
 
 export default function DiaryDetail({ route, navigation }) {
   const diaryID = route.params.diaryID;
@@ -75,7 +76,6 @@ export default function DiaryDetail({ route, navigation }) {
         },
       });
     }
-  
   }, []); // empty array here to run the effect only once
 
   return (
@@ -105,12 +105,12 @@ export default function DiaryDetail({ route, navigation }) {
       </View>
       <WebView source={{ html: article }} />
 
-     { route.params.from === "me" && (
-      <View style={styles.buttonContainer}>
-        <PressableArea customizedStyle={styles.deleteButton}>
-          <Text style={styles.buttonText}>Delete</Text>
-        </PressableArea>
-      </View>
+      {route.params.from === "me" && (
+        <View style={styles.buttonContainer}>
+          <PressableArea customizedStyle={styles.deleteButton}>
+            <Text style={styles.buttonText}>Delete</Text>
+          </PressableArea>
+        </View>
       )}
     </View>
   );
@@ -154,14 +154,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
 
-  deleteButton: {
-    width: "50%",
-    height: "40%",
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ff6347",
-  },
+  deleteButton: [
+    {
+      width: "50%",
+      height: "40%",
+      borderRadius: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      // backgroundColor: "#ff6347",
+    },
+    CommonStyles.deleteButtonBackground,
+  ],
 
   buttonText: {
     color: "white",
