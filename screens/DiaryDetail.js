@@ -19,12 +19,12 @@ export default function DiaryDetail({ route }) {
   const [createdAt, setCreatedAt] = useState(null);
   const [user, setUser] = useState("");
   const [article, setArticle] = useState("");
+  
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      doc(firestore, "travelDiary", route.params.id),
+      doc(firestore, "travelDiary", route.params.itineraryID),
       (doc) => {
         if (doc) {
-          console.log(doc.data());
           setTitle(doc.data().title);
           const createdAt = doc.data().createdAt;
           const date = createdAt.toDate();

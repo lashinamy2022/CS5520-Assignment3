@@ -9,3 +9,7 @@ export const extractImageOrAddImage = (article) => {
   }
   return "https://picsum.photos/800/600?nature";
 };
+
+export const provideImage = () => {
+  return "https://picsum.photos/800/600?nature";
+}

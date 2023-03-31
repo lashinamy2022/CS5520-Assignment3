@@ -14,7 +14,7 @@ import { useState } from "react";
 export default function Editor({ richText, setArticle }) {
   const [permissionInfo, requestPermission] = ImagePicker.useCameraPermissions();
   const [content, setContent] = useState("");
-  const value = "<html><head><style>body {font-size: 24px;></style></head><body><p>This is some HTML content!</p></body></html>";
+  const value = "";
   return (
     <View>
       <RichToolbar
@@ -52,8 +52,8 @@ export default function Editor({ richText, setArticle }) {
       />
       <ScrollView bounces={false}>
         <RichEditor
-          html={value}
           ref={richText}
+          html={value}
           onChange={(html)=>{
             setArticle(html);
             setContent(html);
