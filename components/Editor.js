@@ -7,13 +7,24 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import CommonStyles from "../style/CommonStyles";
 import { pickPhoto, fetchImage, getImageURL } from "../service/ImageService";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Editor({ richText, setArticle, initialHTML }) {
-  console.log(initialHTML);
+export default function Editor({
+  richText,
+  setArticle,
+  routeType,
+  initialHTML,
+}) {
+  console.log("initialHTML", initialHTML);
   const [permissionInfo, requestPermission] =
     ImagePicker.useCameraPermissions();
   const [content, setContent] = useState("");
+  // useEffect(() => {
+  //   if (routeType === "edit") {
+  //     setContent(initialHTML);
+  //     console.log(content);
+  //   }
+  // }, [routeType]);
   const value =
     "<html><head><style>body {font-size: 24px;></style></head><body><p>This is some HTML content!</p></body></html>";
   return (
@@ -62,7 +73,7 @@ export default function Editor({ richText, setArticle, initialHTML }) {
       />
       <ScrollView bounces={false}>
         <RichEditor
-          // html={value}
+          // html={initialHTML}
           initialContentHTML={initialHTML}
           ref={richText}
           onChange={(html) => {

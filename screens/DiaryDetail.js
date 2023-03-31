@@ -24,17 +24,19 @@ export default function DiaryDetail({ route, navigation }) {
   const [user, setUser] = useState("");
   const [article, setArticle] = useState("");
   const [collect, setCollect] = useState(false);
+  const [originArticle, setOriginArticle] = useState("");
 
   function pressedTest() {
     setCollect(!collect);
   }
 
+  console.log("id", route.params);
   useEffect(() => {
     const unsubscribe = onSnapshot(
       doc(firestore, "travelDiary", route.params.id),
       (doc) => {
         if (doc) {
-          // console.log(doc.data());
+          console.log("doc.data", doc.data());
           setTitle(doc.data().title);
           const createdAt = doc.data().createdAt;
           const date = createdAt.toDate();
@@ -46,6 +48,8 @@ export default function DiaryDetail({ route, navigation }) {
               doc.data().article
             }</body></html>`
           );
+          setOriginArticle(doc.data().article);
+          // console.log("doc.data().article", doc.data().article);
         }
       }
     );
@@ -65,7 +69,7 @@ export default function DiaryDetail({ route, navigation }) {
               navigation.navigate("CreateDiary", {
                 type: "edit",
                 title: title,
-                article: article,
+                originArticle: originArticle,
               });
             }}
           >
@@ -74,7 +78,7 @@ export default function DiaryDetail({ route, navigation }) {
         );
       },
     });
-  }, [title, article]);
+  }, [title, originArticle]);
 
   return (
     <View style={{ flex: 1 }}>

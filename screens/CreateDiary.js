@@ -9,18 +9,19 @@ import { Ionicons } from "@expo/vector-icons";
 import { writeTravelDiaryToDB } from "../firebase/firebase-helper";
 
 export default function CreateDiary({ navigation, route }) {
-  console.log(route);
+  console.log("create diary route", route);
 
   const richText = useRef();
   const [title, setTitle] = useState("");
   const [articleStatus, setArticleStatus] = useState("1"); //1 for private, 2 for public
   const [article, setArticle] = useState("");
 
-  // useEffect(() => {
-  //   if (route.params.title) {
-  //     setTitle(route.params.title);
-  //   }
-  // }, [route.params.title]);
+  useEffect(() => {
+    if (route.params.type === "edit") {
+      setTitle(route.params.title);
+      setArticle(route.params.originArticle);
+    }
+  }, [route.params.type]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -44,6 +45,9 @@ export default function CreateDiary({ navigation, route }) {
               title === "" ||
               articleStatus === ""
             ) {
+              // console.log("length", replaceWhiteSpace.length);
+              // console.log("title", title);
+              // console.log("articleStatus", articleStatus);
               Alert.alert("Invalid input", "Please check your input values", [
                 { text: "OK", onPress: () => console.log("OK Pressed") },
               ]);
@@ -82,7 +86,7 @@ export default function CreateDiary({ navigation, route }) {
           <View>
             <Input
               placeholder="Input title here..."
-              value={route.params.type === "edit" ? route.params.title : ""}
+              value={title}
               customizedStyle={[
                 { width: "100%" },
                 CommonStyles.lightGreenBorder,
@@ -114,9 +118,8 @@ export default function CreateDiary({ navigation, route }) {
           <Editor
             richText={richText}
             setArticle={setArticle}
-            initialHTML={
-              route.params.type === "edit" ? route.params.article : ""
-            }
+            initialHTML={route.params.originArticle}
+            routeType={route.params.type}
           />
         </View>
       </View>
