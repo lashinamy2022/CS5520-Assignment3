@@ -84,6 +84,5 @@ export const getImageURL = async (uri) => {
     return url;
   } catch (error) {
     console.log("getImageErr", error);
-    return null;
   }
 };
