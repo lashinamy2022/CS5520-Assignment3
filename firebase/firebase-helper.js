@@ -4,8 +4,8 @@ import {
   addDoc,
   query,
   where,
-  onSnapshot,
   deleteDoc,
+  updateDoc
 } from "firebase/firestore";
 import { firestore, auth } from "./firebase-setup";
 //
@@ -54,6 +54,16 @@ export async function writeItineraryToDB(itinerary) {
   }
 }
 
+export async function editItineraryToDB(itineraryID, itinerary) {
+  itinerary = {...itinerary, updatedAt: new Date()};
+  try {
+    await updateDoc(doc(firestore, "itinerary", itineraryID), itinerary);
+    return itineraryID;
+  } catch (err) {
+    console.log("editItineraryToDB",err);
+  }
+}
+
 
 export async function writeItineraryItemToDB(itineraryID, item) {
   item = {...item, createdAt: new Date(), updatedAt: new Date()};
@@ -62,5 +72,22 @@ export async function writeItineraryItemToDB(itineraryID, item) {
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
     console.log("writeItineraryItemToDB", err);
+  }
+}
+
+export async function editItineraryItemToDB(itineraryID, itineraryItemID, item) {
+  item = {...item, updatedAt: new Date()};
+  try {
+    await updateDoc(doc(firestore, "itinerary", itineraryID, "items", itineraryItemID), item);
+  } catch (err) {
+    console.log("editItineraryItemToDB",err);
+  }
+}
+
+export async function deleteItineraryItemById(itineraryID, itineraryItemID) {
+  try {
+    await deleteDoc(doc(firestore, "itinerary", itineraryID, "items", itineraryItemID));
+  } catch (err) {
+    console.log("deleteItineraryItemById", err);
   }
 }

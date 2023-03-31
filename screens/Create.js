@@ -19,7 +19,7 @@ export default function Create() {
   
   function itineraryPressed() {
     setVisibility(false);
-    navigation.navigate("CreateItinerary");
+    navigation.navigate("CreateItinerary", {buttonTitle: "create"});
   }
 
   function diaryPressed() {

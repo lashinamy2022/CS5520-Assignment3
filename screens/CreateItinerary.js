@@ -11,11 +11,27 @@ import React from "react";
 import { useState, useEffect } from "react";
 import PressableArea from "../components/PressableArea";
 import { Ionicons } from "@expo/vector-icons";
-import { writeItineraryToDB } from "../firebase/firebase-helper";
+import { editItineraryToDB, writeItineraryToDB } from "../firebase/firebase-helper";
+import {
+  collection,
+  onSnapshot,
+  where,
+  orderBy,
+  query,
+  doc,
+  limit,
+  getDocs,
+  getDoc
+} from "firebase/firestore";
+import { firestore } from "../firebase/firebase-setup";
+import { async } from "@firebase/util";
 
-export default function CreateItinerary({navigation}) {
+export default function CreateItinerary({navigation, route}) {
   const [name, setName] = useState("");
   const [days, setDays] = useState("");
+  const itineraryID = route.params.itineraryID;
+  const buttonTitle =  route.params.buttonTitle;
+  console.log(itineraryID);
   useEffect(()=>{
     navigation.setOptions({
       headerLeft: () => (
@@ -27,6 +43,24 @@ export default function CreateItinerary({navigation}) {
       )
     });
 
+  },[]);
+
+  useEffect(()=>{
+   async function renderData() {
+      if (itineraryID) {
+        try {
+          const itineraryRef = doc(firestore, "itinerary", itineraryID);
+          const docSnap = await getDoc(itineraryRef);
+          if (docSnap.exists()) {
+            setName(docSnap.data().name);
+            setDays(docSnap.data().days);
+          }
+        } catch (err) {
+          console.log("itineraryRef", err);
+        }
+      }
+    }
+    renderData();
   },[]);
 
   async function createButtonPressed() {
@@ -50,8 +84,16 @@ export default function CreateItinerary({navigation}) {
       name: name,
       days: days
     };
-    const id = await writeItineraryToDB(itinerary);
-    navigation.navigate("Itinerary", {itineraryID: id});
+    //TODO loading
+    if (!itineraryID) {
+      const id = await writeItineraryToDB(itinerary);
+      navigation.navigate("Itinerary", {itineraryID: id});
+    } else {
+      console.log("save");
+      const id = await editItineraryToDB(itineraryID, itinerary);
+      navigation.navigate("Itinerary", {itineraryID: itineraryID});
+    }
+    
   }
 
   return (
@@ -90,7 +132,7 @@ export default function CreateItinerary({navigation}) {
           areaPressed={createButtonPressed}
           customizedStyle={styles.custmomizedStyle}
         >
-          <Text style={styles.buttonText}>Create</Text>
+          <Text style={styles.buttonText}>{buttonTitle}</Text>
         </PressableArea>
       </View>
     </SafeAreaView>

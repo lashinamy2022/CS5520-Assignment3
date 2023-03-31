@@ -12,10 +12,11 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
 
 const TimelineList = ({itineraryID}) => {
-  console.log("terstdsatesa", itineraryID);
   const [items, setItems] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const q = query(collection(firestore, "itinerary", itineraryID, "items"), orderBy("time", "asc"));
@@ -70,15 +71,12 @@ const TimelineList = ({itineraryID}) => {
         circleColor="rgba(0,0,0,0)"
         renderDetail={(rowData, sectionID, rowID) => {
           let title = <Text style={[styles.title]}  numberOfLines={1} ellipsizeMode='tail'>{rowData.title}</Text>;
-          var desc = null;
-          if (rowData.note && rowData.img) {
-            desc = (
-              <View style={styles.descriptionContainer}>
-                <Image source={{ uri: rowData.img }} style={styles.image} />
-                <Text style={[styles.textDescription]}>{rowData.note}</Text>
-              </View>
-            );
-          }
+          const desc = (
+            <View style={styles.descriptionContainer}>
+              {rowData.img && <Image source={{ uri: rowData.img }} style={styles.image} />}
+              <Text style={[styles.textDescription]}>{rowData.note}</Text>
+            </View>
+          );
           return (
             <View style={{ flex: 1 }}>
               {title}
@@ -86,6 +84,10 @@ const TimelineList = ({itineraryID}) => {
             </View>
           );
         }}
+        onEventPress={(e) => {
+          navigation.navigate("AddPlace", {itineraryItemID: e.id, itineraryID: itineraryID});
+        }}
+
       />
     </>
   );
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: "bold",
-    width: 250
+    width: 200
   },
   descriptionContainer: {
     flexDirection: "row",
