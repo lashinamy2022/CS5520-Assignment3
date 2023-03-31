@@ -5,13 +5,17 @@ import {
   SafeAreaView,
   TextInput,
   StatusBar,
-  Alert
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
 import PressableArea from "../components/PressableArea";
 import { Ionicons } from "@expo/vector-icons";
-import { editItineraryToDB, writeItineraryToDB } from "../firebase/firebase-helper";
+import {
+  editItineraryToDB,
+  writeItineraryToDB,
+} from "../firebase/firebase-helper";
 import {
   collection,
   onSnapshot,
@@ -21,32 +25,35 @@ import {
   doc,
   limit,
   getDocs,
-  getDoc
+  getDoc,
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 import { async } from "@firebase/util";
 
-export default function CreateItinerary({navigation, route}) {
+export default function CreateItinerary({ navigation, route }) {
   const [name, setName] = useState("");
   const [days, setDays] = useState("");
   const itineraryID = route.params.itineraryID;
-  const buttonTitle =  route.params.buttonTitle;
-  console.log(itineraryID);
-  useEffect(()=>{
+  const buttonTitle = route.params.buttonTitle;
+  const [loading, setLoading] = useState(false);
+  // console.log(itineraryID);
+
+  useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <PressableArea areaPressed={()=>{
-          navigation.navigate("HomeTab");
-        }}>
-        <Ionicons name="close-outline" size={30} color="#fff" />
+        <PressableArea
+          areaPressed={() => {
+            navigation.navigate("HomeTab");
+          }}
+        >
+          <Ionicons name="close-outline" size={30} color="#fff" />
         </PressableArea>
-      )
+      ),
     });
+  }, []);
 
-  },[]);
-
-  useEffect(()=>{
-   async function renderData() {
+  useEffect(() => {
+    async function renderData() {
       if (itineraryID) {
         try {
           const itineraryRef = doc(firestore, "itinerary", itineraryID);
@@ -61,39 +68,35 @@ export default function CreateItinerary({navigation, route}) {
       }
     }
     renderData();
-  },[]);
+  }, []);
 
   async function createButtonPressed() {
     if (name === "" || days === "") {
-      Alert.alert(
-        "Invalid input",
-        "Please check your input values",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-      );
+      Alert.alert("Invalid input", "Please check your input values", [
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
       return;
     }
     if (!days.match(/^[0-9]*$/)) {
-      Alert.alert(
-        "Invalid input",
-        "Please enter numbers for days",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-      );
+      Alert.alert("Invalid input", "Please enter numbers for days", [
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
       return;
     }
     const itinerary = {
       name: name,
-      days: days
+      days: days,
     };
-    //TODO loading
+    setLoading(true);
     if (!itineraryID) {
       const id = await writeItineraryToDB(itinerary);
-      navigation.navigate("Itinerary", {itineraryID: id});
+      navigation.navigate("Itinerary", { itineraryID: id });
     } else {
       console.log("save");
       const id = await editItineraryToDB(itineraryID, itinerary);
-      navigation.navigate("Itinerary", {itineraryID: itineraryID});
+      navigation.navigate("Itinerary", { itineraryID: itineraryID });
     }
-    
+    setLoading(false);
   }
 
   return (
@@ -128,12 +131,17 @@ export default function CreateItinerary({navigation, route}) {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <PressableArea
-          areaPressed={createButtonPressed}
-          customizedStyle={styles.custmomizedStyle}
-        >
-          <Text style={styles.buttonText}>{buttonTitle}</Text>
-        </PressableArea>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <PressableArea
+            areaPressed={createButtonPressed}
+            disabled={loading}
+            customizedStyle={styles.custmomizedStyle}
+          >
+            <Text style={styles.buttonText}>{buttonTitle}</Text>
+          </PressableArea>
+        )}
       </View>
     </SafeAreaView>
   );
