@@ -22,12 +22,12 @@ export default function ItineraryList({ navigation }) {
       collection(firestore, "itinerary"),
       orderBy("createdAt", "desc")
     );
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, async(querySnapshot) => {
       if (querySnapshot.empty) {
         setData([]);
       } else {
         let items = [];
-        querySnapshot.forEach(async (itinerary) => {
+        const promises = querySnapshot.docs.map(async (itinerary) => {
           let item = itinerary.data();
           const itineraryRef = doc(firestore, "itinerary", itinerary.id);
           const itemsQuery = query(
@@ -44,8 +44,9 @@ export default function ItineraryList({ navigation }) {
           );
           item.imageUri = updatedUri.length > 0 ? updatedUri[0] : provideImage();
           items.push({ ...item, id: itinerary.id, userPhoto: "../assets/scenery.jpg"});
-          setData(items);
         });
+        await Promise.all(promises);
+        setData(items);
       }
     });
 
@@ -59,6 +60,7 @@ export default function ItineraryList({ navigation }) {
       <FlatList
         data={data}
         renderItem={({ item }) => (
+         
           <Square
             detailedPage="Itinerary"
             image={item.imageUri}

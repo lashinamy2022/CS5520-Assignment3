@@ -41,7 +41,6 @@ const Itinerary = ({ navigation, route }) => {
       headerLeft: () => (
         <PressableArea
           areaPressed={() => {
-            console.log(route.params.goBack);
             if (route.params.goBack && route.params.goBack === true) {
               navigation.goBack();
             } else {

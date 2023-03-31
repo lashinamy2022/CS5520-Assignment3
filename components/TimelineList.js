@@ -33,6 +33,7 @@ const TimelineList = ({itineraryID}) => {
               entity = { ...entity, ...CommonStyles.taskNotDone };
             }
             const uri = await getImageURL(doc.data().img);
+            console.log(doc.data().img);
             entity.img = uri;
             return entity;
           })
