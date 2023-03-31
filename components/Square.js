@@ -18,6 +18,9 @@ export default function Square({ detailedPage, image, title, id, userPhoto, goBa
       userPhoto: userPhoto,
       goBack: goBack
     });
+
+    // console.log("show details");
+
   }
 
   return (

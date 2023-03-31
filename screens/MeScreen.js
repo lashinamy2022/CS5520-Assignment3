@@ -19,7 +19,7 @@ function MyTravelDiaryList() {
 function MyItineraryList() {
   return (
     // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <ItineraryList title={"Itinerary"}  />
+    <ItineraryList title={"Itinerary"} />
     // </View>
   );
 }
