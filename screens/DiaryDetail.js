@@ -18,30 +18,24 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
 export default function DiaryDetail({ route, navigation }) {
+  // const diaryID = route.params.diaryID;
+
   //need realtime data, not from route
   const [title, setTitle] = useState("");
   const [createdAt, setCreatedAt] = useState(null);
   const [user, setUser] = useState("");
   const [article, setArticle] = useState("");
-
   const [collect, setCollect] = useState(false);
-  // const [originArticle, setOriginArticle] = useState("");
 
   function pressedTest() {
     setCollect(!collect);
   }
 
-
-  // console.log("id", route.params);
-
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      doc(firestore, "travelDiary", route.params.itineraryID),
+      doc(firestore, "travelDiary", route.params.diaryID),
       (doc) => {
         if (doc) {
-
-          // console.log("doc.data", doc.data());
-
           setTitle(doc.data().title);
           const createdAt = doc.data().createdAt;
           const date = createdAt.toDate();
@@ -56,33 +50,10 @@ export default function DiaryDetail({ route, navigation }) {
         }
       }
     );
-    // console.log(title);
     return function cleanup() {
       unsubscribe();
     };
   }, []);
-
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => {
-  //       return (
-  //         <PressableArea
-  //           customizedStyle={{ marginTop: 3 }}
-  //           areaPressed={() => {
-  //             navigation.navigate("CreateDiary", {
-  //               type: "edit",
-  //               id: route.params.id,
-  //               // title: title,
-  //               // originArticle: originArticle,
-  //             });
-  //           }}
-  //         >
-  //           <Feather name="edit-3" size={20} color="white" />
-  //         </PressableArea>
-  //       );
-  //     },
-  //   });
-  // }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -91,11 +62,10 @@ export default function DiaryDetail({ route, navigation }) {
           <PressableArea
             customizedStyle={{ marginTop: 3 }}
             areaPressed={() => {
-              // console.log("run 1 time");
-              navigation.navigate("CreateDiary", {
-                type: "edit",
-                id: route.params.id,
-              });
+              // navigation.navigate("CreateDiary", {
+              //   type: "edit",
+              //   id: route.params.id,
+              // });
             }}
           >
             <Feather name="edit-3" size={20} color="white" />
