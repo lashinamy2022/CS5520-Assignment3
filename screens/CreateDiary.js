@@ -7,6 +7,8 @@ import Radio from "../components/Radio";
 import CommonStyles from "../style/CommonStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { writeTravelDiaryToDB } from "../firebase/firebase-helper";
+import { onSnapshot, doc } from "firebase/firestore";
+import { firestore } from "../firebase/firebase-setup";
 
 export default function CreateDiary({ navigation, route }) {
   console.log("create diary route", route);
@@ -18,10 +20,22 @@ export default function CreateDiary({ navigation, route }) {
 
   useEffect(() => {
     if (route.params.type === "edit") {
-      setTitle(route.params.title);
-      setArticle(route.params.originArticle);
+      const unsubscribe = onSnapshot(
+        doc(firestore, "travelDiary", route.params.id),
+        (doc) => {
+          if (doc) {
+            console.log("doc.data", doc.data());
+            setTitle(doc.data().title);
+            setArticleStatus(doc.data().articleStatus);
+            setArticle(doc.data().article);
+          }
+        }
+      );
+      return function cleanup() {
+        unsubscribe();
+      };
     }
-  }, [route.params.type]);
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -45,9 +59,6 @@ export default function CreateDiary({ navigation, route }) {
               title === "" ||
               articleStatus === ""
             ) {
-              // console.log("length", replaceWhiteSpace.length);
-              // console.log("title", title);
-              // console.log("articleStatus", articleStatus);
               Alert.alert("Invalid input", "Please check your input values", [
                 { text: "OK", onPress: () => console.log("OK Pressed") },
               ]);
@@ -118,7 +129,8 @@ export default function CreateDiary({ navigation, route }) {
           <Editor
             richText={richText}
             setArticle={setArticle}
-            initialHTML={route.params.originArticle}
+            id={route.params.id}
+            // initialHTML={article}
             routeType={route.params.type}
           />
         </View>

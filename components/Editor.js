@@ -8,23 +8,37 @@ import * as ImagePicker from "expo-image-picker";
 import CommonStyles from "../style/CommonStyles";
 import { pickPhoto, fetchImage, getImageURL } from "../service/ImageService";
 import { useState, useEffect } from "react";
+import { onSnapshot, doc } from "firebase/firestore";
+import { firestore } from "../firebase/firebase-setup";
 
-export default function Editor({
-  richText,
-  setArticle,
-  routeType,
-  initialHTML,
-}) {
-  console.log("initialHTML", initialHTML);
+export default function Editor({ richText, setArticle, routeType, id }) {
   const [permissionInfo, requestPermission] =
     ImagePicker.useCameraPermissions();
   const [content, setContent] = useState("");
-  // useEffect(() => {
-  //   if (routeType === "edit") {
-  //     setContent(initialHTML);
-  //     console.log(content);
-  //   }
-  // }, [routeType]);
+
+  useEffect(() => {
+    if (routeType === "edit") {
+      const unsubscribe = onSnapshot(
+        doc(firestore, "travelDiary", id),
+        (doc) => {
+          if (doc) {
+            console.log("doc.data", doc.data());
+            setContent(doc.data().article);
+          }
+        }
+      );
+      return function cleanup() {
+        unsubscribe();
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    if (routeType === "edit") {
+      // setContent(initialHTML);
+      // console.log(content);
+    }
+  }, []);
   const value =
     "<html><head><style>body {font-size: 24px;></style></head><body><p>This is some HTML content!</p></body></html>";
   return (
@@ -74,7 +88,7 @@ export default function Editor({
       <ScrollView bounces={false}>
         <RichEditor
           // html={initialHTML}
-          initialContentHTML={initialHTML}
+          initialContentHTML={content}
           ref={richText}
           onChange={(html) => {
             setArticle(html);

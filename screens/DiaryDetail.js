@@ -24,19 +24,19 @@ export default function DiaryDetail({ route, navigation }) {
   const [user, setUser] = useState("");
   const [article, setArticle] = useState("");
   const [collect, setCollect] = useState(false);
-  const [originArticle, setOriginArticle] = useState("");
+  // const [originArticle, setOriginArticle] = useState("");
 
   function pressedTest() {
     setCollect(!collect);
   }
 
-  console.log("id", route.params);
+  // console.log("id", route.params);
   useEffect(() => {
     const unsubscribe = onSnapshot(
       doc(firestore, "travelDiary", route.params.id),
       (doc) => {
         if (doc) {
-          console.log("doc.data", doc.data());
+          // console.log("doc.data", doc.data());
           setTitle(doc.data().title);
           const createdAt = doc.data().createdAt;
           const date = createdAt.toDate();
@@ -48,8 +48,6 @@ export default function DiaryDetail({ route, navigation }) {
               doc.data().article
             }</body></html>`
           );
-          setOriginArticle(doc.data().article);
-          // console.log("doc.data().article", doc.data().article);
         }
       }
     );
@@ -59,17 +57,39 @@ export default function DiaryDetail({ route, navigation }) {
     };
   }, []);
 
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => {
+  //       return (
+  //         <PressableArea
+  //           customizedStyle={{ marginTop: 3 }}
+  //           areaPressed={() => {
+  //             navigation.navigate("CreateDiary", {
+  //               type: "edit",
+  //               id: route.params.id,
+  //               // title: title,
+  //               // originArticle: originArticle,
+  //             });
+  //           }}
+  //         >
+  //           <Feather name="edit-3" size={20} color="white" />
+  //         </PressableArea>
+  //       );
+  //     },
+  //   });
+  // }, []);
+
   useEffect(() => {
     navigation.setOptions({
-      headerRight: ({}) => {
+      headerRight: () => {
         return (
           <PressableArea
             customizedStyle={{ marginTop: 3 }}
             areaPressed={() => {
+              // console.log("run 1 time");
               navigation.navigate("CreateDiary", {
                 type: "edit",
-                title: title,
-                originArticle: originArticle,
+                id: route.params.id,
               });
             }}
           >
@@ -78,7 +98,7 @@ export default function DiaryDetail({ route, navigation }) {
         );
       },
     });
-  }, [title, originArticle]);
+  }, []); // empty array here to run the effect only once
 
   return (
     <View style={{ flex: 1 }}>
