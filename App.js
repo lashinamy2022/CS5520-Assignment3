@@ -42,6 +42,7 @@ function MyTabs() {
         tabBarActiveTintColor: "rgb(235,187,66)",
         tabBarLabelStyle: {
           fontSize: 15,
+          // marginBottom: 0,
         },
       })}
     >
@@ -54,7 +55,7 @@ function MyTabs() {
               <Entypo
                 name="home"
                 size={24}
-                style={[{ marginRight: 1 }, { marginTop: 8 }]}
+                // style={{ marginRight: 1, marginTop: 8 }}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
@@ -75,7 +76,7 @@ function MyTabs() {
               <AntDesign
                 name="heart"
                 size={24}
-                style={[{ marginRight: 1 }, { marginTop: 10 }]}
+                // style={{ marginRight: 1, marginTop: 10 }}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
@@ -96,8 +97,8 @@ function MyTabs() {
             return (
               <Ionicons
                 name="add-circle"
-                style={[{ marginRight: 1 }, { marginTop: 5 }]}
-                size={28}
+                style={{ marginTop: -20 }}
+                size={70}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
@@ -106,6 +107,7 @@ function MyTabs() {
               />
             );
           },
+          tabBarLabel: "",
         }}
         component={Create}
       />
@@ -117,7 +119,7 @@ function MyTabs() {
               <Ionicons
                 name="ios-notifications"
                 size={24}
-                style={[{ marginRight: 1 }, { marginTop: 8 }]}
+                // style={{ marginRight: 1, marginTop: 8 }}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
@@ -138,7 +140,7 @@ function MyTabs() {
             return (
               <FontAwesome
                 name="user-circle-o"
-                style={[{ marginRight: 1 }, { marginTop: 8 }]}
+                // style={[{ marginRight: 1 }, { marginTop: 8 }]}
                 size={24}
                 color={
                   focused
