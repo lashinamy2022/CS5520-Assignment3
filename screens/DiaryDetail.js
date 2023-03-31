@@ -14,6 +14,7 @@ import { WebView } from "react-native-webview";
 import Label from "../components/Label";
 import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "../components/PressableArea";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function DiaryDetail({ route }) {
   //need realtime data, not from route
@@ -54,10 +55,7 @@ export default function DiaryDetail({ route }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ImageBackground
-        style={styles.imageBackground}
-        source={require("../assets/green.jpg")}
-      >
+      <View style={styles.topContainer}>
         <Label content={title} customizedStyle={styles.title} />
         <View style={styles.labelContainer}>
           <View style={styles.userContainer}>
@@ -79,8 +77,14 @@ export default function DiaryDetail({ route }) {
             )}
           </PressableArea>
         </View>
-      </ImageBackground>
+      </View>
       <WebView source={{ html: article }} />
+      <View style={styles.buttonContainer}>
+        <PressableArea customizedStyle={styles.deleteButton}>
+          <Text style={styles.buttonText}>Delete</Text>
+          {/* <MaterialIcons name="delete" size={24} color="black" /> */}
+        </PressableArea>
+      </View>
     </View>
   );
 }
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  imageBackground: {
+  topContainer: {
     flex: 0.3,
     justifyContent: "center",
   },
@@ -121,5 +125,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+  },
+
+  deleteButton: {
+    // flex: 0.1,
+    width: "50%",
+    height: "40%",
+    // alignItems: "center",
+    // justifyContent: "center",
+    // borderWidth: 1,
+    borderRadius: 5,
+    // borderColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+    // padding: 5,
+    // marginLeft: "10%",
+    // marginTop: "5%",
+    backgroundColor: "#ff6347",
+  },
+
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 17,
+    letterSpacing: 1,
+  },
+
+  buttonContainer: {
+    flex: 0.2,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
