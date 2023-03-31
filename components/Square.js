@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Square({ detailedPage, image, title, id, userPhoto, goBack }) {
+export default function Square({ detailedPage, image, title, id, userPhoto, goBack, from }) {
   console.log(id);
   const navigation = useNavigation();
   const [collect, setCollect] = useState(false); //edit added
@@ -14,11 +14,11 @@ export default function Square({ detailedPage, image, title, id, userPhoto, goBa
 
   function showDetails() {
     const params = {
-      image: image,
       userPhoto: userPhoto
     };
     if (detailedPage === "DiaryDetail") {
       params.diaryID = id;
+      params.from = from;
     } else if (detailedPage === "Itinerary") {
       params.itineraryID = id;
       params.goBack = goBack;

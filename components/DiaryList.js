@@ -11,10 +11,15 @@ import {
 import { firestore } from "../firebase/firebase-setup";
 import { extractImageOrAddImage } from "../service/DataService";
 
-export default function DiaryList({ route, articleStatus }) {
+export default function DiaryList({ route, from }) {
   const [data, setData] = useState([]);
   useEffect(() => {
-    const q =  query(collection(firestore, "travelDiary"),  where("articleStatus", "==", articleStatus), orderBy("createdAt", "desc"));
+    let q;
+    if (from === "home") {
+      q =  query(collection(firestore, "travelDiary"),  where("articleStatus", "==", "2"), orderBy("createdAt", "desc"));
+    } else if (from === "me") {
+      q =  query(collection(firestore, "travelDiary"), orderBy("createdAt", "desc"));
+    }
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (querySnapshot.empty) {
@@ -48,6 +53,7 @@ export default function DiaryList({ route, articleStatus }) {
             id={item.id}
             userPhoto={item.userPhoto}
             title={item.title}
+            from={from}
           />
         )}
         numColumns={2}

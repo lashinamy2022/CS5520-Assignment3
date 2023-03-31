@@ -41,7 +41,7 @@ const Itinerary = ({ navigation, route }) => {
       headerLeft: () => (
         <PressableArea
           areaPressed={() => {
-            if (route.params.goBack && route.params.goBack === true) {
+            if (route.params.goBack === true) {
               navigation.goBack();
             } else {
               navigation.navigate("HomeTab");

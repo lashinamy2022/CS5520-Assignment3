@@ -21,10 +21,6 @@ export async function writeTravelDiaryToDB(diary) {
   }
 }
 
-export function queryTravelDiary(articleStatus) {
-  const q =  query(collection(firestore, "travelDiary"),  where("articleStatus", "==", articleStatus), orderBy("createdAt", "desc"));
-
-}
 
 export async function deleteTravelDiary(deletedId) {
   try {

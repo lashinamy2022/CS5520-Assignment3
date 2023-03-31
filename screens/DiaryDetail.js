@@ -18,7 +18,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
 export default function DiaryDetail({ route, navigation }) {
-  // const diaryID = route.params.diaryID;
+  const diaryID = route.params.diaryID;
 
   //need realtime data, not from route
   const [title, setTitle] = useState("");
@@ -33,7 +33,7 @@ export default function DiaryDetail({ route, navigation }) {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      doc(firestore, "travelDiary", route.params.diaryID),
+      doc(firestore, "travelDiary", diaryID),
       (doc) => {
         if (doc) {
           setTitle(doc.data().title);
@@ -56,23 +56,26 @@ export default function DiaryDetail({ route, navigation }) {
   }, []);
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        return (
-          <PressableArea
-            customizedStyle={{ marginTop: 3 }}
-            areaPressed={() => {
-              // navigation.navigate("CreateDiary", {
-              //   type: "edit",
-              //   id: route.params.id,
-              // });
-            }}
-          >
-            <Feather name="edit-3" size={20} color="white" />
-          </PressableArea>
-        );
-      },
-    });
+    if (route.params.from === "me") {
+      navigation.setOptions({
+        headerRight: () => {
+          return (
+            <PressableArea
+              customizedStyle={{ marginTop: 3 }}
+              areaPressed={() => {
+                navigation.navigate("CreateDiary", {
+                  type: "edit",
+                  id: diaryID,
+                });
+              }}
+            >
+              <Feather name="edit-3" size={20} color="white" />
+            </PressableArea>
+          );
+        },
+      });
+    }
+  
   }, []); // empty array here to run the effect only once
 
   return (
@@ -101,11 +104,14 @@ export default function DiaryDetail({ route, navigation }) {
         </View>
       </View>
       <WebView source={{ html: article }} />
+
+     { route.params.from === "me" && (
       <View style={styles.buttonContainer}>
         <PressableArea customizedStyle={styles.deleteButton}>
           <Text style={styles.buttonText}>Delete</Text>
         </PressableArea>
       </View>
+      )}
     </View>
   );
 }
