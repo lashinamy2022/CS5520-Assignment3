@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import CreateDiary from "./screens/CreateDiary";
@@ -46,7 +47,7 @@ function MyTabs() {
     >
       <Tab.Screen
         options={{
-          headerTitle:"Travel Assistant",
+          headerTitle: "Travel Assistant",
           title: "Home",
           tabBarIcon: ({ focused }) => {
             return (
@@ -171,17 +172,26 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={MyTabs}
-            options={{headerShown: false }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="DiaryDetail"
             component={DiaryDetail}
-            options={{ title: "Travel Diary" }}
+            options={{
+              title: "Travel Diary",
+              headerRight: () => {
+                return (
+                  <PressableArea customizedStyle={{ marginTop: 3 }}>
+                    <Feather name="edit-3" size={20} color="white" />
+                  </PressableArea>
+                );
+              },
+            }}
           />
           <Stack.Screen
             name="CreateItinerary"
             component={CreateItinerary}
-            options={{ title:"Create Your Itinerary" }}
+            options={{ title: "Create Your Itinerary" }}
           />
 
           <Stack.Screen name="CreateDiary" component={CreateDiary} />
