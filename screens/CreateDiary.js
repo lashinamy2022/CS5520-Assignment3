@@ -82,7 +82,7 @@ export default function CreateDiary({ navigation, route }) {
           <View>
             <Input
               placeholder="Input title here..."
-              value={route.params.type === "edit" ? route.params.title : title}
+              value={route.params.type === "edit" ? route.params.title : ""}
               customizedStyle={[
                 { width: "100%" },
                 CommonStyles.lightGreenBorder,
@@ -111,7 +111,13 @@ export default function CreateDiary({ navigation, route }) {
           </View>
         </PressableArea>
         <View style={{ paddingTop: 20 }}>
-          <Editor richText={richText} setArticle={setArticle} />
+          <Editor
+            richText={richText}
+            setArticle={setArticle}
+            initialHTML={
+              route.params.type === "edit" ? route.params.article : ""
+            }
+          />
         </View>
       </View>
     </SafeAreaView>

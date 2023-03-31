@@ -6,15 +6,16 @@ import {
 } from "react-native-pell-rich-editor";
 import * as ImagePicker from "expo-image-picker";
 import CommonStyles from "../style/CommonStyles";
-import {pickPhoto, fetchImage, getImageURL} from "../service/ImageService";
+import { pickPhoto, fetchImage, getImageURL } from "../service/ImageService";
 import { useState } from "react";
 
-
-
-export default function Editor({ richText, setArticle }) {
-  const [permissionInfo, requestPermission] = ImagePicker.useCameraPermissions();
+export default function Editor({ richText, setArticle, initialHTML }) {
+  console.log(initialHTML);
+  const [permissionInfo, requestPermission] =
+    ImagePicker.useCameraPermissions();
   const [content, setContent] = useState("");
-  const value = "<html><head><style>body {font-size: 24px;></style></head><body><p>This is some HTML content!</p></body></html>";
+  const value =
+    "<html><head><style>body {font-size: 24px;></style></head><body><p>This is some HTML content!</p></body></html>";
   return (
     <View>
       <RichToolbar
@@ -36,25 +37,35 @@ export default function Editor({ richText, setArticle }) {
         onPressAddImage={async () => {
           const imageUri = await pickPhoto(permissionInfo, requestPermission);
           if (!imageUri || imageUri === "") {
-            return ;
+            return;
           }
           const filePath = await fetchImage(imageUri);
           getImageURL(filePath)
-          .then((url) => {
-            setArticle(content + '<div><img src="'+url+'" style="width: 100%"/></div>');
-            richText.current?.setContentHTML(content + '<div><img src="'+url+'" style="width: 100%"/></div>');
-
-          })
-          .catch((error) => {
-            console.log("Image Url error", error);
-          });
+            .then((url) => {
+              setArticle(
+                content +
+                  '<div><img src="' +
+                  url +
+                  '" style="width: 100%"/></div>'
+              );
+              richText.current?.setContentHTML(
+                content +
+                  '<div><img src="' +
+                  url +
+                  '" style="width: 100%"/></div>'
+              );
+            })
+            .catch((error) => {
+              console.log("Image Url error", error);
+            });
         }}
       />
       <ScrollView bounces={false}>
         <RichEditor
-          html={value}
+          // html={value}
+          initialContentHTML={initialHTML}
           ref={richText}
-          onChange={(html)=>{
+          onChange={(html) => {
             setArticle(html);
             setContent(html);
           }}
