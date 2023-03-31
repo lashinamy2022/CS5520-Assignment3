@@ -11,8 +11,6 @@ import { onSnapshot, doc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 
 export default function CreateDiary({ navigation, route }) {
-  console.log("create diary route", route);
-
   const richText = useRef();
   const [title, setTitle] = useState("");
   const [articleStatus, setArticleStatus] = useState("1"); //1 for private, 2 for public

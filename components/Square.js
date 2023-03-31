@@ -5,6 +5,7 @@ import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Square({ detailedPage, image, title, id, userPhoto, goBack }) {
+  console.log(id);
   const navigation = useNavigation();
   const [collect, setCollect] = useState(false); //edit added
   function pressedTest() {
@@ -12,15 +13,18 @@ export default function Square({ detailedPage, image, title, id, userPhoto, goBa
   }
 
   function showDetails() {
-    navigation.navigate(detailedPage, {
+    const params = {
       image: image,
-      itineraryID: id,
-      userPhoto: userPhoto,
-      goBack: goBack
-    });
-
-    // console.log("show details");
-
+      userPhoto: userPhoto
+    };
+    if (detailedPage === "DiaryDetail") {
+      params.diaryID = id;
+    } else if (detailedPage === "Itinerary") {
+      params.itineraryID = id;
+      params.goBack = goBack;
+    }
+    console.log(detailedPage);
+    navigation.navigate(detailedPage, params);
   }
 
   return (
