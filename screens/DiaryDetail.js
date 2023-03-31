@@ -23,6 +23,7 @@ export default function DiaryDetail({ route, navigation }) {
   const [createdAt, setCreatedAt] = useState(null);
   const [user, setUser] = useState("");
   const [article, setArticle] = useState("");
+
   const [collect, setCollect] = useState(false);
   // const [originArticle, setOriginArticle] = useState("");
 
@@ -30,13 +31,17 @@ export default function DiaryDetail({ route, navigation }) {
     setCollect(!collect);
   }
 
+
   // console.log("id", route.params);
+
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      doc(firestore, "travelDiary", route.params.id),
+      doc(firestore, "travelDiary", route.params.itineraryID),
       (doc) => {
         if (doc) {
+
           // console.log("doc.data", doc.data());
+
           setTitle(doc.data().title);
           const createdAt = doc.data().createdAt;
           const date = createdAt.toDate();

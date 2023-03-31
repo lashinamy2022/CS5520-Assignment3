@@ -33,6 +33,7 @@ export default function Editor({ richText, setArticle, routeType, id }) {
     }
   }, []);
 
+
   useEffect(() => {
     if (routeType === "edit") {
       // setContent(initialHTML);
@@ -41,6 +42,12 @@ export default function Editor({ richText, setArticle, routeType, id }) {
   }, []);
   const value =
     "<html><head><style>body {font-size: 24px;></style></head><body><p>This is some HTML content!</p></body></html>";
+
+export default function Editor({ richText, setArticle }) {
+  const [permissionInfo, requestPermission] = ImagePicker.useCameraPermissions();
+  const [content, setContent] = useState("");
+  const value = "";
+
   return (
     <View>
       <RichToolbar
@@ -87,10 +94,16 @@ export default function Editor({ richText, setArticle, routeType, id }) {
       />
       <ScrollView bounces={false}>
         <RichEditor
+
           // html={initialHTML}
           initialContentHTML={content}
           ref={richText}
           onChange={(html) => {
+
+          ref={richText}
+          html={value}
+          onChange={(html)=>{
+
             setArticle(html);
             setContent(html);
           }}

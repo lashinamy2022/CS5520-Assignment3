@@ -8,11 +8,14 @@ import {
   orderBy,
   query,
   doc,
+  limit,
+  getDocs,
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
-import { extractImageOrAddImage } from "../service/DataService";
+import { provideImage } from "../service/DataService";
+import { getImageURL } from "../service/ImageService";
 
-export default function ItineraryList({ title, articleStatus }) {
+export default function ItineraryList({ navigation }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     const q = query(
@@ -24,22 +27,24 @@ export default function ItineraryList({ title, articleStatus }) {
         setData([]);
       } else {
         let items = [];
-        querySnapshot.forEach((itinerary) => {
+        querySnapshot.forEach(async (itinerary) => {
+          let item = itinerary.data();
           const itineraryRef = doc(firestore, "itinerary", itinerary.id);
-          const itemsQuery = collection(itineraryRef, "items");
-         
-          let imageUri = ""; 
-          onSnapshot(itemsQuery, (itemsSnapshot) => {
-            itemsSnapshot.forEach((doc) => {
-              if (doc.data().img) {
-                imageUri = doc.data().img;
-                if (imageUri && imageUri !== "") {
-                    return;
-                }
-              }
-            });
-          });
-          console.log(imageUri);
+          const itemsQuery = query(
+            collection(itineraryRef, "items"),
+            where("img", ">", ""),
+            limit(1)
+          );
+          const itemsSnapshot = await getDocs(itemsQuery);
+          const updatedUri = await Promise.all( 
+            itemsSnapshot.docs.map(async (doc) => {
+              const imageUri = await getImageURL(doc.data().img);
+              return imageUri;
+            })
+          );
+          item.imageUri = updatedUri.length > 0 ? updatedUri[0] : provideImage();
+          items.push({ ...item, id: itinerary.id, userPhoto: "../assets/scenery.jpg"});
+          setData(items);
         });
       }
     });
@@ -51,32 +56,26 @@ export default function ItineraryList({ title, articleStatus }) {
 
   return (
     <View style={styles.container}>
-      {title && <Text>Title is {title}</Text>}
       <FlatList
         data={data}
         renderItem={({ item }) => (
           <Square
-            title={item.title}
+            detailedPage="Itinerary"
             image={item.imageUri}
             id={item.id}
             userPhoto={item.userPhoto}
+            goBack={true}
+            title={item.name}
           />
         )}
         numColumns={2}
       />
-      {/* <View style={{ margin: 20 }}>
-          <Image
-            style={{ borderRadius: 50 }}
-            source={require("../assets/scenery.jpg")}
-          />
-        </View> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // margin: 3,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

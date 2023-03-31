@@ -192,21 +192,9 @@ export default function App() {
 
           <Stack.Screen name="CreateDiary" component={CreateDiary} />
           <Stack.Screen name="Itinerary" component={Itinerary} />
-          <Stack.Screen
-            name="AddPlace"
-            component={AddPlace}
-            options={{ title: "Add A Place" }}
-          />
-          <Stack.Screen
-            name="TimePicker"
-            component={DateTime}
-            options={{ title: "Set Visiting Time" }}
-          />
-          <Stack.Screen
-            name="LocationSelector"
-            component={PlaceAutoComplete}
-            options={{ title: "Set Visiting Place" }}
-          />
+          <Stack.Screen name="AddPlace" component={AddPlace}  options={{ title:"" }} />
+          <Stack.Screen name="TimePicker" component={DateTime}  options={{ title:"Set Visiting Time" }} />
+          <Stack.Screen name="LocationSelector" component={PlaceAutoComplete}  options={{ title:"Set Visiting Place" }} />
           <Stack.Screen name="Setting" component={Settings} />
         </Stack.Navigator>
       </NavigationContainer>
