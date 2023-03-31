@@ -82,7 +82,6 @@ export default function DiaryDetail({ route }) {
       <View style={styles.buttonContainer}>
         <PressableArea customizedStyle={styles.deleteButton}>
           <Text style={styles.buttonText}>Delete</Text>
-          {/* <MaterialIcons name="delete" size={24} color="black" /> */}
         </PressableArea>
       </View>
     </View>
@@ -128,19 +127,11 @@ const styles = StyleSheet.create({
   },
 
   deleteButton: {
-    // flex: 0.1,
     width: "50%",
     height: "40%",
-    // alignItems: "center",
-    // justifyContent: "center",
-    // borderWidth: 1,
     borderRadius: 5,
-    // borderColor: "black",
     justifyContent: "center",
     alignItems: "center",
-    // padding: 5,
-    // marginLeft: "10%",
-    // marginTop: "5%",
     backgroundColor: "#ff6347",
   },
 
