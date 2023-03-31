@@ -181,7 +181,13 @@ export default function App() {
               title: "Travel Diary",
               headerRight: () => {
                 return (
-                  <PressableArea customizedStyle={{ marginTop: 3 }}>
+                  <PressableArea
+                    customizedStyle={{ marginTop: 3 }}
+                    areaPressed={() => {
+                      console.log(navigation);
+                      // console.log("edit button pressed");
+                    }}
+                  >
                     <Feather name="edit-3" size={20} color="white" />
                   </PressableArea>
                 );

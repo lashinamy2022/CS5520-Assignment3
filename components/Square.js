@@ -18,7 +18,7 @@ export default function Square({ image, title, id, userPhoto }) {
       id: id,
       userPhoto,
     });
-    console.log("show details");
+    // console.log("show details");
   }
 
   return (

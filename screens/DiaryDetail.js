@@ -33,7 +33,7 @@ export default function DiaryDetail({ route }) {
       doc(firestore, "travelDiary", route.params.id),
       (doc) => {
         if (doc) {
-          console.log(doc.data());
+          // console.log(doc.data());
           setTitle(doc.data().title);
           const createdAt = doc.data().createdAt;
           const date = createdAt.toDate();
