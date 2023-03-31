@@ -15,8 +15,9 @@ import Label from "../components/Label";
 import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "../components/PressableArea";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
-export default function DiaryDetail({ route }) {
+export default function DiaryDetail({ route, navigation }) {
   //need realtime data, not from route
   const [title, setTitle] = useState("");
   const [createdAt, setCreatedAt] = useState(null);
@@ -48,6 +49,20 @@ export default function DiaryDetail({ route }) {
         }
       }
     );
+    navigation.setOptions({
+      headerRight: ({}) => {
+        return (
+          <PressableArea
+            customizedStyle={{ marginTop: 3 }}
+            areaPressed={() => {
+              navigation.navigate("CreateDiary", { type: "edit" });
+            }}
+          >
+            <Feather name="edit-3" size={20} color="white" />
+          </PressableArea>
+        );
+      },
+    });
     return function cleanup() {
       unsubscribe();
     };

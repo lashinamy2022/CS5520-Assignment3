@@ -179,19 +179,6 @@ export default function App() {
             component={DiaryDetail}
             options={{
               title: "Travel Diary",
-              headerRight: ({}) => {
-                const navigation = useNavigation();
-                return (
-                  <PressableArea
-                    customizedStyle={{ marginTop: 3 }}
-                    areaPressed={() => {
-                      navigation.navigate("CreateDiary", { type: "edit" });
-                    }}
-                  >
-                    <Feather name="edit-3" size={20} color="white" />
-                  </PressableArea>
-                );
-              },
             }}
           />
 

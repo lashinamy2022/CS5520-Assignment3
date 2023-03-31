@@ -9,10 +9,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { writeTravelDiaryToDB } from "../firebase/firebase-helper";
 
 export default function CreateDiary({ navigation, route }) {
-  console.log(route);
+  // console.log(route);
+  if (route.params.type === "edit") {
+    console.log("edit path");
+  } else {
+    console.log("new path");
+  }
+  //edit type: create an new diary, new type : edit one existing diary
+  const pathType = route.params.type;
+
   const richText = useRef();
   const [title, setTitle] = useState("");
-  const [articleStatus, setArticleStatus] = useState("1");
+  const [articleStatus, setArticleStatus] = useState("1"); //1 for private, 2 for public
   const [article, setArticle] = useState("");
   useEffect(() => {
     navigation.setOptions({
