@@ -1,4 +1,12 @@
-import { StyleSheet, SafeAreaView, View, Alert, Modal, Text, TextInput } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Alert,
+  Modal,
+  Text,
+  TextInput,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import TimelineList from "../components/TimelineList";
 import Label from "../components/Label";
@@ -14,6 +22,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
+import { deleteItinerary } from "../firebase/firebase-helper";
 
 const Itinerary = ({ navigation, route }) => {
   const [name, setName] = useState("");
@@ -65,9 +74,14 @@ const Itinerary = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1, flexDirection: "row" }}>
-        <PressableArea areaPressed={()=>{
-              navigation.navigate("CreateItinerary", {buttonTitle: "save", itineraryID: itineraryID});
-        }}>
+        <PressableArea
+          areaPressed={() => {
+            navigation.navigate("CreateItinerary", {
+              buttonTitle: "save",
+              itineraryID: itineraryID,
+            });
+          }}
+        >
           <View>
             <Label
               content={name}
@@ -86,6 +100,29 @@ const Itinerary = ({ navigation, route }) => {
       </View>
       <View style={{ flex: 12 }}>
         <TimelineList itineraryID={itineraryID} />
+      </View>
+      <View style={styles.buttonContainer}>
+        <PressableArea
+          customizedStyle={styles.deleteButton}
+          areaPressed={() => {
+            Alert.alert(
+              "Delete",
+              "Are you sure you want to delete this whole itinerary?",
+              [
+                { text: "NO", onPress: () => console.log("No Pressed") },
+                {
+                  text: "YES",
+                  onPress: () => {
+                    deleteItinerary(itineraryID);
+                    navigation.navigate("Me");
+                  },
+                },
+              ]
+            );
+          }}
+        >
+          <Text style={styles.buttonText}>Delete</Text>
+        </PressableArea>
       </View>
     </SafeAreaView>
   );
@@ -108,4 +145,26 @@ const styles = StyleSheet.create({
     },
     CommonStyles.greenBackground,
   ],
+  deleteButton: [
+    {
+      width: "50%",
+      height: "25%",
+      borderRadius: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      // backgroundColor: "#ff6347",
+    },
+    CommonStyles.deleteButtonBackground,
+  ],
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 17,
+    letterSpacing: 1,
+  },
+  buttonContainer: {
+    // flex: 0.2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
