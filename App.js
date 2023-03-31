@@ -48,7 +48,8 @@ function MyTabs() {
     >
       <Tab.Screen
         options={{
-          headerTitle: "Travel Assistant",
+          //headerTitle: "Travel Assistant",
+          headerTitle: "Login",
           title: "Home",
           tabBarIcon: ({ focused }) => {
             return (
@@ -66,7 +67,8 @@ function MyTabs() {
           },
         }}
         name="HomeTab"
-        component={HomeTabScreen}
+        //component={HomeTabScreen}
+        component={LoginScreen}
       />
 
       <Tab.Screen

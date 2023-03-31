@@ -49,14 +49,14 @@ export default function LoginScreen() {
         </View>
 
         <View style={styles.buttonContainer}>
-          <View style={styles.buttonView}>
+          <View style={styles.loginButtonView}>
             <PressableArea>
-              <Text style={styles.text}>Login</Text>
+              <Text style={styles.buttonText}>Login</Text>
             </PressableArea>
           </View>
           <View style={styles.buttonView}>
             <PressableArea>
-              <Text style={styles.text}>Sign up</Text>
+              <Text style={styles.buttonText}>Sign up</Text>
             </PressableArea>
           </View>
         </View>
@@ -110,9 +110,28 @@ const styles = StyleSheet.create({
 
   buttonView: {
     marginTop: 15,
+    borderBottomWidth: 1,
+    width: 75,
+    borderBottomColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 8,
   },
 
   itemContainer: {
     margin: 10,
+  },
+
+  buttonText: {
+    fontSize: 17,
+  },
+
+  loginButtonView: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
   },
 });
