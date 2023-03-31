@@ -6,7 +6,7 @@ import PressableArea from "../components/PressableArea";
 import Radio from "../components/Radio";
 import CommonStyles from "../style/CommonStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { writeTravelDiaryToDB } from "../firebase/firebase-helper";
+import { updateTravelDiaryById, writeTravelDiaryToDB } from "../firebase/firebase-helper";
 import { onSnapshot, doc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 
@@ -22,10 +22,12 @@ export default function CreateDiary({ navigation, route }) {
         doc(firestore, "travelDiary", route.params.id),
         (doc) => {
           if (doc) {
-            console.log("doc.data", doc.data());
             setTitle(doc.data().title);
             setArticleStatus(doc.data().articleStatus);
             setArticle(doc.data().article);
+            setTimeout(() => {
+              richText.current?.setContentHTML(doc.data().article);
+            }, 1000); 
           }
         }
       );
@@ -33,7 +35,9 @@ export default function CreateDiary({ navigation, route }) {
         unsubscribe();
       };
     }
+  
   }, []);
+
 
   useEffect(() => {
     navigation.setOptions({
@@ -72,8 +76,17 @@ export default function CreateDiary({ navigation, route }) {
                     articleStatus: articleStatus,
                     article: article,
                   };
-                  writeTravelDiaryToDB(diary);
-                  navigation.navigate("HomeTab");
+                  if (!route.params.id) {
+                    writeTravelDiaryToDB(diary);
+                    navigation.navigate("HomeTab");
+                  } else {
+                    updateTravelDiaryById(route.params.id, diary);
+                    const params = {
+                      userPhoto: "../assets/scenery.jpg",
+                      diaryID: route.params.id
+                    };
+                    navigation.navigate("DiaryDetail", params);
+                  } 
                 },
               },
             ]);
@@ -127,9 +140,6 @@ export default function CreateDiary({ navigation, route }) {
           <Editor
             richText={richText}
             setArticle={setArticle}
-            id={route.params.id}
-            // initialHTML={article}
-            routeType={route.params.type}
           />
         </View>
       </View>

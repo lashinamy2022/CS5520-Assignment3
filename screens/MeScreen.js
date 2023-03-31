@@ -11,7 +11,7 @@ const Tab = createMaterialTopTabNavigator();
 function MyTravelDiaryList() {
   return (
     // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <DiaryList title={"Travel Diary"} articleStatus="1" />
+    <DiaryList title={"Travel Diary"} from="me"/>
     // </View>
   );
 }

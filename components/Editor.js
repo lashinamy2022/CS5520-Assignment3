@@ -14,7 +14,6 @@ import { useState } from "react";
 export default function Editor({ richText, setArticle }) {
   const [permissionInfo, requestPermission] = ImagePicker.useCameraPermissions();
   const [content, setContent] = useState("");
-  const value = "";
   return (
     <View>
       <RichToolbar
@@ -43,7 +42,6 @@ export default function Editor({ richText, setArticle }) {
           .then((url) => {
             setArticle(content + '<div><img src="'+url+'" style="width: 100%"/></div>');
             richText.current?.setContentHTML(content + '<div><img src="'+url+'" style="width: 100%"/></div>');
-
           })
           .catch((error) => {
             console.log("Image Url error", error);
@@ -53,7 +51,6 @@ export default function Editor({ richText, setArticle }) {
       <ScrollView bounces={false}>
         <RichEditor
           ref={richText}
-          html={value}
           onChange={(html)=>{
             setArticle(html);
             setContent(html);

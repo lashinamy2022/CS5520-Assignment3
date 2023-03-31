@@ -5,7 +5,7 @@ import DiaryList from "../components/DiaryList";
 export default function HomeTabScreen() {
   return (
     <View style={styles.container}>
-      <DiaryList title={"this is the HomeTabScreen"} articleStatus="2"/>
+      <DiaryList title={"this is the HomeTabScreen"} from="home"/>
     </View>
   );
 }
