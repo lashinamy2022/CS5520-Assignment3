@@ -1,4 +1,11 @@
-import { View, Text, Image, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  Alert,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   collection,
@@ -17,6 +24,7 @@ import PressableArea from "../components/PressableArea";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import CommonStyles from "../style/CommonStyles";
+import { deleteTravelDiary } from "../firebase/firebase-helper";
 
 export default function DiaryDetail({ route, navigation }) {
   const diaryID = route.params.diaryID;
@@ -107,7 +115,25 @@ export default function DiaryDetail({ route, navigation }) {
 
       {route.params.from === "me" && (
         <View style={styles.buttonContainer}>
-          <PressableArea customizedStyle={styles.deleteButton}>
+          <PressableArea
+            customizedStyle={styles.deleteButton}
+            areaPressed={() => {
+              Alert.alert(
+                "Delete",
+                "Are you sure you want to delete this travel diary?",
+                [
+                  { text: "NO", onPress: () => console.log("No Pressed") },
+                  {
+                    text: "YES",
+                    onPress: () => {
+                      deleteTravelDiary(diaryID);
+                      navigation.navigate("HomeTab");
+                    },
+                  },
+                ]
+              );
+            }}
+          >
             <Text style={styles.buttonText}>Delete</Text>
           </PressableArea>
         </View>
