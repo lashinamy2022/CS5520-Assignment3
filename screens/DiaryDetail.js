@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet, ImageBackground } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   collection,
@@ -12,6 +12,9 @@ import { firestore } from "../firebase/firebase-setup";
 import { convertDateToStr } from "../service/DatetimeService";
 import { WebView } from "react-native-webview";
 import Label from "../components/Label";
+import { AntDesign } from "@expo/vector-icons";
+import PressableArea from "../components/PressableArea";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function DiaryDetail({ route }) {
   //need realtime data, not from route
@@ -19,6 +22,12 @@ export default function DiaryDetail({ route }) {
   const [createdAt, setCreatedAt] = useState(null);
   const [user, setUser] = useState("");
   const [article, setArticle] = useState("");
+  const [collect, setCollect] = useState(false);
+
+  function pressedTest() {
+    setCollect(!collect);
+  }
+
   useEffect(() => {
     const unsubscribe = onSnapshot(
       doc(firestore, "travelDiary", route.params.id),
@@ -46,10 +55,96 @@ export default function DiaryDetail({ route }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <Label content={title}/>
-      <Label content={user}/>
-      <Label content={createdAt}/>
+      <View style={styles.topContainer}>
+        <Label content={title} customizedStyle={styles.title} />
+        <View style={styles.labelContainer}>
+          <View style={styles.userContainer}>
+            <Image
+              style={styles.image}
+              source={require("../assets/scenery.jpg")} //need change
+            />
+            <Label content={user} customizedStyle={styles.text} />
+          </View>
+          <Label content={createdAt} customizedStyle={styles.text} />
+          <PressableArea
+            areaPressed={pressedTest}
+            customizedStyle={{ alignItems: "flex-end" }}
+          >
+            {collect ? (
+              <AntDesign name="hearto" size={22} color="grey" />
+            ) : (
+              <AntDesign name="heart" size={22} color="red" />
+            )}
+          </PressableArea>
+        </View>
+      </View>
       <WebView source={{ html: article }} />
+      <View style={styles.buttonContainer}>
+        <PressableArea customizedStyle={styles.deleteButton}>
+          <Text style={styles.buttonText}>Delete</Text>
+        </PressableArea>
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    marginLeft: 20,
+    textAlign: "center",
+    marginTop: 20,
+  },
+
+  topContainer: {
+    flex: 0.3,
+    justifyContent: "center",
+  },
+
+  image: {
+    height: 40,
+    width: 40,
+    borderRadius: 50,
+  },
+
+  labelContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginLeft: 20,
+    paddingTop: 25,
+  },
+
+  text: {
+    fontSize: 17,
+    marginLeft: 5,
+  },
+
+  userContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+
+  deleteButton: {
+    width: "50%",
+    height: "40%",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ff6347",
+  },
+
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 17,
+    letterSpacing: 1,
+  },
+
+  buttonContainer: {
+    flex: 0.2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
