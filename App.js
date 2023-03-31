@@ -42,7 +42,7 @@ function MyTabs() {
         tabBarActiveTintColor: "rgb(235,187,66)",
         tabBarLabelStyle: {
           fontSize: 15,
-          // marginBottom: 0,
+          height: "30%",
         },
       })}
     >
@@ -76,7 +76,7 @@ function MyTabs() {
               <AntDesign
                 name="heart"
                 size={24}
-                // style={{ marginRight: 1, marginTop: 10 }}
+                style={{ marginTop: 2 }}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
@@ -97,8 +97,8 @@ function MyTabs() {
             return (
               <Ionicons
                 name="add-circle"
-                style={{ marginTop: -20 }}
-                size={70}
+                style={{ marginTop: 2 }}
+                size={32}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
@@ -107,7 +107,7 @@ function MyTabs() {
               />
             );
           },
-          tabBarLabel: "",
+          tabBarLabel: "Create",
         }}
         component={Create}
       />
@@ -118,8 +118,8 @@ function MyTabs() {
             return (
               <Ionicons
                 name="ios-notifications"
-                size={24}
-                // style={{ marginRight: 1, marginTop: 8 }}
+                size={27}
+                style={{ marginTop: 2 }}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
@@ -192,9 +192,21 @@ export default function App() {
 
           <Stack.Screen name="CreateDiary" component={CreateDiary} />
           <Stack.Screen name="Itinerary" component={Itinerary} />
-          <Stack.Screen name="AddPlace" component={AddPlace}  options={{ title:"" }} />
-          <Stack.Screen name="TimePicker" component={DateTime}  options={{ title:"Set Visiting Time" }} />
-          <Stack.Screen name="LocationSelector" component={PlaceAutoComplete}  options={{ title:"Set Visiting Place" }} />
+          <Stack.Screen
+            name="AddPlace"
+            component={AddPlace}
+            options={{ title: "" }}
+          />
+          <Stack.Screen
+            name="TimePicker"
+            component={DateTime}
+            options={{ title: "Set Visiting Time" }}
+          />
+          <Stack.Screen
+            name="LocationSelector"
+            component={PlaceAutoComplete}
+            options={{ title: "Set Visiting Place" }}
+          />
           <Stack.Screen name="Setting" component={Settings} />
         </Stack.Navigator>
       </NavigationContainer>
