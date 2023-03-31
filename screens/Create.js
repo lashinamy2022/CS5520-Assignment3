@@ -10,13 +10,13 @@ export default function Create() {
   const navigation = useNavigation();
   const [visibility, setVisibility] = useState(false);
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       setVisibility(true);
     });
 
     return unsubscribe;
   }, [navigation]);
-  
+
   function itineraryPressed() {
     setVisibility(false);
     navigation.navigate("CreateItinerary");
@@ -24,7 +24,7 @@ export default function Create() {
 
   function diaryPressed() {
     setVisibility(false);
-    navigation.navigate("CreateDiary");
+    navigation.navigate("CreateDiary", { type: "new" });
   }
 
   function crossPressed() {

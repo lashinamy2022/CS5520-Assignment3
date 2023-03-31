@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, Alert } from "react-native";
 import { useRef, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -179,13 +179,13 @@ export default function App() {
             component={DiaryDetail}
             options={{
               title: "Travel Diary",
-              headerRight: () => {
+              headerRight: ({}) => {
+                const navigation = useNavigation();
                 return (
                   <PressableArea
                     customizedStyle={{ marginTop: 3 }}
                     areaPressed={() => {
-                      console.log(navigation);
-                      // console.log("edit button pressed");
+                      navigation.navigate("CreateDiary", { type: "edit" });
                     }}
                   >
                     <Feather name="edit-3" size={20} color="white" />
@@ -194,6 +194,7 @@ export default function App() {
               },
             }}
           />
+
           <Stack.Screen
             name="CreateItinerary"
             component={CreateItinerary}
