@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
+import CommonStyles from "../style/CommonStyles";
 
 export default function Square({ detailedPage, image, title, id, userPhoto, goBack, from }) {
-  console.log(id);
   const navigation = useNavigation();
   const [collect, setCollect] = useState(false); //edit added
   function pressedTest() {
@@ -54,9 +54,9 @@ export default function Square({ detailedPage, image, title, id, userPhoto, goBa
           {/* heart icon*/}
           <PressableArea areaPressed={pressedTest}>
             {collect ? (
-              <AntDesign name="hearto" size={22} color="grey" />
+              <AntDesign name="hearto" size={15} color="grey" />
             ) : (
-              <AntDesign name="heart" size={22} color="red" />
+              <AntDesign name="heart" size={15} color={CommonStyles.heartRed} />
             )}
           </PressableArea>
         </View>

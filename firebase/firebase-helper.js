@@ -100,6 +100,18 @@ export async function deleteItineraryItemById(itineraryID, itineraryItemID) {
   }
 }
 
+export async function writeCollectionToDB(diaryID) {
+  const userID = "xU9EmezAorLKWe24k7z8";
+  const collection = {diaryID, createdAt: new Date()};
+  //replace db with the firestore variable exported in firebase-setup
+  try {
+    const docRef = await addDoc(collection(firestore, "collection"), collection);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (err) {
+    console.log("writeTravelDiaryToDB", err);
+  }
+ }
+ 
 export async function deleteItinerary(itineraryID) {
   try {
     await deleteDoc(doc(firestore, "itinerary", itineraryID));

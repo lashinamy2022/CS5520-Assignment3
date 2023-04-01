@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView,
   Alert,
   Text,
+  ScrollView
   ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -30,6 +31,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 import { getImageURL } from "../service/ImageService";
+
 const AddPlace = ({ navigation, route }) => {
   const [itineraryID, setItineraryID] = useState(route.params.itineraryID);
   const [permissionInfo, requestPermission] =
@@ -160,6 +162,7 @@ const AddPlace = ({ navigation, route }) => {
         content="Take notes"
         customizedStyle={[styles.label, { marginTop: 20 }]}
       />
+
       <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={120}>
         <Input
           customizedStyle={{
@@ -175,27 +178,26 @@ const AddPlace = ({ navigation, route }) => {
           isMultiline={true}
         />
       </KeyboardAvoidingView>
-      {itineraryItemID && (
-        <PressableArea
-          customizedStyle={styles.buttonContainer}
-          areaPressed={() => {
-            Alert.alert("Delete", "Are you sure you want to delete this?", [
-              { text: "NO", onPress: () => console.log("No Pressed") },
-              {
-                text: "YES",
-                onPress: () => {
-                  deleteItineraryItemById(itineraryID, itineraryItemID);
-                  navigation.navigate("Itinerary", {
-                    itineraryID: itineraryID,
-                  });
-                },
-              },
-            ]);
-          }}
-        >
-          <Label customizedStyle={styles.buttonText} content="Delete" />
-        </PressableArea>
-      )}
+  
+     {itineraryItemID && <PressableArea 
+      customizedStyle={styles.buttonContainer} 
+      areaPressed={()=>{
+
+        Alert.alert("Delete", "Are you sure you want to delete this?", [
+          { text: "NO", onPress: () => console.log("No Pressed") },
+          {
+            text: "YES",
+            onPress: () => {
+              deleteItineraryItemById(itineraryID, itineraryItemID);
+              navigation.navigate("Itinerary",{itineraryID: itineraryID});
+            },
+          },
+        ]);
+      
+
+      }}>
+           <Label customizedStyle={styles.buttonText} content="Delete"/>
+      </PressableArea>}
     </View>
   );
 };
