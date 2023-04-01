@@ -1,4 +1,4 @@
-# Interation 1
+# Iteration 1
 
 - Members: Yang Yang, Yu Sun, Yixin Fan
 - Contributions: Developed the app's overall structure and implemented the Itinerary, CreateDiary, and AddPlace screens(contributed by Yang Yang).
