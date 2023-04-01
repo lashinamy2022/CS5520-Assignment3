@@ -16,6 +16,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "../components/PressableArea";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import CommonStyles from "../style/CommonStyles";
 
 export default function DiaryDetail({ route, navigation }) {
   const diaryID = route.params.diaryID;
@@ -98,7 +99,7 @@ export default function DiaryDetail({ route, navigation }) {
             {collect ? (
               <AntDesign name="hearto" size={22} color="grey" />
             ) : (
-              <AntDesign name="heart" size={22} color="red" />
+              <AntDesign name="heart" size={22} color={CommonStyles.heartRed} />
             )}
           </PressableArea>
         </View>

@@ -33,6 +33,7 @@ const CommonStyles = StyleSheet.create({
   greyInactiveTab: "#808080",
   addScreen: "#000000AA",
   addScreenIcon: "#dcdcdc",
+  heartRed: "rgb(227, 77, 71)",
 });
 
 export default CommonStyles;

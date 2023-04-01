@@ -2,21 +2,14 @@ import { Platform } from "react-native";
 
 export const convertNowDateToStr =  () => {
     const now = new Date();
-    if (Platform.OS === "android") {
-        const dateArr = now.toLocaleDateString().split("/");
-        return `${now.getFullYear()}-${dateArr[0]}-${dateArr[1]}`;
-    } else if (Platform.OS === "ios") {
-        return now.toLocaleDateString().replaceAll("/", "-");
-    }
+    return convertDateToStr(now);
 };
 
 export const convertDateToStr =  (date) => {
-    if (Platform.OS === "android") {
-        const dateArr = date.toLocaleDateString().split("/");
-        return `${date.getFullYear()}-${dateArr[0]}-${dateArr[1]}`;
-    } else if (Platform.OS === "ios") {
-        return date.toLocaleDateString().replaceAll("/", "-");
-    }
+   const year = date.getFullYear();
+   const month = parseInt(date.getMonth()) + 1;
+   const day = date.getDate();
+   return `${year}-${month}-${day}`;
 };
 
 export const convertNowTimeToStrWithoutSeconds =  () => {

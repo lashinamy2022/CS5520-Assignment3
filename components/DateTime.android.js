@@ -63,6 +63,7 @@ const DateTime = ({ navigation, route }) => {
           mode={"date"}
           display={"default"}
           onChange={(event, selectedDate) => {
+           // console.log("android", selectedDate);
             setShowDate(false);
             const currentDate = selectedDate || date;
             setDate(currentDate);

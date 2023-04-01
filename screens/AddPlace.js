@@ -3,7 +3,8 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Alert,
-  Text
+  Text,
+  ScrollView
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Label from "../components/Label";
@@ -25,6 +26,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 import { getImageURL } from "../service/ImageService";
+
 const AddPlace = ({ navigation, route }) => {
   const [itineraryID, setItineraryID] = useState(route.params.itineraryID);
   const [permissionInfo, requestPermission] = ImagePicker.useCameraPermissions();
@@ -140,6 +142,7 @@ const AddPlace = ({ navigation, route }) => {
         content="Take notes"
         customizedStyle={[styles.label, { marginTop: 20 }]}
       />
+
       <KeyboardAvoidingView
         behavior="position"
         keyboardVerticalOffset={120}
@@ -158,6 +161,7 @@ const AddPlace = ({ navigation, route }) => {
           isMultiline={true}
         />
       </KeyboardAvoidingView>
+  
      {itineraryItemID && <PressableArea 
       customizedStyle={styles.buttonContainer} 
       areaPressed={()=>{

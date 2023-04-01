@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, Text, TextInput,Keyboard } from "react-native";
 import React from "react";
 
 const Input = ({ customizedStyle, value, setEnteredValue, isMultiline, placeholder }) => {
@@ -13,6 +13,12 @@ const Input = ({ customizedStyle, value, setEnteredValue, isMultiline, placehold
         multiline={isMultiline}
         textAlignVertical="top"
         placeholder={placeholder}
+        returnKeyType="done"
+        onSubmitEditing={()=>{
+          Keyboard.dismiss();
+        }}
+
+
       />
     </>
   );
