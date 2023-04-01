@@ -4,7 +4,7 @@ import {
   KeyboardAvoidingView,
   Alert,
   Text,
-  ScrollView
+  ScrollView,
   ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
