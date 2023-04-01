@@ -5,6 +5,7 @@ import {
   Alert,
   Text,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Label from "../components/Label";
@@ -30,6 +31,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 import { getImageURL } from "../service/ImageService";
+import CommonStyles from "../style/CommonStyles";
 const AddPlace = ({ navigation, route }) => {
   const [itineraryID, setItineraryID] = useState(route.params.itineraryID);
   const [permissionInfo, requestPermission] =
@@ -126,7 +128,7 @@ const AddPlace = ({ navigation, route }) => {
     }
   }, [route]);
   return (
-    <View>
+    <ScrollView>
       <Label content="Set Visiting Datetime" customizedStyle={styles.label} />
       <PressableArea
         areaPressed={() => {
@@ -176,27 +178,29 @@ const AddPlace = ({ navigation, route }) => {
         />
       </KeyboardAvoidingView>
       {itineraryItemID && (
-        <PressableArea
-          customizedStyle={styles.buttonContainer}
-          areaPressed={() => {
-            Alert.alert("Delete", "Are you sure you want to delete this?", [
-              { text: "NO", onPress: () => console.log("No Pressed") },
-              {
-                text: "YES",
-                onPress: () => {
-                  deleteItineraryItemById(itineraryID, itineraryItemID);
-                  navigation.navigate("Itinerary", {
-                    itineraryID: itineraryID,
-                  });
+        <View style={styles.buttonContainer}>
+          <PressableArea
+            customizedStyle={styles.pressableAreaCustom}
+            areaPressed={() => {
+              Alert.alert("Delete", "Are you sure you want to delete this?", [
+                { text: "NO", onPress: () => console.log("No Pressed") },
+                {
+                  text: "YES",
+                  onPress: () => {
+                    deleteItineraryItemById(itineraryID, itineraryItemID);
+                    navigation.navigate("Itinerary", {
+                      itineraryID: itineraryID,
+                    });
+                  },
                 },
-              },
-            ]);
-          }}
-        >
-          <Label customizedStyle={styles.buttonText} content="Delete" />
-        </PressableArea>
+              ]);
+            }}
+          >
+            <Label customizedStyle={styles.buttonText} content="Delete" />
+          </PressableArea>
+        </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -234,13 +238,18 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    width: "90%",
-    height: 45,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ff6347",
-    alignSelf: "center",
-    borderRadius: 5,
-    marginTop: 10,
   },
+  pressableAreaCustom: [
+    {
+      width: 90,
+      height: 35,
+      margin: 10,
+      borderRadius: 10,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    CommonStyles.deleteButtonBackground,
+  ],
 });
