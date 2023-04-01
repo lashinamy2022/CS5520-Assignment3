@@ -18,16 +18,19 @@ const CommonStyles = StyleSheet.create({
   yellowBorder: {
     borderColor: "#c6c3b3",
   },
-  pinkBackgroundColor : {
+  pinkBackgroundColor: {
     backgroundColor: "#ff9797",
   },
   taskNotDone: {
-    lineColor:'#ffde97', 
-    circleColor:'#ffde97'
+    lineColor: "#ffde97",
+    circleColor: "#ffde97",
   },
   taskCompleted: {
-    icon: require('../assets/archery.png'),
-    lineColor:'rgb(135, 173, 132)', 
+    icon: require("../assets/archery.png"),
+    lineColor: "rgb(135, 173, 132)",
+  },
+  deleteButtonBackground: {
+    backgroundColor: "#ff6347",
   },
   yellowActiveTab: "rgb(235,187,66)",
   greyInactiveTab: "#808080",

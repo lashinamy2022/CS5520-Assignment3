@@ -5,6 +5,7 @@ import {
   Alert,
   Text,
   ScrollView
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Label from "../components/Label";
@@ -15,7 +16,11 @@ import { pickPhoto } from "../service/ImageService";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import Input from "../components/Input";
-import { deleteItineraryItemById, editItineraryItemToDB, writeItineraryItemToDB } from "../firebase/firebase-helper";
+import {
+  deleteItineraryItemById,
+  editItineraryItemToDB,
+  writeItineraryItemToDB,
+} from "../firebase/firebase-helper";
 import { fetchImage } from "../service/ImageService";
 import {
   collection,
@@ -29,61 +34,76 @@ import { getImageURL } from "../service/ImageService";
 
 const AddPlace = ({ navigation, route }) => {
   const [itineraryID, setItineraryID] = useState(route.params.itineraryID);
-  const [permissionInfo, requestPermission] = ImagePicker.useCameraPermissions();
-  const [itineraryItemID, setItineraryItemID] = useState(route.params.itineraryItemID);
+  const [permissionInfo, requestPermission] =
+    ImagePicker.useCameraPermissions();
+  const [itineraryItemID, setItineraryItemID] = useState(
+    route.params.itineraryItemID
+  );
   const [datetime, setDatetime] = useState("");
   const [location, setLocation] = useState("");
   const [imageUri, setImageUri] = useState("");
   const [note, setNote] = useState("");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <PressableArea areaPressed={async () => {
-          //validate data
-          if (datetime === '' || location === '') {
-            Alert.alert(
-              "Invalid input",
-              "Please set visiting time or visiting location",
-              [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-            );
-            return;
-          }
-          //uploadImage
-          
-          let uri = "";
-          if (imageUri && imageUri !== "") {
-            uri = await fetchImage(imageUri);
-          }
-          //write data to db
-          const item = {
-            //itineraryID: itineraryID,
-            time: datetime,
-            img: uri,
-            title: location,
-            note: note,
-            completed: false
-          }
-          if (itineraryItemID) {
-            console.log(11);
-            editItineraryItemToDB(itineraryID, itineraryItemID, item);
-          } else {
-            console.log(22);
-            writeItineraryItemToDB(itineraryID, item);
-          }
-          navigation.navigate("Itinerary", {itineraryID: itineraryID});
-        }}>
-          <Ionicons name="checkmark-outline" size={30} color="#fff" />
+        <PressableArea
+          areaPressed={async () => {
+            //validate data
+            if (datetime === "" || location === "") {
+              Alert.alert(
+                "Invalid input",
+                "Please set visiting time or visiting location",
+                [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+              );
+              return;
+            }
+            //uploadImage
+
+            let uri = "";
+            if (imageUri && imageUri !== "") {
+              uri = await fetchImage(imageUri);
+            }
+            //write data to db
+            const item = {
+              //itineraryID: itineraryID,
+              time: datetime,
+              img: uri,
+              title: location,
+              note: note,
+              completed: false,
+            };
+
+            setLoading(true);
+
+            if (itineraryItemID) {
+              console.log(11);
+              editItineraryItemToDB(itineraryID, itineraryItemID, item);
+            } else {
+              console.log(22);
+              writeItineraryItemToDB(itineraryID, item);
+            }
+            navigation.navigate("Itinerary", { itineraryID: itineraryID });
+            setLoading(false);
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Ionicons name="checkmark-outline" size={30} color="#fff" />
+          )}
         </PressableArea>
       ),
     });
   }, [navigation, datetime, location, imageUri, note]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (route.params.itineraryItemID) {
       const q = query(collection(firestore, "itinerary", itineraryID, "items"));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         if (!querySnapshot.empty) {
-          querySnapshot.forEach(async (doc)  => {
+          querySnapshot.forEach(async (doc) => {
             if (doc.id === route.params.itineraryItemID) {
               setDatetime(doc.data().time);
               setLocation(doc.data().title);
@@ -98,7 +118,7 @@ const AddPlace = ({ navigation, route }) => {
         unsubscribe();
       };
     }
-  },[route]);
+  }, [route]);
 
   useEffect(() => {
     if (route.params && route.params.pageName === "datetime") {
@@ -143,10 +163,7 @@ const AddPlace = ({ navigation, route }) => {
         customizedStyle={[styles.label, { marginTop: 20 }]}
       />
 
-      <KeyboardAvoidingView
-        behavior="position"
-        keyboardVerticalOffset={120}
-      >
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={120}>
         <Input
           customizedStyle={{
             width: "90%",
@@ -154,7 +171,7 @@ const AddPlace = ({ navigation, route }) => {
             alignSelf: "center",
             textAlign: "left",
             paddingLeft: 10,
-            backgroundColor: "#f2f2f2"
+            backgroundColor: "#f2f2f2",
           }}
           value={note}
           setEnteredValue={setNote}
@@ -176,8 +193,7 @@ const AddPlace = ({ navigation, route }) => {
             },
           },
         ]);
-        
-
+      
 
       }}>
            <Label customizedStyle={styles.buttonText} content="Delete"/>
@@ -220,13 +236,13 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    width: '90%',
+    width: "90%",
     height: 45,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ff6347",
-    alignSelf:"center",
+    alignSelf: "center",
     borderRadius: 5,
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 });

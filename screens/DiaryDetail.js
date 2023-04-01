@@ -1,4 +1,11 @@
-import { View, Text, Image, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  Alert,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   collection,
@@ -17,6 +24,7 @@ import PressableArea from "../components/PressableArea";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import CommonStyles from "../style/CommonStyles";
+import { deleteTravelDiary } from "../firebase/firebase-helper";
 
 export default function DiaryDetail({ route, navigation }) {
   const diaryID = route.params.diaryID;
@@ -76,7 +84,6 @@ export default function DiaryDetail({ route, navigation }) {
         },
       });
     }
-  
   }, []); // empty array here to run the effect only once
 
   return (
@@ -106,12 +113,30 @@ export default function DiaryDetail({ route, navigation }) {
       </View>
       <WebView source={{ html: article }} />
 
-     { route.params.from === "me" && (
-      <View style={styles.buttonContainer}>
-        <PressableArea customizedStyle={styles.deleteButton}>
-          <Text style={styles.buttonText}>Delete</Text>
-        </PressableArea>
-      </View>
+      {route.params.from === "me" && (
+        <View style={styles.buttonContainer}>
+          <PressableArea
+            customizedStyle={styles.deleteButton}
+            areaPressed={() => {
+              Alert.alert(
+                "Delete",
+                "Are you sure you want to delete this travel diary?",
+                [
+                  { text: "NO", onPress: () => console.log("No Pressed") },
+                  {
+                    text: "YES",
+                    onPress: () => {
+                      deleteTravelDiary(diaryID);
+                      navigation.navigate("HomeTab");
+                    },
+                  },
+                ]
+              );
+            }}
+          >
+            <Text style={styles.buttonText}>Delete</Text>
+          </PressableArea>
+        </View>
       )}
     </View>
   );
@@ -155,14 +180,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
 
-  deleteButton: {
-    width: "50%",
-    height: "40%",
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ff6347",
-  },
+  deleteButton: [
+    {
+      width: "50%",
+      height: "40%",
+      borderRadius: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      // backgroundColor: "#ff6347",
+    },
+    CommonStyles.deleteButtonBackground,
+  ],
 
   buttonText: {
     color: "white",
