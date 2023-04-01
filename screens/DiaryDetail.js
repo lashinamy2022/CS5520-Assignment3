@@ -106,7 +106,7 @@ export default function DiaryDetail({ route, navigation }) {
             {collect ? (
               <AntDesign name="hearto" size={22} color="grey" />
             ) : (
-              <AntDesign name="heart" size={22} color="red" />
+              <AntDesign name="heart" size={22} color={CommonStyles.heartRed} />
             )}
           </PressableArea>
         </View>

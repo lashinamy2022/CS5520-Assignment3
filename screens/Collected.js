@@ -5,7 +5,7 @@ import DiaryList from "../components/DiaryList";
 export default function Collected() {
   return (
     <View style={styles.container}>
-      <DiaryList title={"this is the collection"} from="home" />
+      <DiaryList title={"this is the collection"} from="home"/>
     </View>
   );
 }

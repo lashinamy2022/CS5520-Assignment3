@@ -33,6 +33,7 @@ const DateTime = ({ navigation, route }) => {
         display={"default"}
         style={{ marginTop: 100 }}
         onChange={(event, selectedDate) => {
+          // console.log("ios",selectedDate);
           const currentDate = selectedDate || date;
           setDate(currentDate);
         }}

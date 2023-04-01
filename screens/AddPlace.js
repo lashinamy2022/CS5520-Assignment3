@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView,
   Alert,
   Text,
+  ScrollView
   ActivityIndicator,
   ScrollView,
 } from "react-native";
@@ -32,6 +33,8 @@ import {
 import { firestore } from "../firebase/firebase-setup";
 import { getImageURL } from "../service/ImageService";
 import CommonStyles from "../style/CommonStyles";
+
+
 const AddPlace = ({ navigation, route }) => {
   const [itineraryID, setItineraryID] = useState(route.params.itineraryID);
   const [permissionInfo, requestPermission] =
@@ -162,6 +165,7 @@ const AddPlace = ({ navigation, route }) => {
         content="Take notes"
         customizedStyle={[styles.label, { marginTop: 20 }]}
       />
+
       <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={120}>
         <Input
           customizedStyle={{

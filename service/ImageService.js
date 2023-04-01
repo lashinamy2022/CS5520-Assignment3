@@ -17,7 +17,7 @@ export const verifyPermission = async (permissionInfo, requestPermission) => {
 };
 
 export const takePhoto = async (permissionInfo, requestPermission) => {
-  const hasPermission = await verifyPermission(permissionInfo);
+  const hasPermission = await verifyPermission(permissionInfo, requestPermission);
   if (!hasPermission) {
     Alert.alert("You need to give access to the camera");
     return;
@@ -36,7 +36,7 @@ export const takePhoto = async (permissionInfo, requestPermission) => {
 };
 
 export const pickPhoto = async (permissionInfo, requestPermission) => {
-  const hasPermission = await verifyPermission(permissionInfo);
+  const hasPermission = await verifyPermission(permissionInfo, requestPermission);
   if (!hasPermission) {
     Alert.alert("You need to give access to the gallery");
     return;
