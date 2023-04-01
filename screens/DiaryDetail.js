@@ -114,9 +114,9 @@ export default function DiaryDetail({ route, navigation }) {
       <WebView source={{ html: article }} />
 
       {route.params.from === "me" && (
-        <View style={styles.buttonContainer}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
           <PressableArea
-            customizedStyle={styles.deleteButton}
+            customizedStyle={styles.pressableAreaCustom}
             areaPressed={() => {
               Alert.alert(
                 "Delete",
@@ -173,35 +173,26 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginLeft: 5,
   },
-
   userContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
   },
-
-  deleteButton: [
-    {
-      width: "50%",
-      height: "40%",
-      borderRadius: 5,
-      justifyContent: "center",
-      alignItems: "center",
-      // backgroundColor: "#ff6347",
-    },
-    CommonStyles.deleteButtonBackground,
-  ],
-
   buttonText: {
     color: "white",
     fontWeight: "bold",
     fontSize: 17,
     letterSpacing: 1,
   },
-
-  buttonContainer: {
-    flex: 0.2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  pressableAreaCustom: [
+    {
+      width: 90,
+      height: 35,
+      margin: 10,
+      borderRadius: 10,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    CommonStyles.deleteButtonBackground,
+  ],
 });

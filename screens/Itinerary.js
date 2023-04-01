@@ -73,7 +73,12 @@ const Itinerary = ({ navigation, route }) => {
   }, [navigation]);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1, flexDirection: "row" }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+        }}
+      >
         <PressableArea
           areaPressed={() => {
             navigation.navigate("CreateItinerary", {
@@ -98,12 +103,12 @@ const Itinerary = ({ navigation, route }) => {
           <Ionicons name="create-outline" size={20}></Ionicons>
         </View>
       </View>
-      <View style={{ flex: 12 }}>
+      <View style={{ flex: 10 }}>
         <TimelineList itineraryID={itineraryID} />
       </View>
-      <View style={styles.buttonContainer}>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
         <PressableArea
-          customizedStyle={styles.deleteButton}
+          customizedStyle={styles.pressableAreaCustom}
           areaPressed={() => {
             Alert.alert(
               "Delete",
@@ -136,35 +141,18 @@ const styles = StyleSheet.create({
   },
   pressableAreaCustom: [
     {
-      marginTop: 20,
-      width: 150,
-      height: 50,
-      justifyContent: "center",
-      alignItems: "center",
+      width: 90,
+      height: 35,
+      marginBottom: 20,
       borderRadius: 10,
-    },
-    CommonStyles.greenBackground,
-  ],
-  deleteButton: [
-    {
-      width: "50%",
-      height: "25%",
-      borderRadius: 5,
       justifyContent: "center",
       alignItems: "center",
-      // backgroundColor: "#ff6347",
     },
     CommonStyles.deleteButtonBackground,
   ],
   buttonText: {
-    color: "white",
-    fontWeight: "bold",
     fontSize: 17,
+    color: "white",
     letterSpacing: 1,
-  },
-  buttonContainer: {
-    // flex: 0.2,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
