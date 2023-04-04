@@ -166,11 +166,14 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
+            initialRouteName: "Signup",
             headerStyle: CommonStyles.lightGreenBackground,
             headerTintColor: "#fff",
             headerTitleAlign: "center",
           }}
         >
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen
             name="Home"
             component={MyTabs}
