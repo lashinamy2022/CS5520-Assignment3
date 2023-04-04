@@ -68,6 +68,7 @@ export default function SignupScreen({ navigation }) {
           <TextInput
             style={styles.input}
             value={password}
+            secureTextEntry={true}
             autoCapitalize="none"
             onChangeText={(numberInput) => {
               setPassword(numberInput);
@@ -79,6 +80,7 @@ export default function SignupScreen({ navigation }) {
           <TextInput
             style={styles.input}
             value={confirmPassword}
+            secureTextEntry={true}
             autoCapitalize="none"
             onChangeText={(newPassword) => {
               setConfirmPassword(newPassword);

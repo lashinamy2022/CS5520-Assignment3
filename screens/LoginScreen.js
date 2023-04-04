@@ -55,6 +55,7 @@ export default function LoginScreen({ navigation }) {
             <TextInput
               style={styles.input}
               value={password}
+              secureTextEntry={true}
               autoCapitalize="none"
               onChangeText={(numberInput) => {
                 setPassword(numberInput);
