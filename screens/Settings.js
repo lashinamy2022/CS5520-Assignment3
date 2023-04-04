@@ -4,6 +4,9 @@ import React from "react";
 import PressableArea from "../components/PressableArea";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase-setup";
+
 export default function Setting() {
   const [username, setUsername] = useState("Me");
   const [showName, setShowName] = useState(false);
@@ -103,7 +106,12 @@ export default function Setting() {
         )}
       </View>
 
-      <PressableArea customizedStyle={styles.signoutButton}>
+      <PressableArea
+        areaPressed={() => {
+          signOut(auth);
+        }}
+        customizedStyle={styles.signoutButton}
+      >
         <Text style={styles.text}>Sign out</Text>
       </PressableArea>
     </View>
