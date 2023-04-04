@@ -9,10 +9,25 @@ import {
 import React from "react";
 import { useState } from "react";
 import PressableArea from "../components/PressableArea";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase-setup";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const loginHandler = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("signed in");
+    } catch (err) {
+      console.log("sign up error", err);
+    }
+  };
+
+  const signupHandler = () => {
+    navigation.replace("Signup");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,12 +65,12 @@ export default function LoginScreen() {
 
         <View style={styles.buttonContainer}>
           <View style={styles.loginButtonView}>
-            <PressableArea>
+            <PressableArea areaPressed={loginHandler}>
               <Text style={styles.buttonText}>Login</Text>
             </PressableArea>
           </View>
           <View style={styles.buttonView}>
-            <PressableArea>
+            <PressableArea areaPressed={signupHandler}>
               <Text style={styles.buttonText}>Sign up</Text>
             </PressableArea>
           </View>
