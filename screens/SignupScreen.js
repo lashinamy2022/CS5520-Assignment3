@@ -5,17 +5,34 @@ import {
   SafeAreaView,
   TextInput,
   StatusBar,
+  Alert,
 } from "react-native";
 import React from "react";
 import { useState } from "react";
 import PressableArea from "../components/PressableArea";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase-setup";
 
-export default function TestScreen() {
+export default function SignupScreen({ navigation }) {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [confirmPassword, setConfirmPassword] = useState(null);
+
+  const loginHandler = () => {
+    navigation.replace("Login");
+  };
+
+  const signupHandler = async () => {
+    if (password !== confirmPassword) {
+      Alert.alert("The password don't match");
+    }
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      console.log("sign up error", err);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,6 +68,7 @@ export default function TestScreen() {
           <TextInput
             style={styles.input}
             value={password}
+            secureTextEntry={true}
             autoCapitalize="none"
             onChangeText={(numberInput) => {
               setPassword(numberInput);
@@ -62,6 +80,7 @@ export default function TestScreen() {
           <TextInput
             style={styles.input}
             value={confirmPassword}
+            secureTextEntry={true}
             autoCapitalize="none"
             onChangeText={(newPassword) => {
               setConfirmPassword(newPassword);
@@ -70,12 +89,12 @@ export default function TestScreen() {
         </View>
         <View style={styles.buttonContainer}>
           <View style={styles.signupButton}>
-            <PressableArea>
+            <PressableArea areaPressed={signupHandler}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </PressableArea>
           </View>
           <View style={styles.buttonView}>
-            <PressableArea>
+            <PressableArea areaPressed={loginHandler}>
               <Text style={styles.buttonText}>Already Registered</Text>
             </PressableArea>
           </View>

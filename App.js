@@ -28,6 +28,9 @@ import Create from "./screens/Create";
 import Itinerary from "./screens/Itinerary";
 import DateTime from "./components/DateTime";
 import PlaceAutoComplete from "./components/PlacesAutoComplete";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/firebase-setup";
+import { useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -160,54 +163,78 @@ function MyTabs() {
 
 const Stack = createNativeStackNavigator();
 
+const AuthStack = (
+  <>
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="Signup" component={SignupScreen} />
+  </>
+);
+
+const AppStack = (
+  <>
+    <Stack.Screen
+      name="Home"
+      component={MyTabs}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="DiaryDetail"
+      component={DiaryDetail}
+      options={{
+        title: "Travel Diary",
+      }}
+    />
+
+    <Stack.Screen
+      name="CreateItinerary"
+      component={CreateItinerary}
+      options={{ title: "Create Your Itinerary" }}
+    />
+
+    <Stack.Screen name="CreateDiary" component={CreateDiary} />
+    <Stack.Screen name="Itinerary" component={Itinerary} />
+    <Stack.Screen
+      name="AddPlace"
+      component={AddPlace}
+      options={{ title: "" }}
+    />
+    <Stack.Screen
+      name="TimePicker"
+      component={DateTime}
+      options={{ title: "Set Visiting Time" }}
+    />
+    <Stack.Screen
+      name="LocationSelector"
+      component={PlaceAutoComplete}
+      options={{ title: "Set Visiting Place" }}
+    />
+    <Stack.Screen name="Setting" component={Settings} />
+  </>
+);
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    });
+  }, []);
+
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
+            initialRouteName: "Signup",
             headerStyle: CommonStyles.lightGreenBackground,
             headerTintColor: "#fff",
             headerTitleAlign: "center",
           }}
         >
-          <Stack.Screen
-            name="Home"
-            component={MyTabs}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="DiaryDetail"
-            component={DiaryDetail}
-            options={{
-              title: "Travel Diary",
-            }}
-          />
-
-          <Stack.Screen
-            name="CreateItinerary"
-            component={CreateItinerary}
-            options={{ title: "Create Your Itinerary" }}
-          />
-
-          <Stack.Screen name="CreateDiary" component={CreateDiary} />
-          <Stack.Screen name="Itinerary" component={Itinerary} />
-          <Stack.Screen
-            name="AddPlace"
-            component={AddPlace}
-            options={{ title: "" }}
-          />
-          <Stack.Screen
-            name="TimePicker"
-            component={DateTime}
-            options={{ title: "Set Visiting Time" }}
-          />
-          <Stack.Screen
-            name="LocationSelector"
-            component={PlaceAutoComplete}
-            options={{ title: "Set Visiting Place" }}
-          />
-          <Stack.Screen name="Setting" component={Settings} />
+          {isAuthenticated ? AppStack : AuthStack}
         </Stack.Navigator>
       </NavigationContainer>
     </>
