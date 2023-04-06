@@ -6,6 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
+import CommonStyles from "../style/CommonStyles";
 
 export default function Setting() {
   const [username, setUsername] = useState("Me");
@@ -56,51 +57,53 @@ export default function Setting() {
       <View style={styles.passwordContainer}>
         <PressableArea
           areaPressed={handlePasswordPress}
-          customizedStyle={styles.custmomizedStyle}
+          customizedStyle={styles.updateButton}
         >
-          <Text style={styles.text}>Update Password</Text>
+          <Text style={styles.buttonText}>Update Password</Text>
         </PressableArea>
         {showPassword && (
           <>
-            <View style={styles.originalPassword}>
-              <Text style={styles.passwordText}>Original Password: </Text>
-              <Text style={styles.passwordText}>123456</Text>
-            </View>
-            <View style={styles.changePassword}>
-              <View style={styles.editPassword}>
-                <Text style={styles.passwordText}>Password</Text>
-
-                <TextInput
-                  style={styles.passwordInput}
-                  value={password}
-                  autoCapitalize="none"
-                  onChangeText={(numberInput) => {
-                    setPassword(numberInput);
-                  }}
-                />
+            <View style={styles.passwordInputContainer}>
+              <View style={styles.originalPassword}>
+                <Text style={styles.passwordText}>Original Password: </Text>
+                <Text style={styles.passwordText}>123456</Text>
               </View>
-
-              <View style={styles.confirmContainer}>
+              <View style={styles.changePassword}>
                 <View style={styles.editPassword}>
-                  <Text style={styles.passwordText}>Confirm Password</Text>
+                  <Text style={styles.passwordText}>Password</Text>
 
                   <TextInput
                     style={styles.passwordInput}
-                    value={confirmPassword}
+                    value={password}
                     autoCapitalize="none"
-                    onChangeText={(newPassword) => {
-                      setConfirmPassword(newPassword);
+                    onChangeText={(numberInput) => {
+                      setPassword(numberInput);
                     }}
                   />
                 </View>
-              </View>
 
-              <PressableArea
-                areaPressed={handlePasswordPress}
-                customizedStyle={styles.confirmPasswordButton}
-              >
-                <Text style={styles.text}>Confirm Password</Text>
-              </PressableArea>
+                <View style={styles.confirmContainer}>
+                  <View style={styles.editPassword}>
+                    <Text style={styles.passwordText}>Confirm Password</Text>
+
+                    <TextInput
+                      style={styles.passwordInput}
+                      value={confirmPassword}
+                      autoCapitalize="none"
+                      onChangeText={(newPassword) => {
+                        setConfirmPassword(newPassword);
+                      }}
+                    />
+                  </View>
+                </View>
+
+                <PressableArea
+                  areaPressed={handlePasswordPress}
+                  customizedStyle={styles.confirmPasswordButton}
+                >
+                  <Text style={styles.buttonText}>Confirm Password</Text>
+                </PressableArea>
+              </View>
             </View>
           </>
         )}
@@ -112,14 +115,18 @@ export default function Setting() {
         }}
         customizedStyle={styles.signoutButton}
       >
-        <Text style={styles.text}>Sign out</Text>
+        <Text style={styles.buttonText}>Sign out</Text>
       </PressableArea>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+    // alignItems: "center",
+  },
+
   nameContainer: {
     flex: 1,
     justifyContent: "center",
@@ -128,11 +135,6 @@ const styles = StyleSheet.create({
 
   passwordContainer: {
     flex: 2,
-    // // flex: 1,
-    // marginBottom: "30%",
-    // justifyContent: "center",
-    alignItems: "center",
-    // fontSize: 20,
   },
 
   text: {
@@ -163,28 +165,39 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
 
-  custmomizedStyle: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "black",
-    // justifyContent: "center",
+  updateButton: [
+    CommonStyles.lightGreenBackground,
+    {
+      borderRadius: 25,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+      width: 300,
+      marginVertical: 10,
+      marginLeft: "15%",
+    },
+  ],
+
+  buttonText: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+  },
+
+  passwordInputContainer: {
+    justifyContent: "center",
     alignItems: "center",
-    padding: 5,
-    // marginLeft: "4%",
-    // marginTop: "10%",
-    width: "70%",
   },
 
   originalPassword: {
     flexDirection: "row",
-    marginTop: "10%",
+    marginTop: "5%",
     marginRight: "10%",
   },
 
   changePassword: {
     marginTop: "10%",
-    marginLeft: "9%",
-    // flexDirection: "row",
+    marginLeft: "10%",
     // alignItems: "center",
   },
 
@@ -205,29 +218,31 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  confirmPasswordButton: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "black",
-    // justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    marginLeft: "10%",
-    marginTop: "15%",
-    width: "70%",
-  },
+  confirmPasswordButton: [
+    CommonStyles.lightGreenBackground,
+    {
+      borderRadius: 25,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+      marginVertical: 50,
+      width: 250,
+    },
+  ],
 
-  signoutButton: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "black",
-    // justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    marginLeft: "15%",
-    marginBottom: "12%",
-    width: "70%",
-  },
+  signoutButton: [
+    CommonStyles.lightGreenBackground,
+    {
+      borderRadius: 25,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+      marginVertical: 30,
+      width: "80%",
+      marginBottom: "10%",
+      marginLeft: "10%",
+    },
+  ],
 
   passwordText: {
     fontSize: 18,
