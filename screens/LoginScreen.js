@@ -66,16 +66,18 @@ export default function LoginScreen({ navigation }) {
         </View>
 
         <View style={styles.buttonContainer}>
-          <View style={styles.buttonView}>
-            <PressableArea areaPressed={loginHandler}>
-              <Text style={styles.buttonText}>Login</Text>
-            </PressableArea>
-          </View>
-          <View style={styles.buttonView}>
-            <PressableArea areaPressed={signupHandler}>
-              <Text style={styles.buttonText}>Sign up</Text>
-            </PressableArea>
-          </View>
+          <PressableArea
+            areaPressed={loginHandler}
+            customizedStyle={styles.buttonView}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </PressableArea>
+          <PressableArea
+            areaPressed={signupHandler}
+            customizedStyle={styles.buttonView}
+          >
+            <Text style={styles.buttonText}>Sign up</Text>
+          </PressableArea>
         </View>
       </View>
     </SafeAreaView>
