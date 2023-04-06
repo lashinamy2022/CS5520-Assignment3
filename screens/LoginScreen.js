@@ -130,9 +130,8 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    fontSize: 17,
+    fontSize: 20,
     color: "white",
-    textTransform: "uppercase",
     fontWeight: "bold",
   },
 

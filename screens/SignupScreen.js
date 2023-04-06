@@ -12,6 +12,7 @@ import { useState } from "react";
 import PressableArea from "../components/PressableArea";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
+import CommonStyles from "../style/CommonStyles";
 
 export default function SignupScreen({ navigation }) {
   const [nickname, setNickname] = useState("");
@@ -88,7 +89,7 @@ export default function SignupScreen({ navigation }) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <View style={styles.signupButton}>
+          <View style={styles.buttonView}>
             <PressableArea areaPressed={signupHandler}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </PressableArea>
@@ -146,26 +147,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 50,
   },
-  buttonView: {
-    marginTop: 25,
-    borderBottomWidth: 1,
-    width: 180,
-    borderBottomColor: "black",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-  },
 
-  signupButton: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "black",
-    justifyContent: "center",
-    marginRight: 5,
-    padding: 5,
-  },
+  buttonView: [
+    CommonStyles.lightGreenBackground,
+    {
+      borderRadius: 25,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+      width: "100%",
+      marginVertical: 10,
+    },
+  ],
 
   buttonText: {
-    fontSize: 17,
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
   },
 });
