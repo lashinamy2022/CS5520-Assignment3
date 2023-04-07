@@ -13,8 +13,7 @@ import { useState } from "react";
 
 export default function Editor({ richText, setArticle }) {
   const [permissionInfo, requestPermission] = ImagePicker.useCameraPermissions();
-  console.log(permissionInfo);
-  console.log(requestPermission);
+ 
   const [content, setContent] = useState("");
   return (
     <View>

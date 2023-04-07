@@ -14,12 +14,14 @@ import {
 import { firestore } from "../firebase/firebase-setup";
 import { provideImage } from "../service/DataService";
 import { getImageURL } from "../service/ImageService";
+import { auth } from "../firebase/firebase-setup";
 
 export default function ItineraryList({ navigation }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     const q = query(
       collection(firestore, "itinerary"),
+      where("user", "==", auth.currentUser.uid),
       orderBy("createdAt", "desc")
     );
     const unsubscribe = onSnapshot(q, async(querySnapshot) => {

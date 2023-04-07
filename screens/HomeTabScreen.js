@@ -1,11 +1,22 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import DiaryList from "../components/DiaryList";
+import { hasUserInfo } from "../firebase/firebase-helper";
 
-export default function HomeTabScreen() {
+export default function HomeTabScreen({navigation}) {
+  
+  useEffect(()=> {
+    async function checkIfUserHasSetProfile() {
+      const flag = await hasUserInfo();
+      if (!flag) {
+        navigation.navigate("SetProfilePhoto");
+      }
+    }
+    checkIfUserHasSetProfile();
+  },[]); 
   return (
     <View style={styles.container}>
-      <DiaryList title={"this is the HomeTabScreen"} from="home"/>
+      <DiaryList from="home"/>
     </View>
   );
 }
