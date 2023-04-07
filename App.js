@@ -33,6 +33,7 @@ import { useEffect } from "react";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { doc, getDoc } from "firebase/firestore";
 import SetProfilePhoto from "./screens/SetProfilePhoto";
+import SetProfileNickname from "./screens/SetProfileNickname";
 
 const Tab = createBottomTabNavigator();
 
@@ -214,6 +215,11 @@ const AppStack = (
     <Stack.Screen
       name="SetProfilePhoto"
       component={SetProfilePhoto}
+      options={{ title: "", headerBackVisible: false }}
+    />
+     <Stack.Screen
+      name="SetProfileNickname"
+      component={SetProfileNickname}
       options={{ title: "", headerBackVisible: false }}
     />
   </>

@@ -9,7 +9,7 @@ export default function HomeTabScreen({navigation}) {
     async function checkIfUserHasSetProfile() {
       const flag = await hasUserInfo();
       if (!flag) {
-        navigation.navigate("SetProfilePhoto");
+       navigation.navigate("SetProfilePhoto");
       }
     }
     checkIfUserHasSetProfile();

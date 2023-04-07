@@ -1,14 +1,21 @@
 import { View, StyleSheet, Image } from "react-native";
 import React from "react";
 import PressableArea from "./PressableArea";
-import { useActionSheet } from '@expo/react-native-action-sheet';
+import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+import { useState } from "react";
+import { pickPhoto, takePhoto,fetchImage } from "../service/ImageService";
+import { saveUserInfo } from "../firebase/firebase-helper";
 
+const ProfilePhoto = ({photoUri}) => {
 
-const ProfilePhoto = () => {
-    const options = ["Choose from gallery", "Use camera", "Cancel"];
+  const options = ["Choose from gallery", "Use camera", "Cancel"];
   const cancelButtonIndex = 2;
   const { showActionSheetWithOptions } = useActionSheet();
+  const [permissionInfo, requestPermission] =
+    ImagePicker.useCameraPermissions();
+  const [imageUri, setImageUri] = useState(photoUri);
 
   const handlePress = () => {
     showActionSheetWithOptions(
@@ -16,23 +23,38 @@ const ProfilePhoto = () => {
         options,
         cancelButtonIndex,
       },
-      buttonIndex => {
+      async (buttonIndex) => {
+        let imagePath = "";
         if (buttonIndex === 0) {
-          console.log("use gallery");
+          imagePath = await pickPhoto(permissionInfo, requestPermission);
         } else if (buttonIndex === 1) {
-          console.log("use camera");
+          imagePath = await takePhoto(permissionInfo, requestPermission);
+        }
+        setImageUri(imagePath);
+        if (imagePath && imagePath !== "") {
+          const uri = await fetchImage(imagePath);
+          saveUserInfo({photo: uri});
         }
       }
     );
-  }
+  };
   return (
     <>
       <View style={{ marginTop: 50 }}>
         <PressableArea areaPressed={handlePress}>
-          <Image
-            style={styles.image}
-            source={require("../assets/scenery.jpg")}
-          />
+          {!imageUri ? (
+            <Image
+              style={styles.image}
+              source={require("../assets/scenery.jpg")}
+            />
+          ) : (
+            <Image
+              source={{
+                uri: imageUri,
+              }}
+              style={styles.image}
+            />
+          )}
         </PressableArea>
       </View>
       <View style={styles.camera}>

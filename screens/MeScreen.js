@@ -6,12 +6,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import DiaryList from "../components/DiaryList";
 import ItineraryList from "../components/ItineraryList";
+import { getUserInfo } from "../firebase/firebase-helper";
+import { getImageURL } from "../service/ImageService";
+import { useState, useEffect } from "react";
 const Tab = createMaterialTopTabNavigator();
 
 function MyTravelDiaryList() {
   return (
     // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <DiaryList title={"Travel Diary"} from="me"/>
+    <DiaryList title={"Travel Diary"} from="me" />
     // </View>
   );
 }
@@ -34,25 +37,51 @@ function MyTabs() {
 }
 
 export default function MeScreen({ navigation }) {
+  const [nickname, setNickname] = useState("");
+  const [photoUri, setPhotoUri] = useState("");
+  useEffect(() => {
+    async function getSettingsInfo() {
+      const user = await getUserInfo();
+      if (user) {
+        setNickname(user.nickname);
+        if (user.photo) {
+          const uri = await getImageURL(user.photo);
+          setPhotoUri(uri);
+        }
+      }
+    }
+
+    getSettingsInfo();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.rowContainer}>
-          <Image
-            style={styles.image}
-            source={require("../assets/scenery.jpg")}
-          />
-          <Text style={styles.IDText}>MeScreen</Text>
+          {!photoUri ? (
+            <Image
+              style={styles.image}
+              source={require("../assets/scenery.jpg")}
+            />
+          ) : (
+            <Image
+              source={{
+                uri: photoUri,
+              }}
+              style={styles.image}
+            />
+          )}
+          <Text style={styles.IDText}>{nickname}</Text>
         </View>
         <View>
           <PressableArea
             areaPressed={() => {
-              navigation.navigate("Setting");
+              navigation.navigate("Settings");
             }}
           >
             <View style={styles.settingContainer}>
               <Ionicons name="settings" size={20} color="black" />
-              <Text style={styles.settingText}>Setting</Text>
+              <Text style={styles.settingText}>Settings</Text>
             </View>
           </PressableArea>
         </View>
