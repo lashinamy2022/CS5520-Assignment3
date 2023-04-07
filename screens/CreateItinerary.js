@@ -29,6 +29,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 import { async } from "@firebase/util";
+import CommonStyles from "../style/CommonStyles";
 
 export default function CreateItinerary({ navigation, route }) {
   const [name, setName] = useState("");
@@ -188,19 +189,22 @@ const styles = StyleSheet.create({
     margin: 18,
   },
 
-  custmomizedStyle: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "black",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    marginLeft: "10%",
-    marginTop: "5%",
-  },
+  custmomizedStyle: [
+    CommonStyles.lightGreenBackground,
+    {
+      borderRadius: 25,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+      width: "30%",
+      marginVertical: 10,
+      marginLeft: "10%",
+    },
+  ],
 
   buttonText: {
     fontSize: 20,
-    alignItems: "center",
+    color: "white",
+    fontWeight: "bold",
   },
 });

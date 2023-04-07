@@ -17,7 +17,6 @@ import MeScreen from "./screens/MeScreen";
 import Notification from "./screens/Notification";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
-import EditPlace from "./screens/EditPlace";
 import AddPlace from "./screens/AddPlace";
 import Collected from "./screens/Collected";
 import HomeTabScreen from "./screens/HomeTabScreen";

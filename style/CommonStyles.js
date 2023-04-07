@@ -37,6 +37,7 @@ const CommonStyles = StyleSheet.create({
   addScreen: "#000000AA",
   addScreenIcon: "#dcdcdc",
   heartRed: "rgb(227, 77, 71)",
+  pressed: "#e9e",
 });
 
 export default CommonStyles;

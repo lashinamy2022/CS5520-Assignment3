@@ -11,6 +11,7 @@ import { useState } from "react";
 import PressableArea from "../components/PressableArea";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
+import CommonStyles from "../style/CommonStyles";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -67,16 +68,18 @@ export default function LoginScreen({ navigation }) {
         </View>
 
         <View style={styles.buttonContainer}>
-          <View style={styles.loginButtonView}>
-            <PressableArea areaPressed={loginHandler}>
-              <Text style={styles.buttonText}>Login</Text>
-            </PressableArea>
-          </View>
-          <View style={styles.buttonView}>
-            <PressableArea areaPressed={signupHandler}>
-              <Text style={styles.buttonText}>Sign up</Text>
-            </PressableArea>
-          </View>
+          <PressableArea
+            areaPressed={loginHandler}
+            customizedStyle={styles.buttonView}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </PressableArea>
+          <PressableArea
+            areaPressed={signupHandler}
+            customizedStyle={styles.buttonView}
+          >
+            <Text style={styles.buttonText}>Sign up</Text>
+          </PressableArea>
         </View>
       </View>
     </SafeAreaView>
@@ -126,30 +129,25 @@ const styles = StyleSheet.create({
     padding: 40,
   },
 
-  buttonView: {
-    marginTop: 15,
-    borderBottomWidth: 1,
-    width: 75,
-    borderBottomColor: "black",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-  },
-
   itemContainer: {
     margin: 10,
   },
 
   buttonText: {
-    fontSize: 17,
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
   },
 
-  loginButtonView: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "black",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-  },
+  buttonView: [
+    CommonStyles.lightGreenBackground,
+    {
+      borderRadius: 25,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+      width: "100%",
+      marginVertical: 10,
+    },
+  ],
 });
