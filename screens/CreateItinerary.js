@@ -93,7 +93,6 @@ export default function CreateItinerary({ navigation, route }) {
       const id = await writeItineraryToDB(itinerary);
       navigation.navigate("Itinerary", { itineraryID: id });
     } else {
-      console.log("save");
       const id = await editItineraryToDB(itineraryID, itinerary);
       navigation.navigate("Itinerary", { itineraryID: itineraryID });
     }
@@ -132,17 +131,13 @@ export default function CreateItinerary({ navigation, route }) {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <PressableArea
+      <PressableArea
             areaPressed={createButtonPressed}
             disabled={loading}
             customizedStyle={styles.custmomizedStyle}
           >
             <Text style={styles.buttonText}>{buttonTitle}</Text>
           </PressableArea>
-        )}
       </View>
     </SafeAreaView>
   );

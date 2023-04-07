@@ -1,251 +1,136 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
-import { useState } from "react";
-import React from "react";
-import PressableArea from "../components/PressableArea";
-import { Feather } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
-import CommonStyles from "../style/CommonStyles";
+import Label from "../components/Label";
+import PressableArea from "../components/PressableArea";
+import ProfilePhoto from "../components/ProfilePhoto";
+import { Ionicons } from "@expo/vector-icons";
+import { getUserInfo } from "../firebase/firebase-helper";
+import { getImageURL } from "../service/ImageService";
 
-export default function Setting() {
-  const [username, setUsername] = useState("");
-  const [showName, setShowName] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState(null);
-  const handleNamePress = () => setShowName(!showName);
-  const handlePasswordPress = () => setShowPassword(!showPassword);
+const Setting = () => {
+  const [nickname, setNickname] = useState("");
+  const [photoUri, setPhotoUri] = useState("");
+  useEffect(()=>{
+    async function getSettingsInfo() {
+      const user = await getUserInfo();
+      if (user) {
+        setNickname(user.nickname);
+        if (user.photo) {
+          const uri = await getImageURL(user.photo);
+          setPhotoUri(uri);
+        }
+      }
+    }
+    
+    getSettingsInfo();
+  },[]);
+ 
 
   return (
-    <View style={styles.container}>
-      <View style={styles.nameContainer}>
-        <View style={styles.flexRow}>
-          <Text style={styles.text}>Username: </Text>
-          {showName ? (
-            <>
-              <TextInput
-                style={styles.input}
-                value={username}
-                onChangeText={setUsername}
-              />
-              <View style={styles.icon}>
-                <PressableArea
-                  // customizedStyle={styles.icon}
-                  areaPressed={handleNamePress}
-                >
-                  <Entypo name="check" size={24} color="black" />
-                </PressableArea>
-              </View>
-            </>
-          ) : (
-            <>
-              <Text style={styles.usernameText}> {username}</Text>
-
-              <View style={styles.icon}>
-                <PressableArea
-                  // customizedStyle={styles.icon}
-                  areaPressed={handleNamePress}
-                >
-                  <Feather name="edit-3" size={24} color="black" />
-                </PressableArea>
-              </View>
-            </>
-          )}
+    <>
+      <View style={styles.imageContainer}>
+        <ProfilePhoto photo={photoUri}/>
+      </View>
+      <View style={styles.infoContainer}>
+        <View style={styles.infoRow}>
+          <View>
+            <Label content="Nickname" customizedStyle={styles.label} />
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <Label content={nickname} customizedStyle={styles.label} />
+            <Ionicons
+              name="pencil-outline"
+              size={20}
+              color="gray"
+              style={{ paddingTop: 14 }}
+            ></Ionicons>
+          </View>
+        </View>
+        <View style={styles.infoRow}>
+          <View>
+            <Label content="Password" customizedStyle={styles.label} />
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <Label content="*******" customizedStyle={styles.label} />
+            <Ionicons
+              name="pencil-outline"
+              size={20}
+              color="gray"
+              style={{ paddingTop: 14 }}
+            ></Ionicons>
+          </View>
         </View>
       </View>
-      <View style={styles.passwordContainer}>
+
+      <View style={{ flex: 1, justifyContent: "center" }}>
         <PressableArea
-          areaPressed={handlePasswordPress}
-          customizedStyle={styles.updateButton}
+          areaPressed={() => {
+            signOut(auth);
+          }}
+          customizedStyle={styles.signoutButton}
         >
-          <Text style={styles.buttonText}>Update Password</Text>
+          <Text style={styles.text}>Sign out</Text>
         </PressableArea>
-        {showPassword && (
-          <>
-            <View style={styles.passwordInputContainer}>
-              <View style={styles.originalPassword}>
-                <Text style={styles.passwordText}>Original Password: </Text>
-                <Text style={styles.passwordText}>123456</Text>
-              </View>
-              <View style={styles.changePassword}>
-                <View style={styles.editPassword}>
-                  <Text style={styles.passwordText}>Password</Text>
-
-                  <TextInput
-                    style={styles.passwordInput}
-                    value={password}
-                    autoCapitalize="none"
-                    onChangeText={(numberInput) => {
-                      setPassword(numberInput);
-                    }}
-                  />
-                </View>
-
-                <View style={styles.confirmContainer}>
-                  <View style={styles.editPassword}>
-                    <Text style={styles.passwordText}>Confirm Password</Text>
-
-                    <TextInput
-                      style={styles.passwordInput}
-                      value={confirmPassword}
-                      autoCapitalize="none"
-                      onChangeText={(newPassword) => {
-                        setConfirmPassword(newPassword);
-                      }}
-                    />
-                  </View>
-                </View>
-
-                <PressableArea
-                  areaPressed={handlePasswordPress}
-                  customizedStyle={styles.confirmPasswordButton}
-                >
-                  <Text style={styles.buttonText}>Confirm Password</Text>
-                </PressableArea>
-              </View>
-            </View>
-          </>
-        )}
       </View>
-
-      <PressableArea
-        areaPressed={() => {
-          signOut(auth);
-        }}
-        customizedStyle={styles.signoutButton}
-      >
-        <Text style={styles.buttonText}>Sign out</Text>
-      </PressableArea>
-    </View>
+    </>
   );
-}
+};
+
+export default Setting;
 
 const styles = StyleSheet.create({
-  container: {
+  imageContainer: {
     flex: 1,
-    // alignItems: "center",
-  },
-
-  nameContainer: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
   },
-
-  passwordContainer: {
+  image: {
+    borderRadius: 50,
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderColor: "gray",
+  },
+  camera: {
+    position: "relative",
+    top: -25,
+    left: 35,
+    width: 25,
+    height: 25,
+    borderRadius: 25,
+    backgroundColor: "black",
+    opacity: 0.7,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  infoContainer: {
     flex: 2,
   },
-
-  text: {
-    fontSize: 20,
-  },
-
-  usernameText: {
-    width: 50,
-    fontSize: 20,
-    marginLeft: 18,
-    textAlign: "center",
-  },
-
-  input: {
-    borderBottomWidth: 2,
-    width: 50,
-    marginLeft: 4,
-    fontSize: 20,
-    textAlign: "center",
-    marginLeft: 18,
-  },
-
-  flexRow: {
+  infoRow: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
   },
-
-  icon: {
-    marginLeft: 30,
+  label: {
+    padding: 15,
+    fontSize: 16,
+    fontWeight: "normal",
   },
-
-  updateButton: [
-    CommonStyles.lightGreenBackground,
-    {
-      borderRadius: 25,
-      justifyContent: "center",
-      alignItems: "center",
-      padding: 10,
-      width: 300,
-      marginVertical: 10,
-      marginLeft: "15%",
-    },
-  ],
-
-  buttonText: {
-    fontSize: 20,
-    color: "white",
-    fontWeight: "bold",
-  },
-
-  passwordInputContainer: {
-    justifyContent: "center",
+  signoutButton: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "black",
     alignItems: "center",
-  },
-
-  originalPassword: {
-    flexDirection: "row",
-    marginTop: "5%",
-    marginRight: "10%",
-  },
-
-  changePassword: {
-    marginTop: "10%",
-    marginLeft: "10%",
-    // alignItems: "center",
-  },
-
-  passwordInput: {
-    borderBottomWidth: 2,
-    width: 130,
-    marginLeft: 20,
-    fontSize: 18,
-    // textAlign: "center",
-    marginBottom: 2,
-  },
-
-  confirmContainer: {
-    marginTop: "10%",
-  },
-
-  editPassword: {
-    flexDirection: "row",
-  },
-
-  confirmPasswordButton: [
-    CommonStyles.lightGreenBackground,
-    {
-      borderRadius: 25,
-      justifyContent: "center",
-      alignItems: "center",
-      padding: 10,
-      marginVertical: 50,
-      width: 250,
-    },
-  ],
-
-  signoutButton: [
-    CommonStyles.lightGreenBackground,
-    {
-      borderRadius: 25,
-      justifyContent: "center",
-      alignItems: "center",
-      padding: 10,
-      marginVertical: 30,
-      width: "80%",
-      marginBottom: "10%",
-      marginLeft: "10%",
-    },
-  ],
-
-  passwordText: {
-    fontSize: 18,
-    marginTop: 3,
+    padding: 5,
+    marginLeft: "15%",
+    marginBottom: "12%",
+    width: "70%",
   },
 });

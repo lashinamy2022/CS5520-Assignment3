@@ -25,6 +25,7 @@ export const takePhoto = async (permissionInfo, requestPermission) => {
   try {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
+      quality: 0.2,
     });
     if (!result.canceled) {
       return result.assets[0].uri;

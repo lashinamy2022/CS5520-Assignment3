@@ -9,6 +9,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 const PlacesAutoComplete = ({navigation}) => {
   const [location, setLocation] = useState("");
+  const [lng, setLng] = useState("");
+  const [lat, setLat] = useState("");
   useEffect(()=>{
     navigation.setOptions({
       headerRight: () => (
@@ -21,13 +23,13 @@ const PlacesAutoComplete = ({navigation}) => {
             );
             return;
           }
-          navigation.navigate("AddPlace", {pageName: "location", location: location})
+          navigation.navigate("AddPlace", {pageName: "location", location: location, lat: lat, lng: lng})
         }}>
           <Ionicons name="checkmark-outline" size={30} color="#fff" />
         </PressableArea>
       )
     });
-  },[navigation, location])
+  },[navigation, location, lat, lng])
   
   return (
     <SafeAreaView style={styles.container}>
@@ -46,6 +48,11 @@ const PlacesAutoComplete = ({navigation}) => {
         fetchDetails={true}
         onPress={(data, details = null) => {
           setLocation(data.description);
+          const latitude = details.geometry.location.lat;
+          const longitude = details.geometry.location.lng;
+          setLat(latitude);
+          setLng(longitude);
+          console.log(latitude, longitude);
         }}
         onFail={(error) => console.log(error)}
         onNotFound={() => console.log("no results")}
