@@ -46,7 +46,7 @@ export const pickPhoto = async (permissionInfo, requestPermission) => {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.2,
     });
     if (!result.canceled) {
       return result.assets[0].uri;

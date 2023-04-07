@@ -6,12 +6,24 @@ import {
   where,
   deleteDoc,
   updateDoc,
+  setDoc,
+  getDoc
 } from "firebase/firestore";
 import { firestore, auth } from "./firebase-setup";
-//
+
+export async function saveUserInfo(user) {
+  try {
+    await setDoc(doc(firestore, "users", auth.currentUser.uid), user, {
+      merge: true
+    });
+  } catch(err) {
+    console.log("saveUserInfo", err)
+  }
+}
+
 // Add a new document with a generated id.
 export async function writeTravelDiaryToDB(diary) {
-  diary = { ...diary, createdAt: new Date(), updatedAt: new Date() };
+  diary = { ...diary, createdAt: new Date(), updatedAt: new Date(), user: auth.currentUser.uid };
   //replace db with the firestore variable exported in firebase-setup
   try {
     const docRef = await addDoc(collection(firestore, "travelDiary"), diary);
@@ -41,7 +53,7 @@ export async function updateTravelDiaryById(updatedId, updatedData) {
 }
 
 export async function writeItineraryToDB(itinerary) {
-  itinerary = { ...itinerary, createdAt: new Date(), updatedAt: new Date() };
+  itinerary = { ...itinerary, createdAt: new Date(), updatedAt: new Date(), user: auth.currentUser.uid };
   try {
     const docRef = await addDoc(collection(firestore, "itinerary"), itinerary);
     console.log("Document written with ID: ", docRef.id);
@@ -101,14 +113,13 @@ export async function deleteItineraryItemById(itineraryID, itineraryItemID) {
 }
 
 export async function writeCollectionToDB(diaryID) {
-  const userID = "xU9EmezAorLKWe24k7z8";
-  const collection = {diaryID, createdAt: new Date()};
+  const collection = {diaryID, createdAt: new Date(), user: auth.currentUser.uid};
   //replace db with the firestore variable exported in firebase-setup
   try {
     const docRef = await addDoc(collection(firestore, "collection"), collection);
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
-    console.log("writeTravelDiaryToDB", err);
+    console.log("writeCollectionToDB", err);
   }
  }
  
@@ -117,5 +128,15 @@ export async function deleteItinerary(itineraryID) {
     await deleteDoc(doc(firestore, "itinerary", itineraryID));
   } catch (err) {
     console.log("deleteItinerary", err);
+  }
+}
+
+export async function hasUserInfo() {
+  try {
+    const docRef = doc(firestore, "users", auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists();
+  } catch (err) {
+    console.log("hasUserInfo", err);
   }
 }

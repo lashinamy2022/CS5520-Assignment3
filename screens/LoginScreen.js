@@ -20,6 +20,7 @@ export default function LoginScreen({ navigation }) {
   const loginHandler = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      
       console.log("signed in");
     } catch (err) {
       console.log("sign up error", err);
@@ -27,6 +28,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   const signupHandler = () => {
+    //
     navigation.replace("Signup");
   };
 

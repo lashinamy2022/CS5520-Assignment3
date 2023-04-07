@@ -28,8 +28,11 @@ import Itinerary from "./screens/Itinerary";
 import DateTime from "./components/DateTime";
 import PlaceAutoComplete from "./components/PlacesAutoComplete";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/firebase-setup";
+import { auth, firestore } from "./firebase/firebase-setup";
 import { useEffect } from "react";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { doc, getDoc } from "firebase/firestore";
+import SetProfilePhoto from "./screens/SetProfilePhoto";
 
 const Tab = createBottomTabNavigator();
 
@@ -207,13 +210,19 @@ const AppStack = (
       component={PlaceAutoComplete}
       options={{ title: "Set Visiting Place" }}
     />
-    <Stack.Screen name="Setting" component={Settings} />
+    <Stack.Screen name="Settings" component={Settings} />
+    <Stack.Screen
+      name="SetProfilePhoto"
+      component={SetProfilePhoto}
+      options={{ title: "", headerBackVisible: false }}
+    />
   </>
 );
+
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsAuthenticated(true);
       } else {
@@ -223,7 +232,7 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <ActionSheetProvider>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -236,6 +245,6 @@ export default function App() {
           {isAuthenticated ? AppStack : AuthStack}
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </ActionSheetProvider>
   );
 }

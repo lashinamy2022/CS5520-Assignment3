@@ -9,7 +9,7 @@ import { auth } from "../firebase/firebase-setup";
 import CommonStyles from "../style/CommonStyles";
 
 export default function Setting() {
-  const [username, setUsername] = useState("Me");
+  const [username, setUsername] = useState("");
   const [showName, setShowName] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");

@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 import { extractImageOrAddImage } from "../service/DataService";
+import { auth } from "../firebase/firebase-setup";
 
 export default function DiaryList({ route, from }) {
   const [data, setData] = useState([]);
@@ -18,7 +19,7 @@ export default function DiaryList({ route, from }) {
     if (from === "home") {
       q =  query(collection(firestore, "travelDiary"),  where("articleStatus", "==", "2"), orderBy("createdAt", "desc"));
     } else if (from === "me") {
-      q =  query(collection(firestore, "travelDiary"), orderBy("createdAt", "desc"));
+      q =  query(collection(firestore, "travelDiary"),  where("user", "==", auth.currentUser.uid),orderBy("createdAt", "desc"));
     }
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
