@@ -10,7 +10,7 @@ import { getUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 import { useNavigation } from "@react-navigation/native";
 
-const Setting = () => {
+const Setting = ({ navigation }) => {
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
   useEffect(() => {
@@ -42,7 +42,7 @@ const Setting = () => {
             <Label content={nickname} customizedStyle={styles.label} />
             <PressableArea
               areaPressed={() => {
-                console.log("pressed"); //need change
+                navigation.navigate("EditSettings");
               }}
             >
               <Ionicons
@@ -62,7 +62,7 @@ const Setting = () => {
             <Label content="*******" customizedStyle={styles.label} />
             <PressableArea
               areaPressed={() => {
-                console.log("pressed"); //neec change
+                navigation.navigate("EditSettings");
               }}
             >
               <Ionicons
