@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
@@ -13,11 +8,12 @@ import ProfilePhoto from "../components/ProfilePhoto";
 import { Ionicons } from "@expo/vector-icons";
 import { getUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
+import { useNavigation } from "@react-navigation/native";
 
 const Setting = () => {
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
-  useEffect(()=>{
+  useEffect(() => {
     async function getSettingsInfo() {
       const user = await getUserInfo();
       if (user) {
@@ -28,15 +24,14 @@ const Setting = () => {
         }
       }
     }
-    
+
     getSettingsInfo();
-  },[]);
- 
+  }, []);
 
   return (
     <>
       <View style={styles.imageContainer}>
-        <ProfilePhoto photo={photoUri}/>
+        <ProfilePhoto photo={photoUri} />
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
@@ -45,12 +40,18 @@ const Setting = () => {
           </View>
           <View style={{ flexDirection: "row" }}>
             <Label content={nickname} customizedStyle={styles.label} />
-            <Ionicons
-              name="pencil-outline"
-              size={20}
-              color="gray"
-              style={{ paddingTop: 14 }}
-            ></Ionicons>
+            <PressableArea
+              areaPressed={() => {
+                console.log("pressed"); //need change
+              }}
+            >
+              <Ionicons
+                name="pencil-outline"
+                size={20}
+                color="gray"
+                style={{ paddingTop: 14, paddingRight: 10 }}
+              />
+            </PressableArea>
           </View>
         </View>
         <View style={styles.infoRow}>
@@ -59,12 +60,18 @@ const Setting = () => {
           </View>
           <View style={{ flexDirection: "row" }}>
             <Label content="*******" customizedStyle={styles.label} />
-            <Ionicons
-              name="pencil-outline"
-              size={20}
-              color="gray"
-              style={{ paddingTop: 14 }}
-            ></Ionicons>
+            <PressableArea
+              areaPressed={() => {
+                console.log("pressed"); //neec change
+              }}
+            >
+              <Ionicons
+                name="pencil-outline"
+                size={20}
+                color="gray"
+                style={{ paddingTop: 14, paddingRight: 10 }}
+              />
+            </PressableArea>
           </View>
         </View>
       </View>
