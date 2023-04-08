@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
@@ -8,25 +8,32 @@ import ProfilePhoto from "../components/ProfilePhoto";
 import { Ionicons } from "@expo/vector-icons";
 import { getUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 
 const Setting = ({ navigation }) => {
+  const isFocused = useIsFocused("");
+
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
-  useEffect(() => {
-    async function getSettingsInfo() {
-      const user = await getUserInfo();
-      if (user) {
-        setNickname(user.nickname);
-        if (user.photo) {
-          const uri = await getImageURL(user.photo);
-          setPhotoUri(uri);
-        }
+  // console.log(route);
+
+  async function getSettingsInfo() {
+    const user = await getUserInfo();
+    if (user) {
+      // console.log("user.nickname", user.nickname);
+      setNickname(user.nickname);
+      if (user.photo) {
+        const uri = await getImageURL(user.photo);
+        setPhotoUri(uri);
       }
     }
+  }
 
-    getSettingsInfo();
-  }, []);
+  useEffect(() => {
+    if (isFocused) {
+      getSettingsInfo();
+    }
+  }, [isFocused]);
 
   return (
     <>
@@ -42,7 +49,10 @@ const Setting = ({ navigation }) => {
             <Label content={nickname} customizedStyle={styles.label} />
             <PressableArea
               areaPressed={() => {
-                navigation.navigate("EditSettings");
+                navigation.navigate("EditSettings", {
+                  nickname: nickname,
+                  // type: "nickname",
+                });
               }}
             >
               <Ionicons
@@ -62,7 +72,10 @@ const Setting = ({ navigation }) => {
             <Label content="*******" customizedStyle={styles.label} />
             <PressableArea
               areaPressed={() => {
-                navigation.navigate("EditSettings");
+                navigation.navigate("EditSettings", {
+                  nickname: nickname,
+                  // type: "password",
+                });
               }}
             >
               <Ionicons
