@@ -4,12 +4,11 @@ import { auth } from "../firebase/firebase-setup";
 import Label from "../components/Label";
 import PressableArea from "../components/PressableArea";
 import ErrorText from "../components/ErrorText";
-import { updatePassword } from "firebase/auth";
+import { updatePassword, signOut } from "firebase/auth";
 import { updateUserInfo } from "../firebase/firebase-helper";
 import { Entypo } from "@expo/vector-icons";
 
 export default function EditSettings({ route, navigation }) {
-  console.log(route.params.type);
   const [nickname, setNickname] = useState(route.params.nickname);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,7 +27,7 @@ export default function EditSettings({ route, navigation }) {
   const editSaveHandler = async () => {
     // console.log("000");
     let flag = true;
-    if (password.length > 0 && password.length <= 8) {
+    if (showPassword && password.length > 0 && password.length <= 8) {
       //   console.log("111");
       setPwdErrMessage("At least greater than 8 characters");
       flag = false;
@@ -36,7 +35,7 @@ export default function EditSettings({ route, navigation }) {
       //   console.log("222");
       setPwdErrMessage("");
     }
-    if (password !== confirmPassword) {
+    if (showPassword && password !== confirmPassword) {
       //   console.log("333");
       setConfirmPwdErrMessage("The password doesn't match");
       flag = false;
@@ -56,7 +55,7 @@ export default function EditSettings({ route, navigation }) {
         await updatePassword(auth.currentUser, password);
       }
       //update the nick name
-      updateUserInfo(nickname);
+      updateUserInfo({ nickname: nickname });
       //navigate back to the settings screen
       navigation.navigate("Settings");
       console.log("save successfully");
@@ -110,7 +109,6 @@ export default function EditSettings({ route, navigation }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               value={password}
-              //   placeholder="Password Reset"
               placeholder={showPassword ? "Password Reset" : "*********"}
               editable={showPassword}
               style={styles.label}
@@ -128,7 +126,7 @@ export default function EditSettings({ route, navigation }) {
                 name={showPassword ? "eye" : "eye-with-line"}
                 size={22}
                 color="black"
-                style={{ marginTop: 13 }}
+                style={{ marginTop: 10 }}
               />
             </PressableArea>
           </View>
@@ -159,7 +157,7 @@ export default function EditSettings({ route, navigation }) {
                 name={showPassword ? "eye" : "eye-with-line"}
                 size={22}
                 color="black"
-                style={{ marginTop: 13 }}
+                style={{ marginTop: 10 }}
               />
             </PressableArea>
           </View>
