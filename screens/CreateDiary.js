@@ -6,7 +6,10 @@ import PressableArea from "../components/PressableArea";
 import Radio from "../components/Radio";
 import CommonStyles from "../style/CommonStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { updateTravelDiaryById, writeTravelDiaryToDB } from "../firebase/firebase-helper";
+import {
+  updateTravelDiaryById,
+  writeTravelDiaryToDB,
+} from "../firebase/firebase-helper";
 import { onSnapshot, doc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 
@@ -27,7 +30,7 @@ export default function CreateDiary({ navigation, route }) {
             setArticle(doc.data().article);
             setTimeout(() => {
               richText.current?.setContentHTML(doc.data().article);
-            }, 1000); 
+            }, 1000);
           }
         }
       );
@@ -35,9 +38,7 @@ export default function CreateDiary({ navigation, route }) {
         unsubscribe();
       };
     }
-  
   }, []);
-
 
   useEffect(() => {
     navigation.setOptions({
@@ -83,10 +84,10 @@ export default function CreateDiary({ navigation, route }) {
                     updateTravelDiaryById(route.params.id, diary);
                     const params = {
                       userPhoto: "../assets/scenery.jpg",
-                      diaryID: route.params.id
+                      diaryID: route.params.id,
                     };
                     navigation.navigate("DiaryDetail", params);
-                  } 
+                  }
                 },
               },
             ]);
@@ -137,10 +138,7 @@ export default function CreateDiary({ navigation, route }) {
           </View>
         </PressableArea>
         <View style={{ paddingTop: 20 }}>
-          <Editor
-            richText={richText}
-            setArticle={setArticle}
-          />
+          <Editor richText={richText} setArticle={setArticle} />
         </View>
       </View>
     </SafeAreaView>
