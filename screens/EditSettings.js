@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TextInput } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput, Alert } from "react-native";
 import React, { useState } from "react";
 import { auth } from "../firebase/firebase-setup";
 import Label from "../components/Label";
@@ -7,7 +7,7 @@ import ErrorText from "../components/ErrorText";
 import { updatePassword } from "firebase/auth";
 import { updateUserInfo } from "../firebase/firebase-helper";
 
-export default function EditSettings({ route }) {
+export default function EditSettings({ route, navigation }) {
   const [nickname, setNickname] = useState(route.params.nickname);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,35 +23,56 @@ export default function EditSettings({ route }) {
   }
 
   const editSaveHandler = async () => {
-    console.log("000");
+    // console.log("000");
     let flag = true;
     if (password.length <= 8) {
-      console.log("111");
+      //   console.log("111");
       setPwdErrMessage("At least greater than 8 characters");
       flag = false;
     } else {
-      console.log("222");
+      //   console.log("222");
       setPwdErrMessage("");
     }
     if (password !== confirmPassword) {
-      console.log("333");
+      //   console.log("333");
       setConfirmPwdErrMessage("The password doesn't match");
       flag = false;
     } else {
-      console.log("444");
+      //   console.log("444");
       setConfirmPwdErrMessage("");
     }
     if (!flag) {
-      console.log("555");
+      //   console.log("555");
       return;
     }
 
     try {
       //update the password
-      console.log("666");
+      //   console.log("666");
       await updatePassword(auth.currentUser, password);
       updateUserInfo(nickname);
+      navigation.navigate("Settings");
+      console.log("save successfully");
     } catch (err) {
+      if (err.code === "auth/requires-recent-login") {
+        Alert.alert(
+          "Expiration",
+          "Your credentials have expired and you need to sign in again to change the password",
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            {
+              text: "OK",
+              onPress: () => {
+                signOut(auth);
+              },
+            },
+          ]
+        );
+      }
       console.log(err);
     }
   };
