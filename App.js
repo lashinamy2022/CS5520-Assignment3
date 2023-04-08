@@ -38,6 +38,16 @@ import * as Notifications from "expo-notifications";
 
 const Tab = createBottomTabNavigator();
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    };
+  },
+});
+
 function MyTabs() {
   return (
     <Tab.Navigator
