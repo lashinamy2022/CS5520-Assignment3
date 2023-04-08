@@ -31,6 +31,21 @@ export async function verifyPermission() {
 export default function Notification() {
   const [notifications, setNotifications] = useState([]);
 
+  useEffect(() => {
+    getNotifications();
+  }, []);
+
+  const getNotifications = async () => {
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) {
+      Alert.alert("You need to give notification permission");
+    } else {
+      const scheduledNotifications =
+        await Notifications.getAllScheduledNotificationsAsync();
+      setNotifications(scheduledNotifications);
+    }
+  };
+
   async function scheduleNotificationHandler() {
     const hasPermission = await verifyPermission();
     if (!hasPermission) {
@@ -100,6 +115,10 @@ export default function Notification() {
       <Button
         title={"schedule a notification"}
         onPress={scheduleNotificationHandler}
+      />
+      <Button
+        title="View Scheduled Notifications"
+        onPress={() => getNotifications()}
       />
     </View>
   );
