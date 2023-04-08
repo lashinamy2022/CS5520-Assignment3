@@ -9,6 +9,7 @@ import ItineraryList from "../components/ItineraryList";
 import { getUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 import { useState, useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 
 function MyTravelDiaryList() {
@@ -29,23 +30,27 @@ function MyTabs() {
 }
 
 export default function MeScreen({ navigation }) {
+  const isFocused = useIsFocused("");
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
-  useEffect(() => {
-    async function getSettingsInfo() {
-      const user = await getUserInfo();
-      console.log("userInfo", user);
-      if (user) {
-        setNickname(user.nickname);
-        if (user.photo) {
-          const uri = await getImageURL(user.photo);
-          setPhotoUri(uri);
-        }
+
+  async function getSettingsInfo() {
+    const user = await getUserInfo();
+    console.log("userInfo", user);
+    if (user) {
+      setNickname(user.nickname);
+      if (user.photo) {
+        const uri = await getImageURL(user.photo);
+        setPhotoUri(uri);
       }
     }
+  }
 
-    getSettingsInfo();
-  }, []);
+  useEffect(() => {
+    if (isFocused) {
+      getSettingsInfo();
+    }
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
