@@ -12,15 +12,17 @@ import PressableArea from "../components/PressableArea";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
 import CommonStyles from "../style/CommonStyles";
+import { verifyPermission } from "./Notification";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const loginHandler = async () => {
+    verifyPermission();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      
+
       console.log("signed in");
     } catch (err) {
       console.log("sign up error", err);

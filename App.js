@@ -34,6 +34,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { doc, getDoc } from "firebase/firestore";
 import SetProfilePhoto from "./screens/SetProfilePhoto";
 import SetProfileNickname from "./screens/SetProfileNickname";
+import * as Notifications from "expo-notifications";
 
 const Tab = createBottomTabNavigator();
 
@@ -217,7 +218,7 @@ const AppStack = (
       component={SetProfilePhoto}
       options={{ title: "", headerBackVisible: false }}
     />
-     <Stack.Screen
+    <Stack.Screen
       name="SetProfileNickname"
       component={SetProfileNickname}
       options={{ title: "", headerBackVisible: false }}
