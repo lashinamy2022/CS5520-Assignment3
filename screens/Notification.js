@@ -65,35 +65,12 @@ export default function Notification() {
     }
   }
 
-  // const data = [
-  //   {
-  //     id: "id11",
-  //     title: "1 Notice title",
-  //     content: "1 Content",
-  //   },
-  //   {
-  //     id: "id22",
-  //     title: "2 Notice title",
-  //     content: "2 Content",
-  //   },
-  //   {
-  //     id: "id33",
-  //     title: "3 Notice title",
-  //     content: "3 Content",
-  //   },
-  //   {
-  //     id: "id44",
-  //     title: "4 Notice title",
-  //     content: "4 Content",
-  //   },
-  // ];
-
   return (
     <View style={styles.container}>
       <FlatList
         data={notifications}
         renderItem={({ item }) => (
-          <View style={styles.item}>
+          <PressableArea customizedStyle={styles.item}>
             <View>
               <Text style={styles.titleText}>{item.content.title}</Text>
               <Text style={styles.contentText}>{item.content.body}</Text>
@@ -109,7 +86,7 @@ export default function Notification() {
             >
               <MaterialIcons name="delete" size={24} color="black" />
             </PressableArea>
-          </View>
+          </PressableArea>
         )}
       />
       <Button
@@ -129,7 +106,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // padding: 10,
   },
   titleText: {
     fontSize: 20,
