@@ -7,8 +7,7 @@ import Label from "../components/Label";
 import PressableArea from "../components/PressableArea";
 import Input from "../components/Input";
 
-const SetProfileNickname = ({navigation}) => {
-
+const SetProfileNickname = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [nickname, setNickname] = useState("");
   return (
@@ -17,18 +16,18 @@ const SetProfileNickname = ({navigation}) => {
         content="Please set your nickname"
         customizedStyle={{ marginTop: 10, fontSize: 20 }}
       />
-     <Input
-          customizedStyle={{
-            width: "90%",
-            alignSelf: "center",
-            backgroundColor: "#f2f2f2",
-            borderWidth: 0,
-            borderBottomWidth:1,
-            marginTop: 60
-          }}
-          setEnteredValue={setNickname}
-          isMultiline={false}
-        />
+      <Input
+        customizedStyle={{
+          width: "90%",
+          alignSelf: "center",
+          backgroundColor: "#f2f2f2",
+          borderWidth: 0,
+          borderBottomWidth: 1,
+          marginTop: 60,
+        }}
+        setEnteredValue={setNickname}
+        isMultiline={false}
+      />
       <PressableArea
         areaPressed={async () => {
           if (nickname === "") {
@@ -36,7 +35,7 @@ const SetProfileNickname = ({navigation}) => {
             return;
           }
           setLoading(true);
-          saveUserInfo({nickname: nickname});
+          saveUserInfo({ nickname: nickname });
           setLoading(false);
           navigation.navigate("Home");
         }}
@@ -52,19 +51,19 @@ const SetProfileNickname = ({navigation}) => {
 export default SetProfileNickname;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
+  pressableStyle: [
+    CommonStyles.lightGreenBackground,
+    {
+      borderRadius: 25,
+      justifyContent: "center",
       alignItems: "center",
+      padding: 10,
+      width: "60%",
+      marginTop: 90,
     },
-    pressableStyle: [
-      CommonStyles.lightGreenBackground,
-      {
-        borderRadius: 25,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 10,
-        width: "60%",
-        marginTop: 90
-      },
-    ],
-  });
+  ],
+});
