@@ -31,6 +31,25 @@ export async function verifyPermission() {
 export default function Notification() {
   const [notifications, setNotifications] = useState([]);
 
+  async function scheduleNotificationHandler() {
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) {
+      Alert.alert("You need to give notification permission");
+    }
+    try {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Your trip is in 3 days",
+          body: "check my itinerary",
+          data: { url: "https://google.com" },
+        },
+        trigger: { second: 1 },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   // const data = [
   //   {
   //     id: "id11",
@@ -77,6 +96,10 @@ export default function Notification() {
             </PressableArea>
           </View>
         )}
+      />
+      <Button
+        title={"schedule a notification"}
+        onPress={scheduleNotificationHandler}
       />
     </View>
   );
