@@ -12,19 +12,11 @@ import { useState, useEffect } from "react";
 const Tab = createMaterialTopTabNavigator();
 
 function MyTravelDiaryList() {
-  return (
-    // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <DiaryList title={"Travel Diary"} from="me" />
-    // </View>
-  );
+  return <DiaryList title={"Travel Diary"} from="me" />;
 }
 
 function MyItineraryList() {
-  return (
-    // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <ItineraryList title={"Itinerary"} />
-    // </View>
-  );
+  return <ItineraryList title={"Itinerary"} />;
 }
 
 function MyTabs() {
@@ -42,6 +34,7 @@ export default function MeScreen({ navigation }) {
   useEffect(() => {
     async function getSettingsInfo() {
       const user = await getUserInfo();
+      console.log("userInfo", user);
       if (user) {
         setNickname(user.nickname);
         if (user.photo) {
