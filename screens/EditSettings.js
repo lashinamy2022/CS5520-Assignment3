@@ -1,18 +1,21 @@
 import { View, Text, StyleSheet, Image, TextInput, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../firebase/firebase-setup";
 import Label from "../components/Label";
 import PressableArea from "../components/PressableArea";
 import ErrorText from "../components/ErrorText";
 import { updatePassword } from "firebase/auth";
 import { updateUserInfo } from "../firebase/firebase-helper";
+import { Entypo } from "@expo/vector-icons";
 
 export default function EditSettings({ route, navigation }) {
+  console.log(route.params.type);
   const [nickname, setNickname] = useState(route.params.nickname);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [pwdErrMessage, setPwdErrMessage] = useState("");
   const [confirmPwdErrMessage, setConfirmPwdErrMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   function resetHandle() {
     setNickname("");
@@ -25,7 +28,7 @@ export default function EditSettings({ route, navigation }) {
   const editSaveHandler = async () => {
     // console.log("000");
     let flag = true;
-    if (password.length <= 8) {
+    if (password.length > 0 && password.length <= 8) {
       //   console.log("111");
       setPwdErrMessage("At least greater than 8 characters");
       flag = false;
@@ -49,8 +52,12 @@ export default function EditSettings({ route, navigation }) {
     try {
       //update the password
       //   console.log("666");
-      await updatePassword(auth.currentUser, password);
+      if (showPassword) {
+        await updatePassword(auth.currentUser, password);
+      }
+      //update the nick name
       updateUserInfo(nickname);
+      //navigate back to the settings screen
       navigation.navigate("Settings");
       console.log("save successfully");
     } catch (err) {
@@ -103,13 +110,27 @@ export default function EditSettings({ route, navigation }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               value={password}
-              placeholder="Password Reset"
+              //   placeholder="Password Reset"
+              placeholder={showPassword ? "Password Reset" : "*********"}
+              editable={showPassword}
               style={styles.label}
               secureTextEntry={true}
               onChangeText={(numberInput) => {
                 setPassword(numberInput);
               }}
             />
+            <PressableArea
+              areaPressed={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              <Entypo
+                name={showPassword ? "eye" : "eye-with-line"}
+                size={22}
+                color="black"
+                style={{ marginTop: 13 }}
+              />
+            </PressableArea>
           </View>
         </View>
         {pwdErrMessage !== "" && <ErrorText message={pwdErrMessage} />}
@@ -121,13 +142,26 @@ export default function EditSettings({ route, navigation }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               value={confirmPassword}
-              placeholder="Confirm Password"
+              placeholder={showPassword ? "Confirm Password" : "*********"}
+              editable={showPassword}
               style={styles.label}
               secureTextEntry={true}
               onChangeText={(numberInput) => {
                 setConfirmPassword(numberInput);
               }}
             />
+            <PressableArea
+              areaPressed={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              <Entypo
+                name={showPassword ? "eye" : "eye-with-line"}
+                size={22}
+                color="black"
+                style={{ marginTop: 13 }}
+              />
+            </PressableArea>
           </View>
         </View>
         {confirmPwdErrMessage !== "" && (
