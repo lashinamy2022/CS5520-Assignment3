@@ -57,7 +57,14 @@ export default function EditSettings({ route, navigation }) {
       //update the nick name
       updateUserInfo({ nickname: nickname });
       //navigate back to the settings screen
-      navigation.navigate("Settings");
+      Alert.alert("Successfully", "Your information has been updated", [
+        {
+          text: "Ok",
+          onPress: () => {
+            navigation.navigate("Settings");
+          },
+        },
+      ]);
       console.log("save successfully");
     } catch (err) {
       if (err.code === "auth/requires-recent-login") {
