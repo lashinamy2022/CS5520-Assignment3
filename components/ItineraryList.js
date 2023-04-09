@@ -15,6 +15,7 @@ import { firestore } from "../firebase/firebase-setup";
 import { provideImage } from "../service/DataService";
 import { getImageURL } from "../service/ImageService";
 import { auth } from "../firebase/firebase-setup";
+import { getUserInfo } from "../firebase/firebase-helper";
 
 export default function ItineraryList({ navigation }) {
   const [data, setData] = useState([]);
@@ -45,7 +46,21 @@ export default function ItineraryList({ navigation }) {
             })
           );
           item.imageUri = updatedUri.length > 0 ? updatedUri[0] : provideImage();
-          items.push({ ...item, id: itinerary.id, userPhoto: "../assets/scenery.jpg"});
+
+          item.username = "";
+          item.userPhoto = "../assets/scenery.jpg";
+
+          if (item.user) {
+            const userInfo = await getUserInfo(item.user);
+            if (userInfo) {
+              item.username = userInfo.nickname;
+              if (userInfo.photo) {
+                item.userPhoto = await getImageURL(userInfo.photo);
+              }
+            } 
+          }
+
+          items.push({ ...item, id: itinerary.id});
         });
         await Promise.all(promises);
         setData(items);
@@ -70,6 +85,7 @@ export default function ItineraryList({ navigation }) {
             userPhoto={item.userPhoto}
             goBack={true}
             title={item.name}
+            needCollection={false}
           />
         )}
         numColumns={2}

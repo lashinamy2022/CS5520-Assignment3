@@ -141,9 +141,22 @@ export async function hasUserInfo() {
   }
 }
 
-export async function getUserInfo() {
+export async function getCurrentUserInfo() {
   try {
     const docRef = doc(firestore, "users", auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    }
+    return null;
+  } catch (err) {
+    console.log("getCurrentUserInfo", err);
+  }
+}
+
+export async function getUserInfo(userId) {
+  try {
+    const docRef = doc(firestore, "users", userId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data();
@@ -153,3 +166,6 @@ export async function getUserInfo() {
     console.log("getUserInfo", err);
   }
 }
+
+
+

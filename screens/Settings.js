@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
@@ -11,15 +6,15 @@ import Label from "../components/Label";
 import PressableArea from "../components/PressableArea";
 import ProfilePhoto from "../components/ProfilePhoto";
 import { Ionicons } from "@expo/vector-icons";
-import { getUserInfo } from "../firebase/firebase-helper";
+import { getCurrentUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 
 const Setting = () => {
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
-  useEffect(()=>{
+  useEffect(() => {
     async function getSettingsInfo() {
-      const user = await getUserInfo();
+      const user = await getCurrentUserInfo();
       if (user) {
         setNickname(user.nickname);
         if (user.photo) {
@@ -28,15 +23,14 @@ const Setting = () => {
         }
       }
     }
-    
+
     getSettingsInfo();
-  },[]);
- 
+  }, [photoUri]);
 
   return (
     <>
       <View style={styles.imageContainer}>
-        <ProfilePhoto photo={photoUri}/>
+        {photoUri && <ProfilePhoto photoUri={photoUri} />}
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>

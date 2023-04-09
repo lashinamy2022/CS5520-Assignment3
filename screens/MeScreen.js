@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import DiaryList from "../components/DiaryList";
 import ItineraryList from "../components/ItineraryList";
-import { getUserInfo } from "../firebase/firebase-helper";
+import { getCurrentUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 import { useState, useEffect } from "react";
 const Tab = createMaterialTopTabNavigator();
@@ -41,7 +41,7 @@ export default function MeScreen({ navigation }) {
   const [photoUri, setPhotoUri] = useState("");
   useEffect(() => {
     async function getSettingsInfo() {
-      const user = await getUserInfo();
+      const user = await getCurrentUserInfo();
       if (user) {
         setNickname(user.nickname);
         if (user.photo) {
