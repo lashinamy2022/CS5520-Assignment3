@@ -83,10 +83,19 @@ const Itinerary = ({ navigation, route }) => {
           }}
         >
           <View>
-            <Label
-              content={name}
-              customizedStyle={{ fontSize: 30, paddingLeft: 15, paddingTop: 5 }}
-            />
+            <View style={{ flexDirection: "row" }}>
+              <Label
+                content={name}
+                customizedStyle={{
+                  fontSize: 30,
+                  paddingLeft: 15,
+                  paddingTop: 5,
+                }}
+              />
+              <View style={{ marginTop: 11, marginLeft: 4 }}>
+                <Ionicons name="create-outline" size={20}></Ionicons>
+              </View>
+            </View>
             <Label
               content={days}
               customizedStyle={{ marginTop: 5, fontSize: 15, paddingLeft: 15 }}
@@ -94,9 +103,9 @@ const Itinerary = ({ navigation, route }) => {
           </View>
         </PressableArea>
 
-        <View style={{ justifyContent: "flex-start" }}>
+        {/* <View style={{ justifyContent: "flex-start" }}>
           <Ionicons name="create-outline" size={20}></Ionicons>
-        </View>
+        </View> */}
       </View>
       <View style={{ flex: 12 }}>
         <TimelineList itineraryID={itineraryID} />
