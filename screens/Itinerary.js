@@ -89,25 +89,21 @@ const Itinerary = ({ navigation, route }) => {
                 customizedStyle={{
                   fontSize: 30,
                   paddingLeft: 15,
-                  paddingTop: 5,
+                  paddingTop: 20,
                 }}
               />
-              <View style={{ marginTop: 11, marginLeft: 4 }}>
+              <View style={{ marginTop: 28, marginLeft: 4 }}>
                 <Ionicons name="create-outline" size={20}></Ionicons>
               </View>
             </View>
             <Label
               content={days}
-              customizedStyle={{ marginTop: 5, fontSize: 15, paddingLeft: 15 }}
+              customizedStyle={{ marginTop: 20, fontSize: 18, paddingLeft: 17 }}
             />
           </View>
         </PressableArea>
-
-        {/* <View style={{ justifyContent: "flex-start" }}>
-          <Ionicons name="create-outline" size={20}></Ionicons>
-        </View> */}
       </View>
-      <View style={{ flex: 12 }}>
+      <View style={{ flex: 6 }}>
         <TimelineList itineraryID={itineraryID} />
       </View>
       <View style={styles.buttonContainer}>
