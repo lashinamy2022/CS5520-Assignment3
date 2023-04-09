@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import DiaryList from "../components/DiaryList";
 import ItineraryList from "../components/ItineraryList";
-import { getUserInfo } from "../firebase/firebase-helper";
+import { getCurrentUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";

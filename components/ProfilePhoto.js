@@ -8,7 +8,7 @@ import { useState } from "react";
 import { pickPhoto, takePhoto, fetchImage } from "../service/ImageService";
 import { saveUserInfo } from "../firebase/firebase-helper";
 
-const ProfilePhoto = ({ photoUri }) => {
+const ProfilePhoto = ({photoUri}) => {
   console.log("photoUri: ", photoUri);
   const options = ["Choose from gallery", "Use camera", "Cancel"];
   const cancelButtonIndex = 2;
