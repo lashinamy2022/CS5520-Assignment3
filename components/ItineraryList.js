@@ -85,7 +85,7 @@ export default function ItineraryList({ navigation }) {
             id={item.id}
             userPhoto={item.userPhoto}
             username={item.username}
-            title={item.title}
+            title={item.name}
             goBack={true}
             needCollection={false}
           />

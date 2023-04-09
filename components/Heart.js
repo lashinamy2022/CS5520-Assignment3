@@ -5,10 +5,13 @@ import { auth } from "../firebase/firebase-setup";
 import { diaryCollectionCount, hasCollected, saveCollection } from "../firebase/firebase-helper";
 import CommonStyles from "../style/CommonStyles";
 import PressableArea from "./PressableArea";
+import { useIsFocused } from "@react-navigation/native";
 
-const Heart = ({ diaryId }) => {
+const Heart = ({ diaryId, size }) => {
   const [count, setCount] = useState(0);
   const [collected, setCollected] = useState(false);
+  const isFocused = useIsFocused("");
+
   useEffect(() => {
     async function getCollectionInfo() {
       const flag = await hasCollected(diaryId);
@@ -24,7 +27,8 @@ const Heart = ({ diaryId }) => {
     }
 
     getCollectionInfo();
-  }, [collected]);
+  }, [collected, isFocused]);
+
 
   
   return (
@@ -39,7 +43,7 @@ const Heart = ({ diaryId }) => {
       <View style={{flex: 1, flexDirection: "row"}}>
         <AntDesign
           name={collected ? "heart" : "hearto"}
-          size={15}
+          size={size}
           color={collected ? CommonStyles.heartRed : "grey"}
           style={{marginTop: 2}}
         />

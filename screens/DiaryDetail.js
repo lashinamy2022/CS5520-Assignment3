@@ -25,6 +25,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import CommonStyles from "../style/CommonStyles";
 import { deleteTravelDiary } from "../firebase/firebase-helper";
+import Heart from "../components/Heart";
 
 export default function DiaryDetail({ route, navigation }) {
   const diaryID = route.params.diaryID;
@@ -103,16 +104,7 @@ export default function DiaryDetail({ route, navigation }) {
             <Label content={username} customizedStyle={styles.text} />
           </View>
           <Label content={createdAt} customizedStyle={styles.text} />
-          <PressableArea
-            areaPressed={pressedTest}
-            customizedStyle={{ alignItems: "flex-end" }}
-          >
-            {collect ? (
-              <AntDesign name="hearto" size={22} color="grey" />
-            ) : (
-              <AntDesign name="heart" size={22} color={CommonStyles.heartRed} />
-            )}
-          </PressableArea>
+           <Heart diaryId={diaryID} size={22} />
         </View>
       </View>
       <WebView source={{ html: article }} />

@@ -15,21 +15,19 @@ const Setting = ({ navigation }) => {
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
 
-  async function getSettingsInfo() {
-    const user = await getCurrentUserInfo();
-    // console.log("userInfo in settings", user);
-    if (user) {
-      setNickname(user.nickname);
-      if (user.photo) {
-        // console.log(user.photo);
-        const uri = await getImageURL(user.photo);
-        // console.log("uri", uri);
-        setPhotoUri(uri);
+  useEffect(() => {
+    async function getSettingsInfo() {
+      const user = await getCurrentUserInfo();
+      if (user) {
+        setNickname(user.nickname);
+        if (user.photo) {
+          const uri = await getImageURL(user.photo);
+          setPhotoUri(uri);
+        }
+      } else {
+        photoUri = "nophoto";
       }
     }
-  }
-
-  useEffect(() => {
     if (isFocused) {
       getSettingsInfo();
     }

@@ -7,6 +7,7 @@ import {
   where,
   orderBy,
   query,
+  doc,
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
 import { extractImageOrAddImage } from "../service/DataService";
@@ -18,7 +19,7 @@ import {
 } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 
-export default function DiaryList({ route, from}) {
+export default function DiaryList({ route, from }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     let q = null;
@@ -34,12 +35,14 @@ export default function DiaryList({ route, from}) {
         where("user", "==", auth.currentUser.uid),
         orderBy("createdAt", "desc")
       );
+    } else if (from === "collected") {
+      q = doc(firestore, "userDiary", auth.currentUser.uid);
     }
-    if (q) {
-      const unsubscribe = onSnapshot(q, async (querySnapshot) => {
-        if (querySnapshot.empty) {
-          setData([]);
-        } else {
+    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+      if (querySnapshot.empty) {
+        setData([]);
+      } else {
+        if (from !== "collected") {
           const updatedItems = await Promise.all(
             querySnapshot.docs.map(async (doc) => {
               let item = doc.data();
@@ -47,12 +50,28 @@ export default function DiaryList({ route, from}) {
             })
           );
           setData([...updatedItems]);
+        } else {
+          const ids = [];
+          const data = querySnapshot.data();
+          let keys = Object.keys(data);
+          keys.forEach((key) => {
+            if (data[key]) {
+              ids.push(key);
+            }
+          });
+          const diaryList = await Promise.all(
+            ids.map(async (id) => {
+              const item = await getDiaryById(id);
+              return await getDiaryInfo(item, id);
+            })
+          );
+          setData([...diaryList]);
         }
-      });
-      return function cleanup() {
-        unsubscribe();
-      };
-    }
+      }
+    });
+    return function cleanup() {
+      unsubscribe();
+    };
   }, []);
 
   async function getDiaryInfo(item, id) {
@@ -75,22 +94,6 @@ export default function DiaryList({ route, from}) {
     return item;
   }
 
-  useEffect(() => {
-    async function getCollections() {
-      const ids = await getCollectedDiaryId();
-      const diaryList = await Promise.all(
-        ids.map(async (id) => {
-          const item = await getDiaryById(id);
-          return await getDiaryInfo(item, id);
-        })
-      );
-      setData([...diaryList]);
-    }
-    if (from === "collected") {
-      getCollections();
-    }
-  }, []);
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -105,7 +108,6 @@ export default function DiaryList({ route, from}) {
             title={item.title}
             from={from}
             needCollection={true}
-            
           />
         )}
         numColumns={2}
