@@ -49,7 +49,7 @@ export default function ItineraryList({ navigation }) {
             updatedUri.length > 0 ? updatedUri[0] : provideImage();
 
           item.username = "";
-          item.userPhoto = "../assets/scenery.jpg";
+          // item.userPhoto = "../assets/scenery.jpg";
           item.userPhoto = "";
 
           if (item.user) {
@@ -84,8 +84,9 @@ export default function ItineraryList({ navigation }) {
             image={item.imageUri}
             id={item.id}
             userPhoto={item.userPhoto}
+            username={item.username}
+            title={item.title}
             goBack={true}
-            title={item.name}
             needCollection={false}
           />
         )}

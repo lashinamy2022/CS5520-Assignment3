@@ -83,7 +83,8 @@ export default function CreateDiary({ navigation, route }) {
                   } else {
                     updateTravelDiaryById(route.params.id, diary);
                     const params = {
-                      userPhoto: "../assets/scenery.jpg",
+                      // userPhoto: "../assets/scenery.jpg",//need change
+                      userPhoto: "",
                       diaryID: route.params.id,
                     };
                     navigation.navigate("DiaryDetail", params);
