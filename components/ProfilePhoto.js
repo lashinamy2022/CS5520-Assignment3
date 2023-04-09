@@ -5,11 +5,11 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { pickPhoto, takePhoto,fetchImage } from "../service/ImageService";
+import { pickPhoto, takePhoto, fetchImage } from "../service/ImageService";
 import { saveUserInfo } from "../firebase/firebase-helper";
 
-const ProfilePhoto = ({photoUri}) => {
-
+const ProfilePhoto = ({ photoUri }) => {
+  console.log("photoUri", photoUri); //undefined
   const options = ["Choose from gallery", "Use camera", "Cancel"];
   const cancelButtonIndex = 2;
   const { showActionSheetWithOptions } = useActionSheet();
@@ -33,7 +33,7 @@ const ProfilePhoto = ({photoUri}) => {
         setImageUri(imagePath);
         if (imagePath && imagePath !== "") {
           const uri = await fetchImage(imagePath);
-          saveUserInfo({photo: uri});
+          saveUserInfo({ photo: uri });
         }
       }
     );

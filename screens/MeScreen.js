@@ -36,7 +36,7 @@ export default function MeScreen({ navigation }) {
 
   async function getSettingsInfo() {
     const user = await getUserInfo();
-    console.log("userInfo", user);
+    console.log("userInfo in me screen", user);
     if (user) {
       setNickname(user.nickname);
       if (user.photo) {

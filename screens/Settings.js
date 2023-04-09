@@ -12,18 +12,20 @@ import { useIsFocused } from "@react-navigation/native";
 
 const Setting = ({ navigation }) => {
   const isFocused = useIsFocused("");
-
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
   // console.log(route);
 
   async function getSettingsInfo() {
     const user = await getUserInfo();
+    console.log("userInfo in settings", user);
     if (user) {
       // console.log("user.nickname", user.nickname);
       setNickname(user.nickname);
       if (user.photo) {
+        // console.log(user.photo);
         const uri = await getImageURL(user.photo);
+        // console.log("uri", uri);
         setPhotoUri(uri);
       }
     }
