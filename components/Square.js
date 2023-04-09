@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
+import Heart from "./Heart";
 import CommonStyles from "../style/CommonStyles";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 
@@ -18,10 +19,6 @@ export default function Square({
   needCollection,
 }) {
   const navigation = useNavigation();
-  const [collect, setCollect] = useState(false); //edit added
-  function pressedTest() {
-    setCollect(!collect);
-  }
 
   function showDetails() {
     const params = {
@@ -61,28 +58,18 @@ export default function Square({
 
         <View style={styles.rowContainer}>
           <View style={{ flexDirection: "row" }}>
-            <Image
-              style={styles.image}
-              // source={{ uri: userPhoto }} //need change
-              source={
-                userPhoto === ""
-                  ? require("../assets/scenery.jpg")
-                  : { uri: userPhoto }
-              }
-            />
+            {userPhoto !== "" ? (
+              <Image style={styles.image} source={{ uri: userPhoto }} />
+            ) : (
+              <Image
+                style={styles.image}
+                source={require("../assets/scenery.jpg")}
+              />
+            )}
             <Text style={styles.id}>{username}</Text>
           </View>
-
           {/* heart icon*/}
-          {needCollection && (
-            <PressableArea areaPressed={pressedTest}>
-              <AntDesign
-                name={collect ? "heart" : "hearto"}
-                size={15}
-                color={collect ? CommonStyles.heartRed : "grey"}
-              />
-            </PressableArea>
-          )}
+          {needCollection && <Heart diaryId={id} />}
         </View>
       </View>
     </View>

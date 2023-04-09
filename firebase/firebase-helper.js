@@ -184,5 +184,100 @@ export async function getUserInfo(userId) {
   }
 }
 
+export async function saveUserDiary(data) {
+  try {
+    await setDoc(doc(firestore, "userDiary", auth.currentUser.uid), data, {
+      merge: true
+    });
+  } catch(err) {
+    console.log("saveUserDiary", err)
+  }
+}
+
+export async function saveDiaryUser(diaryId, data) {
+  try {
+    await setDoc(doc(firestore, "diaryUser", diaryId), data, {
+      merge: true
+    });
+  } catch(err) {
+    console.log("saveDiaryUser", err);
+  }
+}
+
+export async function saveCollection(diaryId, flag) {
+  try {
+    await saveUserDiary({[diaryId]: flag});
+    await saveDiaryUser(diaryId, {[auth.currentUser.uid]: flag});
+  } catch(err) {
+    console.log("saveCollection", err);
+  }
+}
 
 
+export async function hasCollected(diaryId) {
+  try {
+    const docRef = doc(firestore, "userDiary", auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists() && docSnap.data()[diaryId]) {
+      return docSnap.data()[diaryId];
+    }
+    return false;
+  } catch (err) {
+    console.log("getUserInfo", err);
+  }
+}
+
+
+
+export async function diaryCollectionCount(diaryId) {
+  let count = 0;
+  try {
+    const docRef = doc(firestore, "diaryUser", diaryId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      let keys = Object.keys(data);
+      keys.forEach((key)=> {
+        if (data[key]) {
+          count++;
+        }
+      });
+   }
+    return count;
+  } catch (err) {
+    console.log("diaryCollectionCount", err);
+  }
+}
+
+export async function getCollectedDiaryId() {
+  const diaryIdList = [];
+  try {
+    const docRef = doc(firestore, "userDiary", auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      let keys = Object.keys(data);
+      keys.forEach((key)=> {
+        if (data[key]) {
+          diaryIdList.push(key);
+        }
+      });
+   }
+    return diaryIdList;
+  } catch (err) {
+    console.log("getCollectedDiaryId", err);
+  }
+}
+
+export async function getDiaryById (diaryId) {
+  try {
+    const docRef = doc(firestore, "travelDiary", diaryId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+   }
+    return null;
+  } catch (err) {
+    console.log("getDiaryById", err);
+  }
+}
