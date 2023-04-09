@@ -6,7 +6,7 @@ import Label from "../components/Label";
 import PressableArea from "../components/PressableArea";
 import ProfilePhoto from "../components/ProfilePhoto";
 import { Ionicons } from "@expo/vector-icons";
-import { getCurrentUserInfo } from "../firebase/firebase-helper";
+import { getCurrentUserInfo, getUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -16,7 +16,7 @@ const Setting = ({ navigation }) => {
   const [photoUri, setPhotoUri] = useState("");
 
   async function getSettingsInfo() {
-    const user = await getUserInfo();
+    const user = await getCurrentUserInfo();
     console.log("userInfo in settings", user);
     if (user) {
       setNickname(user.nickname);

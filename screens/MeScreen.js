@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import DiaryList from "../components/DiaryList";
 import ItineraryList from "../components/ItineraryList";
-import { getCurrentUserInfo } from "../firebase/firebase-helper";
+import { getCurrentUserInfo, getUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
@@ -35,7 +35,7 @@ export default function MeScreen({ navigation }) {
   const [photoUri, setPhotoUri] = useState("");
 
   async function getSettingsInfo() {
-    const user = await getUserInfo();
+    const user = await getCurrentUserInfo();
     console.log("userInfo in me screen", user);
     if (user) {
       setNickname(user.nickname);
