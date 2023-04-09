@@ -6,25 +6,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import DiaryList from "../components/DiaryList";
 import ItineraryList from "../components/ItineraryList";
-import { getCurrentUserInfo } from "../firebase/firebase-helper";
+import { getCurrentUserInfo, getUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 import { useState, useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 
 function MyTravelDiaryList() {
-  return (
-    // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <DiaryList title={"Travel Diary"} from="me" />
-    // </View>
-  );
+  return <DiaryList title={"Travel Diary"} from="me" />;
 }
 
 function MyItineraryList() {
-  return (
-    // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <ItineraryList title={"Itinerary"} />
-    // </View>
-  );
+  return <ItineraryList title={"Itinerary"} />;
 }
 
 function MyTabs() {
@@ -37,22 +30,27 @@ function MyTabs() {
 }
 
 export default function MeScreen({ navigation }) {
+  const isFocused = useIsFocused("");
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
-  useEffect(() => {
-    async function getSettingsInfo() {
-      const user = await getCurrentUserInfo();
-      if (user) {
-        setNickname(user.nickname);
-        if (user.photo) {
-          const uri = await getImageURL(user.photo);
-          setPhotoUri(uri);
-        }
+
+  async function getSettingsInfo() {
+    const user = await getCurrentUserInfo();
+    // console.log("userInfo in me screen", user);
+    if (user) {
+      setNickname(user.nickname);
+      if (user.photo) {
+        const uri = await getImageURL(user.photo);
+        setPhotoUri(uri);
       }
     }
+  }
 
-    getSettingsInfo();
-  }, []);
+  useEffect(() => {
+    if (isFocused) {
+      getSettingsInfo();
+    }
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>

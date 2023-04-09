@@ -4,17 +4,22 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import PressableArea from "./PressableArea";
 import { Ionicons } from "@expo/vector-icons";
 import Label from "./Label";
+import {
+  convertDateToStr,
+  convertTimeToStrWithoutSeconds,
+} from "../service/DatetimeService";
 
 const DateTime = ({ navigation, route }) => {
   const [date, setDate] = useState(new Date());
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <PressableArea
           areaPressed={() => {
             navigation.navigate("AddPlace", {
-              date: date.toLocaleDateString().replaceAll("/", "-"),
-              time: date.toLocaleTimeString().substring(0, 5),
+              date: convertDateToStr(date),
+              time: convertTimeToStrWithoutSeconds(date),
               pageName: "datetime",
             });
           }}

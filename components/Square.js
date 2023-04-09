@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
 import CommonStyles from "../style/CommonStyles";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 export default function Square({
   detailedPage,
@@ -16,7 +17,6 @@ export default function Square({
   from,
   needCollection,
 }) {
-
   const navigation = useNavigation();
   const [collect, setCollect] = useState(false); //edit added
   function pressedTest() {
@@ -26,7 +26,7 @@ export default function Square({
   function showDetails() {
     const params = {
       userPhoto: userPhoto,
-      username: username
+      username: username,
     };
     if (detailedPage === "DiaryDetail") {
       params.diaryID = id;
@@ -35,6 +35,7 @@ export default function Square({
       params.itineraryID = id;
       params.goBack = goBack;
     }
+    // console.log(params);
     navigation.navigate(detailedPage, params);
   }
 
@@ -62,7 +63,12 @@ export default function Square({
           <View style={{ flexDirection: "row" }}>
             <Image
               style={styles.image}
-              source={{ uri: userPhoto }} //need change
+              // source={{ uri: userPhoto }} //need change
+              source={
+                userPhoto === ""
+                  ? require("../assets/scenery.jpg")
+                  : { uri: userPhoto }
+              }
             />
             <Text style={styles.id}>{username}</Text>
           </View>
@@ -70,7 +76,11 @@ export default function Square({
           {/* heart icon*/}
           {needCollection && (
             <PressableArea areaPressed={pressedTest}>
-               <AntDesign name={collect? "heart" : "hearto"} size={15} color={collect? CommonStyles.heartRed : "grey"} />
+              <AntDesign
+                name={collect ? "heart" : "hearto"}
+                size={15}
+                color={collect ? CommonStyles.heartRed : "grey"}
+              />
             </PressableArea>
           )}
         </View>
