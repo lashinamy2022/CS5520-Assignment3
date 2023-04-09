@@ -41,7 +41,8 @@ export default function DiaryList({ route, from }) {
             let item = doc.data();
             item.id = doc.id;
             item.username = "";
-            item.userPhoto = "../assets/scenery.jpg";
+            // item.userPhoto = "../assets/scenery.jpg";
+            item.userPhoto = "";
             if (item.article) {
               const imageUri = extractImageOrAddImage(item.article);
               item.imageUri = imageUri;
@@ -53,7 +54,7 @@ export default function DiaryList({ route, from }) {
                 if (userInfo.photo) {
                   item.userPhoto = await getImageURL(userInfo.photo);
                 }
-              } 
+              }
             }
             return item;
           })

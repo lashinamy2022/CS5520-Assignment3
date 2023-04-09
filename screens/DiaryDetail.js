@@ -94,7 +94,11 @@ export default function DiaryDetail({ route, navigation }) {
           <View style={styles.userContainer}>
             <Image
               style={styles.image}
-              source={{uri: userPhoto}} //need change
+              source={
+                userPhoto === ""
+                  ? require("../assets/scenery.jpg")
+                  : { uri: userPhoto }
+              } //need change
             />
             <Label content={username} customizedStyle={styles.text} />
           </View>
