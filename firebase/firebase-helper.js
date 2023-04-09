@@ -170,18 +170,3 @@ export async function getUserInfo() {
     console.log("getUserInfo", err);
   }
 }
-
-// export async function updateUserInfo(updatedData) {
-//   try {
-//     if (hasUserInfo) {
-//       await updateDoc(doc(firestore, "users", auth.currentUser.uid), {
-//         ...updatedData,
-//         updateAt: new Date(),
-//       });
-//       console.log("update here");
-//     }
-//     return null;
-//   } catch (err) {
-//     console.log("updateUserInfo", err);
-//   }
-// }
