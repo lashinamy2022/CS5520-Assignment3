@@ -5,7 +5,18 @@ import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
 import CommonStyles from "../style/CommonStyles";
 
-export default function Square({ detailedPage, image, title, id, userPhoto, goBack, from }) {
+export default function Square({
+  detailedPage,
+  image,
+  title,
+  id,
+  userPhoto,
+  username,
+  goBack,
+  from,
+  needCollection,
+}) {
+
   const navigation = useNavigation();
   const [collect, setCollect] = useState(false); //edit added
   function pressedTest() {
@@ -14,7 +25,8 @@ export default function Square({ detailedPage, image, title, id, userPhoto, goBa
 
   function showDetails() {
     const params = {
-      userPhoto: userPhoto
+      userPhoto: userPhoto,
+      username: username
     };
     if (detailedPage === "DiaryDetail") {
       params.diaryID = id;
@@ -23,7 +35,6 @@ export default function Square({ detailedPage, image, title, id, userPhoto, goBa
       params.itineraryID = id;
       params.goBack = goBack;
     }
-    console.log(detailedPage);
     navigation.navigate(detailedPage, params);
   }
 
@@ -31,34 +42,37 @@ export default function Square({ detailedPage, image, title, id, userPhoto, goBa
     <View style={{ margin: 5 }}>
       <PressableArea areaPressed={showDetails}>
         <View style={styles.squareItem}>
-        <Image
-              source={{ uri: `${image}` }}
-              style={{width: Dimensions.get("window").width / 2 - 16, height: 200}}
-            />
+          <Image
+            source={{ uri: `${image}` }}
+            style={{
+              width: Dimensions.get("window").width / 2 - 16,
+              height: 200,
+            }}
+          />
         </View>
       </PressableArea>
       <View>
         <View>
-          <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>{title}</Text>
+          <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+            {title}
+          </Text>
         </View>
 
         <View style={styles.rowContainer}>
           <View style={{ flexDirection: "row" }}>
             <Image
               style={styles.image}
-              source={require("../assets/scenery.jpg")} //need change
+              source={{ uri: userPhoto }} //need change
             />
-            <Text style={styles.id}>Bella</Text>
+            <Text style={styles.id}>{username}</Text>
           </View>
 
           {/* heart icon*/}
-          <PressableArea areaPressed={pressedTest}>
-            {collect ? (
-              <AntDesign name="hearto" size={15} color="grey" />
-            ) : (
-              <AntDesign name="heart" size={15} color={CommonStyles.heartRed} />
-            )}
-          </PressableArea>
+          {needCollection && (
+            <PressableArea areaPressed={pressedTest}>
+               <AntDesign name={collect? "heart" : "hearto"} size={15} color={collect? CommonStyles.heartRed : "grey"} />
+            </PressableArea>
+          )}
         </View>
       </View>
     </View>
@@ -79,7 +93,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     width: 170,
-    
   },
   rowContainer: {
     flexDirection: "row",

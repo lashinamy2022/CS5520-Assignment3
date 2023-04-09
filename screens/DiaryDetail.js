@@ -28,11 +28,12 @@ import { deleteTravelDiary } from "../firebase/firebase-helper";
 
 export default function DiaryDetail({ route, navigation }) {
   const diaryID = route.params.diaryID;
+  const username = route.params.username;
+  const userPhoto = route.params.userPhoto;
 
   //need realtime data, not from route
   const [title, setTitle] = useState("");
   const [createdAt, setCreatedAt] = useState(null);
-  const [user, setUser] = useState("");
   const [article, setArticle] = useState("");
   const [collect, setCollect] = useState(false);
 
@@ -50,7 +51,6 @@ export default function DiaryDetail({ route, navigation }) {
           const date = createdAt.toDate();
           const dateString = convertDateToStr(date);
           setCreatedAt(dateString);
-          setUser("Bella");
           setArticle(
             `<html><head><style>body {font-size: 40px;}</style></head><body>${
               doc.data().article
@@ -94,9 +94,9 @@ export default function DiaryDetail({ route, navigation }) {
           <View style={styles.userContainer}>
             <Image
               style={styles.image}
-              source={require("../assets/scenery.jpg")} //need change
+              source={{uri: userPhoto}} //need change
             />
-            <Label content={user} customizedStyle={styles.text} />
+            <Label content={username} customizedStyle={styles.text} />
           </View>
           <Label content={createdAt} customizedStyle={styles.text} />
           <PressableArea

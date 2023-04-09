@@ -9,13 +9,14 @@ import { pickPhoto, takePhoto,fetchImage } from "../service/ImageService";
 import { saveUserInfo } from "../firebase/firebase-helper";
 
 const ProfilePhoto = ({photoUri}) => {
-
+  console.log("photoUri: ", photoUri);
   const options = ["Choose from gallery", "Use camera", "Cancel"];
   const cancelButtonIndex = 2;
   const { showActionSheetWithOptions } = useActionSheet();
   const [permissionInfo, requestPermission] =
     ImagePicker.useCameraPermissions();
   const [imageUri, setImageUri] = useState(photoUri);
+  console.log("imageUri: ", imageUri);
 
   const handlePress = () => {
     showActionSheetWithOptions(
