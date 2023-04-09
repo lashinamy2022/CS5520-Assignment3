@@ -14,13 +14,11 @@ const Setting = ({ navigation }) => {
   const isFocused = useIsFocused("");
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
-  // console.log(route);
 
   async function getSettingsInfo() {
     const user = await getUserInfo();
     console.log("userInfo in settings", user);
     if (user) {
-      // console.log("user.nickname", user.nickname);
       setNickname(user.nickname);
       if (user.photo) {
         // console.log(user.photo);
@@ -40,7 +38,7 @@ const Setting = ({ navigation }) => {
   return (
     <>
       <View style={styles.imageContainer}>
-        <ProfilePhoto photo={photoUri} />
+        {photoUri && <ProfilePhoto photo={photoUri} />}
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
@@ -53,7 +51,6 @@ const Setting = ({ navigation }) => {
               areaPressed={() => {
                 navigation.navigate("EditSettings", {
                   nickname: nickname,
-                  // type: "nickname",
                 });
               }}
             >
@@ -76,7 +73,6 @@ const Setting = ({ navigation }) => {
               areaPressed={() => {
                 navigation.navigate("EditSettings", {
                   nickname: nickname,
-                  // type: "password",
                 });
               }}
             >
