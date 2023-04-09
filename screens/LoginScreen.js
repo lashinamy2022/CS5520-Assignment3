@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TextInput,
   StatusBar,
+  Alert,
 } from "react-native";
 import React from "react";
 import { useState } from "react";
@@ -20,9 +21,12 @@ export default function LoginScreen({ navigation }) {
   const loginHandler = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      
+
       console.log("signed in");
     } catch (err) {
+      if (err.code === "auth/wrong-password") {
+        Alert.alert("The Password is Wrong! Try Again");
+      }
       console.log("sign up error", err);
     }
   };

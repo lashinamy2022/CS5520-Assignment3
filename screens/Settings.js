@@ -6,26 +6,34 @@ import Label from "../components/Label";
 import PressableArea from "../components/PressableArea";
 import ProfilePhoto from "../components/ProfilePhoto";
 import { Ionicons } from "@expo/vector-icons";
-import { getCurrentUserInfo } from "../firebase/firebase-helper";
+import { getCurrentUserInfo, getUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
+import { useIsFocused } from "@react-navigation/native";
 
-const Setting = () => {
+const Setting = ({ navigation }) => {
+  const isFocused = useIsFocused("");
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
-  useEffect(() => {
-    async function getSettingsInfo() {
-      const user = await getCurrentUserInfo();
-      if (user) {
-        setNickname(user.nickname);
-        if (user.photo) {
-          const uri = await getImageURL(user.photo);
-          setPhotoUri(uri);
-        }
+
+  async function getSettingsInfo() {
+    const user = await getCurrentUserInfo();
+    // console.log("userInfo in settings", user);
+    if (user) {
+      setNickname(user.nickname);
+      if (user.photo) {
+        // console.log(user.photo);
+        const uri = await getImageURL(user.photo);
+        // console.log("uri", uri);
+        setPhotoUri(uri);
       }
     }
+  }
 
-    getSettingsInfo();
-  }, [photoUri]);
+  useEffect(() => {
+    if (isFocused) {
+      getSettingsInfo();
+    }
+  }, [isFocused]);
 
   return (
     <>
@@ -39,12 +47,20 @@ const Setting = () => {
           </View>
           <View style={{ flexDirection: "row" }}>
             <Label content={nickname} customizedStyle={styles.label} />
-            <Ionicons
-              name="pencil-outline"
-              size={20}
-              color="gray"
-              style={{ paddingTop: 14 }}
-            ></Ionicons>
+            <PressableArea
+              areaPressed={() => {
+                navigation.navigate("EditSettings", {
+                  nickname: nickname,
+                });
+              }}
+            >
+              <Ionicons
+                name="pencil-outline"
+                size={20}
+                color="gray"
+                style={{ paddingTop: 14, paddingRight: 10 }}
+              />
+            </PressableArea>
           </View>
         </View>
         <View style={styles.infoRow}>
@@ -53,12 +69,20 @@ const Setting = () => {
           </View>
           <View style={{ flexDirection: "row" }}>
             <Label content="*******" customizedStyle={styles.label} />
-            <Ionicons
-              name="pencil-outline"
-              size={20}
-              color="gray"
-              style={{ paddingTop: 14 }}
-            ></Ionicons>
+            <PressableArea
+              areaPressed={() => {
+                navigation.navigate("EditSettings", {
+                  nickname: nickname,
+                });
+              }}
+            >
+              <Ionicons
+                name="pencil-outline"
+                size={20}
+                color="gray"
+                style={{ paddingTop: 14, paddingRight: 10 }}
+              />
+            </PressableArea>
           </View>
         </View>
       </View>

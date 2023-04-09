@@ -4,6 +4,8 @@ import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
 import Heart from "./Heart";
+import CommonStyles from "../style/CommonStyles";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 export default function Square({
   detailedPage,
@@ -30,6 +32,7 @@ export default function Square({
       params.itineraryID = id;
       params.goBack = goBack;
     }
+    // console.log(params);
     navigation.navigate(detailedPage, params);
   }
 
@@ -65,7 +68,6 @@ export default function Square({
             )}
             <Text style={styles.id}>{username}</Text>
           </View>
-
           {/* heart icon*/}
           {needCollection && <Heart diaryId={id} />}
         </View>

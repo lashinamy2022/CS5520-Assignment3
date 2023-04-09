@@ -25,7 +25,7 @@ export default function ItineraryList({ navigation }) {
       where("user", "==", auth.currentUser.uid),
       orderBy("createdAt", "desc")
     );
-    const unsubscribe = onSnapshot(q, async(querySnapshot) => {
+    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
       if (querySnapshot.empty) {
         setData([]);
       } else {
@@ -39,16 +39,18 @@ export default function ItineraryList({ navigation }) {
             limit(1)
           );
           const itemsSnapshot = await getDocs(itemsQuery);
-          const updatedUri = await Promise.all( 
+          const updatedUri = await Promise.all(
             itemsSnapshot.docs.map(async (doc) => {
               const imageUri = await getImageURL(doc.data().img);
               return imageUri;
             })
           );
-          item.imageUri = updatedUri.length > 0 ? updatedUri[0] : provideImage();
+          item.imageUri =
+            updatedUri.length > 0 ? updatedUri[0] : provideImage();
 
           item.username = "";
-          item.userPhoto = "../assets/scenery.jpg";
+          // item.userPhoto = "../assets/scenery.jpg";
+          item.userPhoto = "";
 
           if (item.user) {
             const userInfo = await getUserInfo(item.user);
@@ -57,10 +59,10 @@ export default function ItineraryList({ navigation }) {
               if (userInfo.photo) {
                 item.userPhoto = await getImageURL(userInfo.photo);
               }
-            } 
+            }
           }
 
-          items.push({ ...item, id: itinerary.id});
+          items.push({ ...item, id: itinerary.id });
         });
         await Promise.all(promises);
         setData(items);
@@ -77,14 +79,14 @@ export default function ItineraryList({ navigation }) {
       <FlatList
         data={data}
         renderItem={({ item }) => (
-         
           <Square
             detailedPage="Itinerary"
             image={item.imageUri}
             id={item.id}
             userPhoto={item.userPhoto}
+            username={item.username}
+            title={item.title}
             goBack={true}
-            title={item.name}
             needCollection={false}
           />
         )}
