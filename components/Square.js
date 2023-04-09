@@ -69,7 +69,7 @@ export default function Square({
             <Text style={styles.id}>{username}</Text>
           </View>
           {/* heart icon*/}
-          {needCollection && <Heart diaryId={id} />}
+          {needCollection && <Heart diaryId={id} size={15} />}
         </View>
       </View>
     </View>
