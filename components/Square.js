@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
-import CommonStyles from "../style/CommonStyles";
+import Heart from "./Heart";
 
 export default function Square({
   detailedPage,
@@ -16,17 +16,12 @@ export default function Square({
   from,
   needCollection,
 }) {
-
   const navigation = useNavigation();
-  const [collect, setCollect] = useState(false); //edit added
-  function pressedTest() {
-    setCollect(!collect);
-  }
 
   function showDetails() {
     const params = {
       userPhoto: userPhoto,
-      username: username
+      username: username,
     };
     if (detailedPage === "DiaryDetail") {
       params.diaryID = id;
@@ -60,19 +55,19 @@ export default function Square({
 
         <View style={styles.rowContainer}>
           <View style={{ flexDirection: "row" }}>
-            <Image
-              style={styles.image}
-              source={{ uri: userPhoto }} //need change
-            />
+            {userPhoto !== "" ? (
+              <Image style={styles.image} source={{ uri: userPhoto }} />
+            ) : (
+              <Image
+                style={styles.image}
+                source={require("../assets/scenery.jpg")}
+              />
+            )}
             <Text style={styles.id}>{username}</Text>
           </View>
 
           {/* heart icon*/}
-          {needCollection && (
-            <PressableArea areaPressed={pressedTest}>
-               <AntDesign name={collect? "heart" : "hearto"} size={15} color={collect? CommonStyles.heartRed : "grey"} />
-            </PressableArea>
-          )}
+          {needCollection && <Heart diaryId={id} />}
         </View>
       </View>
     </View>

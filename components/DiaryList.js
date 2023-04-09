@@ -11,13 +11,17 @@ import {
 import { firestore } from "../firebase/firebase-setup";
 import { extractImageOrAddImage } from "../service/DataService";
 import { auth } from "../firebase/firebase-setup";
-import { getUserInfo } from "../firebase/firebase-helper";
+import {
+  getCollectedDiaryId,
+  getDiaryById,
+  getUserInfo,
+} from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 
-export default function DiaryList({ route, from }) {
+export default function DiaryList({ route, from}) {
   const [data, setData] = useState([]);
   useEffect(() => {
-    let q;
+    let q = null;
     if (from === "home") {
       q = query(
         collection(firestore, "travelDiary"),
@@ -31,39 +35,60 @@ export default function DiaryList({ route, from }) {
         orderBy("createdAt", "desc")
       );
     }
+    if (q) {
+      const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+        if (querySnapshot.empty) {
+          setData([]);
+        } else {
+          const updatedItems = await Promise.all(
+            querySnapshot.docs.map(async (doc) => {
+              let item = doc.data();
+              return await getDiaryInfo(item, doc.id);
+            })
+          );
+          setData([...updatedItems]);
+        }
+      });
+      return function cleanup() {
+        unsubscribe();
+      };
+    }
+  }, []);
 
-    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
-      if (querySnapshot.empty) {
-        setData([]);
-      } else {
-        const updatedItems = await Promise.all(
-          querySnapshot.docs.map(async (doc) => {
-            let item = doc.data();
-            item.id = doc.id;
-            item.username = "";
-            item.userPhoto = "../assets/scenery.jpg";
-            if (item.article) {
-              const imageUri = extractImageOrAddImage(item.article);
-              item.imageUri = imageUri;
-            }
-            if (item.user) {
-              const userInfo = await getUserInfo(item.user);
-              if (userInfo) {
-                item.username = userInfo.nickname;
-                if (userInfo.photo) {
-                  item.userPhoto = await getImageURL(userInfo.photo);
-                }
-              } 
-            }
-            return item;
-          })
-        );
-        setData([...updatedItems]);
+  async function getDiaryInfo(item, id) {
+    item.id = id;
+    item.username = "";
+    item.userPhoto = "";
+    if (item.article) {
+      const imageUri = extractImageOrAddImage(item.article);
+      item.imageUri = imageUri;
+    }
+    if (item.user) {
+      const userInfo = await getUserInfo(item.user);
+      if (userInfo) {
+        item.username = userInfo.nickname;
+        if (userInfo.photo) {
+          item.userPhoto = await getImageURL(userInfo.photo);
+        }
       }
-    });
-    return function cleanup() {
-      unsubscribe();
-    };
+    }
+    return item;
+  }
+
+  useEffect(() => {
+    async function getCollections() {
+      const ids = await getCollectedDiaryId();
+      const diaryList = await Promise.all(
+        ids.map(async (id) => {
+          const item = await getDiaryById(id);
+          return await getDiaryInfo(item, id);
+        })
+      );
+      setData([...diaryList]);
+    }
+    if (from === "collected") {
+      getCollections();
+    }
   }, []);
 
   return (
@@ -80,6 +105,7 @@ export default function DiaryList({ route, from }) {
             title={item.title}
             from={from}
             needCollection={true}
+            
           />
         )}
         numColumns={2}
