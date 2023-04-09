@@ -5,7 +5,7 @@ import Label from "../components/Label";
 import PressableArea from "../components/PressableArea";
 import ErrorText from "../components/ErrorText";
 import { updatePassword, signOut } from "firebase/auth";
-import { updateUserInfo } from "../firebase/firebase-helper";
+import { saveUserInfo } from "../firebase/firebase-helper";
 import { Entypo } from "@expo/vector-icons";
 
 export default function EditSettings({ route, navigation }) {
@@ -55,7 +55,8 @@ export default function EditSettings({ route, navigation }) {
         await updatePassword(auth.currentUser, password);
       }
       //update the nick name
-      updateUserInfo({ nickname: nickname });
+      saveUserInfo({ nickname: nickname });
+      // updateUserInfo({ nickname: nickname });
       //navigate back to the settings screen
       Alert.alert("Successfully", "Your information has been updated", [
         {

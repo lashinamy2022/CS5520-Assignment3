@@ -171,29 +171,17 @@ export async function getUserInfo() {
   }
 }
 
-export async function updateUserInfo(updatedData) {
-  try {
-    if (hasUserInfo) {
-      await updateDoc(doc(firestore, "users", auth.currentUser.uid), {
-        ...updatedData,
-        updateAt: new Date(),
-      });
-      console.log("update here");
-    }
-    return null;
-  } catch (err) {
-    console.log("updateUserInfo", err);
-  }
-}
-
-
-// export async function updateTravelDiaryById(updatedId, updatedData) {
+// export async function updateUserInfo(updatedData) {
 //   try {
-//     await updateDoc(doc(firestore, "travelDiary", updatedId), {
-//       ...updatedData,
-//       updateAt: new Date(),
-//     });
+//     if (hasUserInfo) {
+//       await updateDoc(doc(firestore, "users", auth.currentUser.uid), {
+//         ...updatedData,
+//         updateAt: new Date(),
+//       });
+//       console.log("update here");
+//     }
+//     return null;
 //   } catch (err) {
-//     console.log("updateTravelDiaryById", err);
+//     console.log("updateUserInfo", err);
 //   }
 // }
