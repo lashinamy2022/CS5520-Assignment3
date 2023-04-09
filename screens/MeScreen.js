@@ -13,7 +13,7 @@ import { useIsFocused } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 
 function MyTravelDiaryList() {
-  return <DiaryList title={"Travel Diary"} from="me" />; 
+  return <DiaryList title={"Travel Diary"} from="me" />;
 }
 
 function MyItineraryList() {
@@ -36,7 +36,7 @@ export default function MeScreen({ navigation }) {
 
   async function getSettingsInfo() {
     const user = await getCurrentUserInfo();
-    console.log("userInfo in me screen", user);
+    // console.log("userInfo in me screen", user);
     if (user) {
       setNickname(user.nickname);
       if (user.photo) {

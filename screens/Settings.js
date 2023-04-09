@@ -17,7 +17,7 @@ const Setting = ({ navigation }) => {
 
   async function getSettingsInfo() {
     const user = await getCurrentUserInfo();
-    console.log("userInfo in settings", user);
+    // console.log("userInfo in settings", user);
     if (user) {
       setNickname(user.nickname);
       if (user.photo) {
