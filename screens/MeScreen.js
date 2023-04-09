@@ -13,7 +13,7 @@ import { useIsFocused } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 
 function MyTravelDiaryList() {
-  return <DiaryList title={"Travel Diary"} from="me" />;
+  return <DiaryList title={"Travel Diary"} from="me" />; 
 }
 
 function MyItineraryList() {

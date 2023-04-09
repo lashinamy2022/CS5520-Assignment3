@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PressableArea from "./PressableArea";
 import { useNavigation } from "@react-navigation/native";
 import CommonStyles from "../style/CommonStyles";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 export default function Square({
   detailedPage,
