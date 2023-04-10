@@ -121,28 +121,7 @@ function MyTabs() {
 
       <Tab.Screen
         options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <Ionicons
-                name="ios-notifications"
-                size={27}
-                style={{ marginTop: 2 }}
-                color={
-                  focused
-                    ? CommonStyles.yellowActiveTab
-                    : CommonStyles.greyInactiveTab
-                }
-              />
-            );
-          },
-        }}
-        name="Notification"
-        component={Notification}
-      />
-
-      <Tab.Screen
-        options={{
-          headerShown: false,
+          headerShown: true,
           tabBarIcon: ({ focused }) => {
             return (
               <FontAwesome
@@ -160,6 +139,27 @@ function MyTabs() {
         }}
         name="Me"
         component={MeScreen}
+      />
+
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name="settings"
+                size={27}
+                style={{ marginTop: 2 }}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+        name="Settings"
+        component={Settings}
       />
     </Tab.Navigator>
   );
