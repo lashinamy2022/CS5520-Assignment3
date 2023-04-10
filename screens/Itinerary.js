@@ -22,12 +22,17 @@ import {
   doc,
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
-import { deleteItinerary } from "../firebase/firebase-helper";
+import { deleteItinerary, getStartDate } from "../firebase/firebase-helper";
+import { useIsFocused } from "@react-navigation/native";
+import { scheduleNotificationHandler } from "../service/NotificationService";
+
 
 const Itinerary = ({ navigation, route }) => {
   const [name, setName] = useState("");
   const [days, setDays] = useState("");
   const itineraryID = route.params.itineraryID;
+  const [showBell, setShowBell] = useState(false);
+
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -115,9 +120,23 @@ const Itinerary = ({ navigation, route }) => {
               fontSize: 20,
             }}
           />
-          <PressableArea
+         {showBell && <PressableArea
             areaPressed={() => {
-              console.log("Pressed");
+              Alert.alert("", "Do you want to set a reminder before the trip ?", [
+                { text: "NO", onPress: () => console.log("No Pressed") },
+                {
+                  text: "YES",
+                  onPress: async () => {
+                    const startDate = await getStartDate(itineraryID);
+                    if (startDate !== "") {
+                      
+                      const notificationID = await scheduleNotificationHandler(startDate);
+                      console.log(notificationID);
+                    } 
+                  },
+                },
+              ]);
+             
             }}
           >
             <View style={styles.bellContainer}>
@@ -129,13 +148,13 @@ const Itinerary = ({ navigation, route }) => {
               />
               <Text style={styles.bellText}>Remind me</Text>
             </View>
-          </PressableArea>
+          </PressableArea>}
         </View>
       </View>
 
       {/* timeline list container */}
       <View style={styles.listContainer}>
-        <TimelineList itineraryID={itineraryID} />
+        <TimelineList itineraryID={itineraryID} setShowBell={setShowBell} />
       </View>
 
       {/* timeline button Container */}
