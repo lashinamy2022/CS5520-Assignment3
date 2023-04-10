@@ -73,16 +73,18 @@ const Itinerary = ({ navigation, route }) => {
   }, [navigation]);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1, flexDirection: "row" }}>
-        <PressableArea
-          areaPressed={() => {
-            navigation.navigate("CreateItinerary", {
-              buttonTitle: "save",
-              itineraryID: itineraryID,
-            });
-          }}
-        >
-          <View>
+      {/* the information container */}
+      <View style={{ flex: 1 }}>
+        {/* the first line */}
+        <View>
+          <PressableArea
+            areaPressed={() => {
+              navigation.navigate("CreateItinerary", {
+                buttonTitle: "save",
+                itineraryID: itineraryID,
+              });
+            }}
+          >
             <View style={{ flexDirection: "row" }}>
               <Label
                 content={name}
@@ -96,16 +98,38 @@ const Itinerary = ({ navigation, route }) => {
                 <Ionicons name="create-outline" size={20}></Ionicons>
               </View>
             </View>
+          </PressableArea>
+          {/* second line */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingHorizontal: 20,
+              alignItems: "center",
+            }}
+          >
             <Label
               content={days}
-              customizedStyle={{ marginTop: 20, fontSize: 18, paddingLeft: 17 }}
+              customizedStyle={{
+                fontSize: 20,
+              }}
+            />
+            <Ionicons
+              name="notifications"
+              size={35}
+              color={"orange"}
+              style={{ marginTop: 6, marginLeft: 8 }}
             />
           </View>
-        </PressableArea>
+        </View>
       </View>
-      <View style={{ flex: 6 }}>
+
+      {/* timeline list container */}
+      <View style={{ flex: 7 }}>
         <TimelineList itineraryID={itineraryID} />
       </View>
+
+      {/* timeline button Container */}
       <View style={styles.buttonContainer}>
         <PressableArea
           customizedStyle={styles.deleteButton}
