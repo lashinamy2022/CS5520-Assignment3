@@ -103,29 +103,56 @@ function MyTabs() {
 
       <Tab.Screen
         options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <Ionicons
-                name={focused ? "notifications" : "notifications-outline"}
-                size={27}
-                style={{ marginTop: 2 }}
-              />
-            );
-          },
-        }}
-        name="Notification"
-        component={Notification}
-      />
-
-      <Tab.Screen
-        options={{
-          headerShown: false,
+          headerShown: true,
           tabBarIcon: ({ focused }) => {
             return <FontAwesome name={focused ? "user" : "user-o"} size={24} />;
           },
         }}
         name="Me"
         component={MeScreen}
+      />
+
+      <Tab.Screen
+        options={{
+          headerShown: true,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <FontAwesome
+                name="user-circle-o"
+                // style={[{ marginRight: 1 }, { marginTop: 8 }]}
+                size={24}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+        name="Me"
+        component={MeScreen}
+      />
+
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name="settings"
+                size={27}
+                style={{ marginTop: 2 }}
+                color={
+                  focused
+                    ? CommonStyles.yellowActiveTab
+                    : CommonStyles.greyInactiveTab
+                }
+              />
+            );
+          },
+        }}
+        name="Settings"
+        component={Settings}
       />
     </Tab.Navigator>
   );
