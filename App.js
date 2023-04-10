@@ -45,9 +45,9 @@ function MyTabs() {
         headerStyle: CommonStyles.lightGreenBackground,
         headerTintColor: "#fff",
         headerTitleAlign: "center",
-        tabBarStyle: [CommonStyles.lightGreenBackground, { height: "9.5%" }],
-        tabBarActiveTintColor: CommonStyles.yellowActiveTab,
-        tabBarInactiveTintColor: CommonStyles.whiteInactiveTab,
+        tabBarStyle: [{ backgroundColor: "white" }, { height: "10%" }],
+        tabBarActiveTintColor: "black",
+        tabBarInactiveTintColor: "black",
         tabBarLabelStyle: {
           fontSize: 15,
         },
@@ -59,15 +59,7 @@ function MyTabs() {
           title: "Home",
           tabBarIcon: ({ focused }) => {
             return (
-              <Entypo
-                name="home"
-                size={24}
-                color={
-                  focused
-                    ? CommonStyles.yellowActiveTab
-                    : CommonStyles.whiteInactiveTab
-                }
-              />
+              <Ionicons name={focused ? "home" : "home-outline"} size={24} />
             );
           },
         }}
@@ -80,14 +72,10 @@ function MyTabs() {
           tabBarIcon: ({ focused }) => {
             return (
               <AntDesign
-                name="heart"
+                name={focused ? "heart" : "hearto"}
                 size={24}
                 style={{ marginTop: 2 }}
-                color={
-                  focused
-                    ? CommonStyles.yellowActiveTab
-                    : CommonStyles.whiteInactiveTab
-                }
+                color={focused ? CommonStyles.heartRed : "black"}
               />
             );
           },
@@ -102,14 +90,9 @@ function MyTabs() {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name="add-circle"
+                name={focused ? "add-circle" : "add-circle-outline"}
                 style={{ marginTop: 2 }}
                 size={32}
-                color={
-                  focused
-                    ? CommonStyles.yellowActiveTab
-                    : CommonStyles.whiteInactiveTab
-                }
               />
             );
           },
@@ -123,14 +106,9 @@ function MyTabs() {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name="ios-notifications"
+                name={focused ? "notifications" : "notifications-outline"}
                 size={27}
                 style={{ marginTop: 2 }}
-                color={
-                  focused
-                    ? CommonStyles.yellowActiveTab
-                    : CommonStyles.whiteInactiveTab
-                }
               />
             );
           },
@@ -143,17 +121,7 @@ function MyTabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return (
-              <FontAwesome
-                name="user-circle-o"
-                size={24}
-                color={
-                  focused
-                    ? CommonStyles.yellowActiveTab
-                    : CommonStyles.whiteInactiveTab
-                }
-              />
-            );
+            return <FontAwesome name={focused ? "user" : "user-o"} size={24} />;
           },
         }}
         name="Me"
