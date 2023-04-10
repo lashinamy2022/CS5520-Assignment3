@@ -99,33 +99,42 @@ const Itinerary = ({ navigation, route }) => {
               </View>
             </View>
           </PressableArea>
-          {/* second line */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingHorizontal: 20,
-              alignItems: "center",
+        </View>
+        {/* second line */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+            alignItems: "center",
+          }}
+        >
+          <Label
+            content={days}
+            customizedStyle={{
+              fontSize: 20,
+            }}
+          />
+          <PressableArea
+            areaPressed={() => {
+              console.log("Pressed");
             }}
           >
-            <Label
-              content={days}
-              customizedStyle={{
-                fontSize: 20,
-              }}
-            />
-            <Ionicons
-              name="notifications"
-              size={35}
-              color={"orange"}
-              style={{ marginTop: 6, marginLeft: 8 }}
-            />
-          </View>
+            <View style={styles.bellContainer}>
+              <Ionicons
+                name="notifications"
+                size={35}
+                color={"rgb(250,223,160)"}
+                // style={{ marginTop: 6, marginLeft: 8 }}
+              />
+              <Text style={styles.bellText}>Remind me</Text>
+            </View>
+          </PressableArea>
         </View>
       </View>
 
       {/* timeline list container */}
-      <View style={{ flex: 7 }}>
+      <View style={styles.listContainer}>
         <TimelineList itineraryID={itineraryID} />
       </View>
 
@@ -192,8 +201,20 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   buttonContainer: {
-    // flex: 0.2,
+    flex: 2,
     justifyContent: "center",
     alignItems: "center",
+  },
+  bellContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bellText: {
+    fontSize: 15,
+  },
+  listContainer: {
+    flex: 7,
+    marginTop: 30,
+    padding: 20,
   },
 });
