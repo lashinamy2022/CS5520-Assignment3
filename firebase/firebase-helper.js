@@ -133,6 +133,19 @@ export async function getStartDate(itineraryID) {
   }
 }
 
+export async function getNotificationID(itineraryID) {
+  try {
+    const docRef = doc(firestore, "itinerary", itineraryID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists() && docSnap.data().notificationID) {
+      return docSnap.data().notificationID;
+    }
+    return "";
+  } catch (err) {
+    console.log("getNotificationID", err);
+  }
+}
+
 
 export async function editItineraryItemToDB(
   itineraryID,
@@ -145,6 +158,7 @@ export async function editItineraryItemToDB(
       doc(firestore, "itinerary", itineraryID, "items", itineraryItemID),
       item
     );
+    updateStartDate(itineraryID, item.time);
   } catch (err) {
     console.log("editItineraryItemToDB", err);
   }
