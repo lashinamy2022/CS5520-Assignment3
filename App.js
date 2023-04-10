@@ -114,39 +114,12 @@ function MyTabs() {
 
       <Tab.Screen
         options={{
-          headerShown: true,
-          tabBarIcon: ({ focused }) => {
-            return (
-              <FontAwesome
-                name="user-circle-o"
-                // style={[{ marginRight: 1 }, { marginTop: 8 }]}
-                size={24}
-                color={
-                  focused
-                    ? CommonStyles.yellowActiveTab
-                    : CommonStyles.greyInactiveTab
-                }
-              />
-            );
-          },
-        }}
-        name="Me"
-        component={MeScreen}
-      />
-
-      <Tab.Screen
-        options={{
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name="settings"
+                name={focused ? "settings" : "settings-outline"}
                 size={27}
                 style={{ marginTop: 2 }}
-                color={
-                  focused
-                    ? CommonStyles.yellowActiveTab
-                    : CommonStyles.greyInactiveTab
-                }
               />
             );
           },
