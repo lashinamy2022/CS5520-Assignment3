@@ -14,22 +14,27 @@ export async function verifyPermission() {
 }
 
 export async function scheduleNotificationHandler(datetime) {
-  const hasPermission = await verifyPermission();
-  if (!hasPermission) {
-    Alert.alert("We're sorry, but we can't send you notifications at this time. Please check your device settings to ensure that notifications are enabled for our app.");
-  }
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "My Notification",
-      body: "Your new journy will start in 3 days, don't forget to pack your bags!",
-    //   data: { url: "https://google.com" },
+  console.log(datetime);
+  try {
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) {
+      Alert.alert("We're sorry, but we can't send you notifications at this time. Please check your device settings to ensure that notifications are enabled for our app.");
+    }
+    const notificationId = await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "My Notification",
+        body: "Your new journy will start in 3 days, don't forget to pack your bags!",
+      //   data: { url: "https://google.com" },
+      },
       trigger: {
         type: "date",
-        // date: new Date("2023-05-01T12:00:00"), // Set the date and time
-        date: new Date(datetime),
+        date: new Date(datetime), // Set the date and time
       },
-    },
-  });
+    });
+    return notificationId;
+  } catch (err) {
+    console.log(scheduleNotificationHandler, err);
+  }
 }
 
 

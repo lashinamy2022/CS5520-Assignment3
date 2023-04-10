@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 
-const TimelineList = ({ itineraryID }) => {
+const TimelineList = ({ itineraryID, setShowBell }) => {
   const [items, setItems] = useState([]);
   const navigation = useNavigation();
 
@@ -42,6 +42,7 @@ const TimelineList = ({ itineraryID }) => {
           })
         );
         setItems([...updatedItems]);
+        setShowBell(true);
       }
     });
 

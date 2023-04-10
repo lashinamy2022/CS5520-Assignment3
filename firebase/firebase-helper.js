@@ -75,6 +75,7 @@ export async function writeItineraryToDB(itinerary) {
   }
 }
 
+
 export async function editItineraryToDB(itineraryID, itinerary) {
   itinerary = { ...itinerary, updatedAt: new Date() };
   try {
@@ -87,6 +88,7 @@ export async function editItineraryToDB(itineraryID, itinerary) {
   }
 }
 
+
 export async function writeItineraryItemToDB(itineraryID, item) {
   item = { ...item, createdAt: new Date(), updatedAt: new Date() };
   try {
@@ -94,11 +96,43 @@ export async function writeItineraryItemToDB(itineraryID, item) {
       collection(firestore, "itinerary", itineraryID, "items"),
       item
     );
+    updateStartDate(itineraryID, item.time);
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
     console.log("writeItineraryItemToDB", err);
   }
 }
+
+export async function updateStartDate(itineraryID, startDate) {
+  try {
+    const docRef = doc(firestore, "itinerary", itineraryID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists() && (!docSnap.data().startDate || docSnap.data().startDate > startDate)) {
+      await setDoc(doc(firestore, "itinerary", itineraryID), {
+        startDate: startDate
+      }, {
+        merge: true,
+      });
+    } 
+  } catch (err) {
+    console.log("updateStartDate", err);
+  }
+}
+
+
+export async function getStartDate(itineraryID) {
+  try {
+    const docRef = doc(firestore, "itinerary", itineraryID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists() && docSnap.data().startDate) {
+      return docSnap.data().startDate;
+    }
+    return "";
+  } catch (err) {
+    console.log("getStartDate", err);
+  }
+}
+
 
 export async function editItineraryItemToDB(
   itineraryID,

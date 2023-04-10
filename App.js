@@ -35,6 +35,16 @@ import { doc, getDoc } from "firebase/firestore";
 import SetProfilePhoto from "./screens/SetProfilePhoto";
 import SetProfileNickname from "./screens/SetProfileNickname";
 import EditSettings from "./screens/EditSettings";
+import * as Notifications from "expo-notifications";
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 const Tab = createBottomTabNavigator();
 
