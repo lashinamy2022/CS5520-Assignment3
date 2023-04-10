@@ -98,7 +98,7 @@ const Itinerary = ({ navigation, route }) => {
           <Ionicons name="create-outline" size={20}></Ionicons>
         </View>
       </View>
-      <View style={{ flex: 12 }}>
+      <View style={{ flex: 12, marginTop: 20, padding: 10 }}>
         <TimelineList itineraryID={itineraryID} />
       </View>
       <View style={styles.buttonContainer}>
