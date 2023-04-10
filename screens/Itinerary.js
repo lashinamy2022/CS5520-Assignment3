@@ -22,17 +22,28 @@ import {
   doc,
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-setup";
-import { deleteItinerary, getStartDate } from "../firebase/firebase-helper";
+import {
+  deleteItinerary,
+  editItineraryToDB,
+  getNotificationID,
+  getStartDate,
+} from "../firebase/firebase-helper";
 import { useIsFocused } from "@react-navigation/native";
-import { scheduleNotificationHandler } from "../service/NotificationService";
-
+import {
+  cancelNotification,
+  scheduleNotificationHandler,
+} from "../service/NotificationService";
+import {
+  formatDatestr,
+  getDiffDays,
+  notificationDatetimeHandler,
+} from "../service/DatetimeService";
 
 const Itinerary = ({ navigation, route }) => {
   const [name, setName] = useState("");
   const [days, setDays] = useState("");
   const itineraryID = route.params.itineraryID;
   const [showBell, setShowBell] = useState(false);
-
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -76,6 +87,24 @@ const Itinerary = ({ navigation, route }) => {
       ),
     });
   }, [navigation]);
+
+  async function notificationHandler() {
+    let startDate = await getStartDate(itineraryID);
+    if (startDate === "") {
+      return;
+    }
+    startDate = formatDatestr(startDate);
+    const days = getDiffDays(startDate);
+    if (days <= 0) {
+      Alert.alert("please set your trip a future date");
+      return;
+    }
+    const notificationDate = notificationDatetimeHandler(startDate);
+    console.log(notificationDate);
+    const notificationID = await scheduleNotificationHandler(notificationDate);
+    // console.log(notificationID);
+    await editItineraryToDB(itineraryID, { notificationID: notificationID });
+  }
   return (
     <SafeAreaView style={styles.container}>
       {/* the information container */}
@@ -120,35 +149,53 @@ const Itinerary = ({ navigation, route }) => {
               fontSize: 20,
             }}
           />
-         {showBell && <PressableArea
-            areaPressed={() => {
-              Alert.alert("", "Do you want to set a reminder before the trip ?", [
-                { text: "NO", onPress: () => console.log("No Pressed") },
-                {
-                  text: "YES",
-                  onPress: async () => {
-                    const startDate = await getStartDate(itineraryID);
-                    if (startDate !== "") {
-                      
-                      const notificationID = await scheduleNotificationHandler(startDate);
-                      console.log(notificationID);
-                    } 
-                  },
-                },
-              ]);
-             
-            }}
-          >
-            <View style={styles.bellContainer}>
-              <Ionicons
-                name="notifications"
-                size={35}
-                color={"rgb(250,223,160)"}
-                // style={{ marginTop: 6, marginLeft: 8 }}
-              />
-              <Text style={styles.bellText}>Remind me</Text>
-            </View>
-          </PressableArea>}
+          {showBell && (
+            <PressableArea
+              areaPressed={async () => {
+                let notificationID = await getNotificationID(itineraryID);
+                if (notificationID !== "") {
+                  Alert.alert(
+                    "",
+                    "You have set a reminder, do you want to reset it?",
+                    [
+                      { text: "NO", onPress: () => console.log("No Pressed") },
+                      {
+                        text: "YES",
+                        onPress: async () => {
+                          cancelNotification(notificationID);
+                          notificationHandler();
+                        },
+                      },
+                    ]
+                  );
+                } else {
+                  Alert.alert(
+                    "",
+                    "Do you want to set a reminder before the trip ?",
+                    [
+                      { text: "NO", onPress: () => console.log("No Pressed") },
+                      {
+                        text: "YES",
+                        onPress: async () => {
+                          notificationHandler();
+                        },
+                      },
+                    ]
+                  );
+                }
+              }}
+            >
+              <View style={styles.bellContainer}>
+                <Ionicons
+                  name="notifications"
+                  size={35}
+                  color={"rgb(250,223,160)"}
+                  // style={{ marginTop: 6, marginLeft: 8 }}
+                />
+                <Text style={styles.bellText}>Remind me</Text>
+              </View>
+            </PressableArea>
+          )}
         </View>
       </View>
 

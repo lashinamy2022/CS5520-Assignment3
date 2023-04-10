@@ -31,7 +31,7 @@ const DateTime = ({ navigation, route }) => {
         </PressableArea>
       ),
     });
-  }, [navigation, date]);
+  }, [navigation, date, dateStr, timeStr]);
   return (
     <View style={styles.container}>
       <PressableArea
@@ -62,6 +62,7 @@ const DateTime = ({ navigation, route }) => {
           value={date}
           mode={"date"}
           display={"default"}
+          minimumDate={new Date()}
           onChange={(event, selectedDate) => {
            // console.log("android", selectedDate);
             setShowDate(false);
@@ -77,6 +78,7 @@ const DateTime = ({ navigation, route }) => {
           value={date}
           mode={"time"}
           display={"default"}
+          minimumDate={new Date()}
           onChange={(event, selectedDate) => {
             setShowTime(false);
             const currentDate = selectedDate || date;

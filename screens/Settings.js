@@ -23,9 +23,11 @@ const Setting = ({ navigation }) => {
         if (user.photo) {
           const uri = await getImageURL(user.photo);
           setPhotoUri(uri);
+        } else {
+          setPhotoUri("nophoto");
         }
       } else {
-        photoUri = "nophoto";
+        setPhotoUri("nophoto");
       }
     }
     if (isFocused) {

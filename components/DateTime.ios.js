@@ -36,6 +36,7 @@ const DateTime = ({ navigation, route }) => {
         value={date}
         mode={"datetime"}
         display={"default"}
+        minimumDate={new Date()}
         style={{ marginTop: 100 }}
         onChange={(event, selectedDate) => {
           // console.log("ios",selectedDate);
