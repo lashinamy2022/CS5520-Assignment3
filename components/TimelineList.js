@@ -53,7 +53,7 @@ const TimelineList = ({ itineraryID }) => {
   return (
     <>
       <Timeline
-        style={styles.list}
+        // style={styles.list}
         data={items}
         circleSize={18}
         renderTime={({ time }) => (
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   time: [
-      { textAlign: "center", padding: 5, borderRadius: 13 },
-      CommonStyles.pinkBackgroundColor,
+    { textAlign: "center", padding: 5, borderRadius: 13 },
+    CommonStyles.pinkBackgroundColor,
   ],
 });
