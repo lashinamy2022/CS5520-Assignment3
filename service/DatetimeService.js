@@ -9,8 +9,16 @@ export const convertNowDateToStr = () => {
 //covert passed date to date string
 export const convertDateToStr = (date) => {
   const year = date.getFullYear();
-  const month = parseInt(date.getMonth()) + 1;
-  const day = date.getDate();
+  let month = parseInt(date.getMonth()) + 1;
+  if (month >= 1 && month <= 9) {
+    month = `0${month}`;
+  }
+  // console.log("month", month);
+  let day = date.getDate();
+  if (day >= 1 && day <= 9) {
+    day = `0${day}`;
+  }
+  // console.log(`${year}-${month}-${day}`);
   return `${year}-${month}-${day}`;
 };
 
