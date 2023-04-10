@@ -73,34 +73,72 @@ const Itinerary = ({ navigation, route }) => {
   }, [navigation]);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1, flexDirection: "row" }}>
-        <PressableArea
-          areaPressed={() => {
-            navigation.navigate("CreateItinerary", {
-              buttonTitle: "save",
-              itineraryID: itineraryID,
-            });
+      {/* the information container */}
+      <View style={{ flex: 1 }}>
+        {/* the first line */}
+        <View>
+          <PressableArea
+            areaPressed={() => {
+              navigation.navigate("CreateItinerary", {
+                buttonTitle: "save",
+                itineraryID: itineraryID,
+              });
+            }}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Label
+                content={name}
+                customizedStyle={{
+                  fontSize: 30,
+                  paddingLeft: 15,
+                  paddingTop: 20,
+                }}
+              />
+              <View style={{ marginTop: 28, marginLeft: 4 }}>
+                <Ionicons name="create-outline" size={20}></Ionicons>
+              </View>
+            </View>
+          </PressableArea>
+        </View>
+        {/* second line */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+            alignItems: "center",
           }}
         >
-          <View>
-            <Label
-              content={name}
-              customizedStyle={{ fontSize: 30, paddingLeft: 15, paddingTop: 5 }}
-            />
-            <Label
-              content={days}
-              customizedStyle={{ marginTop: 5, fontSize: 15, paddingLeft: 15 }}
-            />
-          </View>
-        </PressableArea>
-
-        <View style={{ justifyContent: "flex-start" }}>
-          <Ionicons name="create-outline" size={20}></Ionicons>
+          <Label
+            content={days}
+            customizedStyle={{
+              fontSize: 20,
+            }}
+          />
+          <PressableArea
+            areaPressed={() => {
+              console.log("Pressed");
+            }}
+          >
+            <View style={styles.bellContainer}>
+              <Ionicons
+                name="notifications"
+                size={35}
+                color={"rgb(250,223,160)"}
+                // style={{ marginTop: 6, marginLeft: 8 }}
+              />
+              <Text style={styles.bellText}>Remind me</Text>
+            </View>
+          </PressableArea>
         </View>
       </View>
-      <View style={{ flex: 12 }}>
+
+      {/* timeline list container */}
+      <View style={styles.listContainer}>
         <TimelineList itineraryID={itineraryID} />
       </View>
+
+      {/* timeline button Container */}
       <View style={styles.buttonContainer}>
         <PressableArea
           customizedStyle={styles.deleteButton}
@@ -163,8 +201,20 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   buttonContainer: {
-    // flex: 0.2,
+    flex: 2,
     justifyContent: "center",
     alignItems: "center",
+  },
+  bellContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bellText: {
+    fontSize: 15,
+  },
+  listContainer: {
+    flex: 7,
+    marginTop: 30,
+    padding: 20,
   },
 });

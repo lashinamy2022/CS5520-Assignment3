@@ -14,12 +14,15 @@ import {
 } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 
-const TimelineList = ({itineraryID}) => {
+const TimelineList = ({ itineraryID }) => {
   const [items, setItems] = useState([]);
   const navigation = useNavigation();
 
   useEffect(() => {
-    const q = query(collection(firestore, "itinerary", itineraryID, "items"), orderBy("time", "asc"));
+    const q = query(
+      collection(firestore, "itinerary", itineraryID, "items"),
+      orderBy("time", "asc")
+    );
     const unsubscribe = onSnapshot(q, async (querySnapshot) => {
       if (querySnapshot.empty) {
         setItems([]);
@@ -50,16 +53,18 @@ const TimelineList = ({itineraryID}) => {
   return (
     <>
       <Timeline
-        style={styles.list}
+        // style={styles.list}
         data={items}
         circleSize={18}
         renderTime={({ time }) => (
           <View>
             <View style={styles.time}>
-              <Text style={{color: "white", fontSize: 10}}>{time.split(" ")[0]}</Text>
+              <Text style={{ color: "white", fontSize: 10 }}>
+                {time.split(" ")[0]}
+              </Text>
             </View>
-            <View >
-              <Text style={{textAlign: "center"}}>{time.split(" ")[1]}</Text>
+            <View>
+              <Text style={{ textAlign: "center" }}>{time.split(" ")[1]}</Text>
             </View>
           </View>
         )}
@@ -71,10 +76,16 @@ const TimelineList = ({itineraryID}) => {
         innerCircle={"icon"}
         circleColor="rgba(0,0,0,0)"
         renderDetail={(rowData, sectionID, rowID) => {
-          let title = <Text style={[styles.title]}  numberOfLines={1} ellipsizeMode='tail'>{rowData.title}</Text>;
+          let title = (
+            <Text style={[styles.title]} numberOfLines={1} ellipsizeMode="tail">
+              {rowData.title}
+            </Text>
+          );
           const desc = (
             <View style={styles.descriptionContainer}>
-              {rowData.img && <Image source={{ uri: rowData.img }} style={styles.image} />}
+              {rowData.img && (
+                <Image source={{ uri: rowData.img }} style={styles.image} />
+              )}
               <Text style={[styles.textDescription]}>{rowData.note}</Text>
             </View>
           );
@@ -86,9 +97,11 @@ const TimelineList = ({itineraryID}) => {
           );
         }}
         onEventPress={(e) => {
-          navigation.navigate("AddPlace", {itineraryItemID: e.id, itineraryID: itineraryID});
+          navigation.navigate("AddPlace", {
+            itineraryItemID: e.id,
+            itineraryID: itineraryID,
+          });
         }}
-
       />
     </>
   );
@@ -97,15 +110,15 @@ const TimelineList = ({itineraryID}) => {
 export default TimelineList;
 
 const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-    marginTop: 20,
-    padding: 10
-  },
+  // list: {
+  // flex: 1,
+  // marginTop: 20,
+  // padding: 10,
+  // },
   title: {
     fontSize: 16,
     fontWeight: "bold",
-    width: 200
+    width: 200,
   },
   descriptionContainer: {
     flexDirection: "row",
@@ -121,8 +134,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   time: [
-      { textAlign: "center", padding: 5, borderRadius: 13 },
-      CommonStyles.pinkBackgroundColor,
-    ]
-  
+    { textAlign: "center", padding: 5, borderRadius: 13 },
+    CommonStyles.pinkBackgroundColor,
+  ],
 });
