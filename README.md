@@ -1,6 +1,34 @@
-# Iteration 1
-
+# Travel Assistant APP :world_map:
 - Members: Yang Yang, Yu Sun, Yixin Fan
+
+## Iteration 2 :triangular_flag_on_post: :triangular_flag_on_post:
+### Authentication<br>
+Log in Page<br>
+  <img src="https://user-images.githubusercontent.com/113145079/230846840-3a1228f3-4c31-4534-810a-f890a36adf68.PNG" width="249" height="521">
+    <img src="https://user-images.githubusercontent.com/113145079/230846869-65135d67-dd41-4028-88e3-8251c8b21dcb.PNG" width="249" height="521"><br>
+Sign Up page<br>
+<img src="https://user-images.githubusercontent.com/113145079/230846887-8045392c-5b6a-44e0-a1c9-aaf02abff2ea.PNG" width="249" height="521">
+
+### Camera use
+User Photo<br>
+<img src="https://user-images.githubusercontent.com/113145079/230846763-a3af2383-58a9-4c8f-a2b5-2d4f91ca7628.PNG" width="249" height="521"> <img src="https://user-images.githubusercontent.com/113145079/230846910-4d555ee4-11d1-423a-81b5-f703b5b1f13b.PNG" width="249" height="521"><br>
+Add Photo for a new place
+
+Add photo in a new travel diary
+
+### Location use
+show static map for the place selected by the user<br>
+<img src="https://user-images.githubusercontent.com/113145079/230846936-12fc83b8-8a72-47e6-9998-ef8881c0416d.PNG" width="249" height="521">
+<img src="https://user-images.githubusercontent.com/113145079/230846947-9aa768cd-8c1e-47a3-bb01-7a27e771a1b9.PNG" width="249" height="521"><br>
+
+### Notification
+User set "Remind me" before the start of the travel
+
+### External API use
+Place auto complete<br>
+<img src="https://user-images.githubusercontent.com/113145079/230846802-83c1f9af-d6ea-4912-9d64-15a0d87f94ab.PNG" width="249" height="521"><br>
+
+## Iteration 1 :triangular_flag_on_post:
 - Contributions: Developed the app's overall structure and implemented the Itinerary, CreateDiary, and AddPlace screens(contributed by Yang Yang).
   Designed and implemented the Itinerary List and Travel Diary List component and HomeTabScreen, MeScreen and Notofication Screen(contributed by Yu Sun).
   Implemented Tab navigation and SignUp, Login, Diary Detail,Create, Edit Place and Setting Screen (contributed by Yixin Fan).
