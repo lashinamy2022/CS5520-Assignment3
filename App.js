@@ -45,11 +45,11 @@ function MyTabs() {
         headerStyle: CommonStyles.lightGreenBackground,
         headerTintColor: "#fff",
         headerTitleAlign: "center",
-        tabBarStyle: [CommonStyles.lightGreenBackground, { height: 70 }],
-        tabBarActiveTintColor: "rgb(235,187,66)",
+        tabBarStyle: [CommonStyles.lightGreenBackground, { height: "9.5%" }],
+        tabBarActiveTintColor: CommonStyles.yellowActiveTab,
+        tabBarInactiveTintColor: CommonStyles.whiteInactiveTab,
         tabBarLabelStyle: {
           fontSize: 15,
-          paddingBottom: 10,
         },
       })}
     >
@@ -62,11 +62,10 @@ function MyTabs() {
               <Entypo
                 name="home"
                 size={24}
-                // style={{ marginRight: 1, marginTop: 8 }}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
-                    : CommonStyles.greyInactiveTab
+                    : CommonStyles.whiteInactiveTab
                 }
               />
             );
@@ -87,7 +86,7 @@ function MyTabs() {
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
-                    : CommonStyles.greyInactiveTab
+                    : CommonStyles.whiteInactiveTab
                 }
               />
             );
@@ -109,7 +108,7 @@ function MyTabs() {
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
-                    : CommonStyles.greyInactiveTab
+                    : CommonStyles.whiteInactiveTab
                 }
               />
             );
@@ -130,7 +129,7 @@ function MyTabs() {
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
-                    : CommonStyles.greyInactiveTab
+                    : CommonStyles.whiteInactiveTab
                 }
               />
             );
@@ -147,12 +146,11 @@ function MyTabs() {
             return (
               <FontAwesome
                 name="user-circle-o"
-                // style={[{ marginRight: 1 }, { marginTop: 8 }]}
                 size={24}
                 color={
                   focused
                     ? CommonStyles.yellowActiveTab
-                    : CommonStyles.greyInactiveTab
+                    : CommonStyles.whiteInactiveTab
                 }
               />
             );
