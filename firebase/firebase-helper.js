@@ -65,8 +65,10 @@ export async function writeItineraryToDB(itinerary) {
     user: auth.currentUser.uid,
   };
   try {
+
     const docRef = await addDoc(collection(firestore, "itinerary"), itinerary);
     console.log("Document written with ID: ", docRef.id);
+
     return docRef.id;
   } catch (err) {
     console.log("writeItineraryToDB", err);
@@ -76,7 +78,9 @@ export async function writeItineraryToDB(itinerary) {
 export async function editItineraryToDB(itineraryID, itinerary) {
   itinerary = { ...itinerary, updatedAt: new Date() };
   try {
-    await updateDoc(doc(firestore, "itinerary", itineraryID), itinerary);
+    await setDoc(doc(firestore, "itinerary", itineraryID), itinerary, {
+      merge: true
+    });
     return itineraryID;
   } catch (err) {
     console.log("editItineraryToDB", err);
@@ -281,3 +285,4 @@ export async function getDiaryById (diaryId) {
     console.log("getDiaryById", err);
   }
 }
+
