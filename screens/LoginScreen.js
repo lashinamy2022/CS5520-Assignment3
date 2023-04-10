@@ -26,6 +26,8 @@ export default function LoginScreen({ navigation }) {
     } catch (err) {
       if (err.code === "auth/wrong-password") {
         Alert.alert("The Password is Wrong! Try Again");
+      } else if (err.code === "auth/user-not-found") {
+        Alert.alert("This user is not found! Try Again");
       }
       console.log("sign up error", err);
     }
