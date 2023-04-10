@@ -53,19 +53,21 @@ export default function DiaryList({ route, from }) {
         } else {
           const ids = [];
           const data = querySnapshot.data();
-          let keys = Object.keys(data);
-          keys.forEach((key) => {
-            if (data[key]) {
-              ids.push(key);
-            }
-          });
-          const diaryList = await Promise.all(
-            ids.map(async (id) => {
-              const item = await getDiaryById(id);
-              return await getDiaryInfo(item, id);
-            })
-          );
-          setData([...diaryList]);
+          if (data) {
+            let keys = Object.keys(data);
+            keys.forEach((key) => {
+              if (data[key]) {
+                ids.push(key);
+              }
+            });
+            const diaryList = await Promise.all(
+              ids.map(async (id) => {
+                const item = await getDiaryById(id);
+                return await getDiaryInfo(item, id);
+              })
+            );
+            setData([...diaryList]);
+          }
         }
       }
     });

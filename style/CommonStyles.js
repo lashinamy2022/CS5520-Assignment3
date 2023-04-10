@@ -32,13 +32,13 @@ const CommonStyles = StyleSheet.create({
   deleteButtonBackground: {
     backgroundColor: "#ff6347",
   },
-  yellowActiveTab: "rgb(235,187,66)",
-  greyInactiveTab: "#808080",
+  yellowActiveTab: "#ffd700",
+  whiteInactiveTab: "#f8f8ff",
   addScreen: "#000000AA",
   addScreenIcon: "#dcdcdc",
   heartRed: "rgb(227, 77, 71)",
   pressed: "#e9e",
-  lightGreen:  "rgb(135, 173, 132)",
+  lightGreen: "rgb(135, 173, 132)",
 });
 
 export default CommonStyles;
