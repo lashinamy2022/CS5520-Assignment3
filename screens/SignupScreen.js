@@ -73,17 +73,6 @@ export default function SignupScreen({ navigation }) {
         <Text style={styles.header}>Travel Assistant</Text>
       </View>
       <View style={styles.middleContainer}>
-        {/* <Text style={styles.text}>Nickname</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            value={nickname}
-            autoCapitalize="none"
-            onChangeText={(nameInput) => {
-              setNickname(nameInput);
-            }}
-          />
-        </View> */}
         <Text style={styles.text}>Email</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -123,20 +112,20 @@ export default function SignupScreen({ navigation }) {
           />
           <ErrorText message={confirmPwdErrMessage} />
         </View>
-        <View style={styles.buttonContainer}>
-          <PressableArea
-            areaPressed={signupHandler}
-            customizedStyle={styles.buttonView}
-          >
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </PressableArea>
-          <PressableArea
-            areaPressed={loginHandler}
-            customizedStyle={styles.buttonView}
-          >
-            <Text style={styles.buttonText}>Already Registered</Text>
-          </PressableArea>
-        </View>
+      </View>
+      <View style={styles.buttonContainer}>
+        <PressableArea
+          areaPressed={signupHandler}
+          customizedStyle={styles.buttonView}
+        >
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </PressableArea>
+        <PressableArea
+          areaPressed={loginHandler}
+          customizedStyle={styles.buttonView}
+        >
+          <Text style={styles.buttonText}>Already Registered</Text>
+        </PressableArea>
       </View>
     </SafeAreaView>
   );
@@ -148,7 +137,7 @@ const styles = StyleSheet.create({
   },
 
   headerContainer: {
-    flex: 1.3,
+    flex: 2,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -175,11 +164,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: "75%",
     margin: 10,
-    marginBottom: 20,
+    marginBottom: 15,
     fontSize: 18,
   },
 
   buttonContainer: {
+    flex: 2,
     alignItems: "center",
     justifyContent: "center",
     padding: 50,

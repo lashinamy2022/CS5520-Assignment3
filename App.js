@@ -45,11 +45,11 @@ function MyTabs() {
         headerStyle: CommonStyles.lightGreenBackground,
         headerTintColor: "#fff",
         headerTitleAlign: "center",
-        tabBarStyle: CommonStyles.lightGreenBackground,
+        tabBarStyle: [CommonStyles.lightGreenBackground, { height: 70 }],
         tabBarActiveTintColor: "rgb(235,187,66)",
         tabBarLabelStyle: {
           fontSize: 15,
-          height: "30%",
+          paddingBottom: 10,
         },
       })}
     >
