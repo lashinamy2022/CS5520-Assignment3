@@ -35,6 +35,7 @@ import { firestore } from "../firebase/firebase-setup";
 import { getImageURL } from "../service/ImageService";
 import { MAPS_API_KEY } from "@env";
 import { locateUser } from "../service/MapService";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const AddPlace = ({ navigation, route }) => {
   const [itineraryID, setItineraryID] = useState(route.params.itineraryID);
@@ -155,8 +156,8 @@ const AddPlace = ({ navigation, route }) => {
     }
   }, [route]);
   return (
-    <ScrollView>
-      <View>
+    <KeyboardAwareScrollView>
+      <View style={{ padding: 10 }}>
         <Label content="Set Visiting Datetime" customizedStyle={styles.label} />
         <PressableArea
           areaPressed={() => {
@@ -173,18 +174,24 @@ const AddPlace = ({ navigation, route }) => {
         >
           <ValueDisplayView content={location} />
         </PressableArea>
-        <PressableArea areaPressed={()=>{
-          Alert.alert("Post", "Do you want to open the location in google map?", [
-            { text: "NO", onPress: () => console.log("No Pressed") },
-            {
-              text: "YES",
-              onPress: () => {
-                const uri = `https://maps.google.com/?q=${location}&dirflg=r`;
-                Linking.openURL(uri);
-              },
-            },
-          ]);
-        }}>
+        <PressableArea
+          areaPressed={() => {
+            Alert.alert(
+              "Post",
+              "Do you want to open the location in google map?",
+              [
+                { text: "NO", onPress: () => console.log("No Pressed") },
+                {
+                  text: "YES",
+                  onPress: () => {
+                    const uri = `https://maps.google.com/?q=${location}&dirflg=r`;
+                    Linking.openURL(uri);
+                  },
+                },
+              ]
+            );
+          }}
+        >
           {location !== "" && userLocation && (
             <Image
               source={{
@@ -216,21 +223,19 @@ const AddPlace = ({ navigation, route }) => {
           customizedStyle={[styles.label, { marginTop: 20 }]}
         />
 
-        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={120}>
-          <Input
-            customizedStyle={{
-              width: "90%",
-              height: 120,
-              alignSelf: "center",
-              textAlign: "left",
-              paddingLeft: 10,
-              backgroundColor: "#f2f2f2",
-            }}
-            value={note}
-            setEnteredValue={setNote}
-            isMultiline={true}
-          />
-        </KeyboardAvoidingView>
+        <Input
+          customizedStyle={{
+            width: "90%",
+            height: 120,
+            alignSelf: "center",
+            textAlign: "left",
+            paddingLeft: 10,
+            backgroundColor: "#f2f2f2",
+          }}
+          value={note}
+          setEnteredValue={setNote}
+          isMultiline={true}
+        />
 
         {itineraryItemID && (
           <PressableArea
@@ -254,7 +259,7 @@ const AddPlace = ({ navigation, route }) => {
           </PressableArea>
         )}
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
