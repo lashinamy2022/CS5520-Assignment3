@@ -1,7 +1,12 @@
 # Travel Assistant APP :world_map:
-- Members: Yang Yang, Yu Sun, Yixin Fan
+Members: Yang Yang, Yu Sun, Yixin Fan
 
 ## Iteration 2 :triangular_flag_on_post: :triangular_flag_on_post:
+Contributions: <br>
+Designed and implemented the collection feature and notification feature by Yang Yang<br>
+Redesigned the style of tab icons, and added bell to the itineary screen by Yixin Fan<br>
+Change the view and functionality of editing screen and format the date/time by Yu Sun<br>
+
 ### Authentication<br>
 Log in Page<br>
   <img src="https://user-images.githubusercontent.com/113145079/230846840-3a1228f3-4c31-4534-810a-f890a36adf68.PNG" width="249" height="521">
