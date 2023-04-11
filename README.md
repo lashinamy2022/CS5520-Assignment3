@@ -12,9 +12,11 @@ Sign Up page<br>
 ### Camera use
 User Photo<br>
 <img src="https://user-images.githubusercontent.com/113145079/230846763-a3af2383-58a9-4c8f-a2b5-2d4f91ca7628.PNG" width="249" height="521"> <img src="https://user-images.githubusercontent.com/113145079/230846910-4d555ee4-11d1-423a-81b5-f703b5b1f13b.PNG" width="249" height="521"><br>
-Add Photo for a new place
+Add Photo for a new place<br>
+<img src="https://user-images.githubusercontent.com/113145079/231059187-4c8a4574-af5f-40bf-8865-7911a269205b.PNG" width="249" height="521">
 
-Add photo in a new travel diary
+Add photo in a new travel diary<br>
+<img src="https://user-images.githubusercontent.com/113145079/231059162-8a8d91f1-c922-475c-bba6-5c0f5d940980.PNG" width="249" height="521">
 
 ### Location use
 show static map for the place selected by the user<br>
@@ -22,7 +24,8 @@ show static map for the place selected by the user<br>
 <img src="https://user-images.githubusercontent.com/113145079/230846947-9aa768cd-8c1e-47a3-bb01-7a27e771a1b9.PNG" width="249" height="521"><br>
 
 ### Notification
-User set "Remind me" before the start of the travel
+User set "Remind me" before the start of the travel<br>
+<img src="https://user-images.githubusercontent.com/113145079/231059213-18297e02-8eaa-4f07-a9a7-dc558ac80f38.PNG" width="249" height="521"><br>
 
 ### External API use
 Place auto complete<br>
