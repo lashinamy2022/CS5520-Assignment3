@@ -8,6 +8,7 @@ import {
   updateDoc,
   setDoc,
   getDoc,
+  getDocs,
 } from "firebase/firestore";
 import { firestore, auth, updateProfile } from "./firebase-setup";
 
@@ -65,7 +66,6 @@ export async function writeItineraryToDB(itinerary) {
     user: auth.currentUser.uid,
   };
   try {
-
     const docRef = await addDoc(collection(firestore, "itinerary"), itinerary);
     console.log("Document written with ID: ", docRef.id);
 
@@ -75,19 +75,18 @@ export async function writeItineraryToDB(itinerary) {
   }
 }
 
-
 export async function editItineraryToDB(itineraryID, itinerary) {
   itinerary = { ...itinerary, updatedAt: new Date() };
   try {
     await setDoc(doc(firestore, "itinerary", itineraryID), itinerary, {
-      merge: true
+      merge: true,
     });
+    
     return itineraryID;
   } catch (err) {
     console.log("editItineraryToDB", err);
   }
 }
-
 
 export async function writeItineraryItemToDB(itineraryID, item) {
   item = { ...item, createdAt: new Date(), updatedAt: new Date() };
@@ -96,10 +95,31 @@ export async function writeItineraryItemToDB(itineraryID, item) {
       collection(firestore, "itinerary", itineraryID, "items"),
       item
     );
-    updateStartDate(itineraryID, item.time);
+    const startDate = await getFirstDateInIntinerary(itineraryID);
+    await updateStartDate(itineraryID, startDate);
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
     console.log("writeItineraryItemToDB", err);
+  }
+}
+
+export async function getFirstDateInIntinerary(itineraryID) {
+  try {
+    const q = query(collection(firestore, "itinerary", itineraryID, "items"));
+    const querySnapshot = await getDocs(q);
+    let startDate = null;
+    querySnapshot.forEach((doc) => {
+      if (!startDate) {
+        startDate = doc.data().time;
+      } else {
+        if (doc.data().time < startDate) {
+          startDate = doc.data().time;
+        }
+      }
+    });
+    return startDate;
+  } catch (err) {
+    console.log("getFirstDateInIntinerary", err);
   }
 }
 
@@ -107,18 +127,21 @@ export async function updateStartDate(itineraryID, startDate) {
   try {
     const docRef = doc(firestore, "itinerary", itineraryID);
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists() && (!docSnap.data().startDate || docSnap.data().startDate > startDate)) {
-      await setDoc(doc(firestore, "itinerary", itineraryID), {
-        startDate: startDate
-      }, {
-        merge: true,
-      });
-    } 
+    if (docSnap.exists() && (!docSnap.data().startDate)) {
+      await setDoc(
+        doc(firestore, "itinerary", itineraryID),
+        {
+          startDate: startDate,
+        },
+        {
+          merge: true,
+        }
+      );
+    }
   } catch (err) {
     console.log("updateStartDate", err);
   }
 }
-
 
 export async function getStartDate(itineraryID) {
   try {
@@ -146,7 +169,6 @@ export async function getNotificationID(itineraryID) {
   }
 }
 
-
 export async function editItineraryItemToDB(
   itineraryID,
   itineraryItemID,
@@ -158,7 +180,8 @@ export async function editItineraryItemToDB(
       doc(firestore, "itinerary", itineraryID, "items", itineraryItemID),
       item
     );
-    updateStartDate(itineraryID, item.time);
+    const startDate = await getFirstDateInIntinerary(itineraryID);
+    await updateStartDate(itineraryID, startDate);
   } catch (err) {
     console.log("editItineraryItemToDB", err);
   }
@@ -169,6 +192,8 @@ export async function deleteItineraryItemById(itineraryID, itineraryItemID) {
     await deleteDoc(
       doc(firestore, "itinerary", itineraryID, "items", itineraryItemID)
     );
+    const startDate = await getFirstDateInIntinerary(itineraryID);
+    await updateStartDate(itineraryID, startDate);
   } catch (err) {
     console.log("deleteItineraryItemById", err);
   }
@@ -239,32 +264,31 @@ export async function getUserInfo(userId) {
 export async function saveUserDiary(data) {
   try {
     await setDoc(doc(firestore, "userDiary", auth.currentUser.uid), data, {
-      merge: true
+      merge: true,
     });
-  } catch(err) {
-    console.log("saveUserDiary", err)
+  } catch (err) {
+    console.log("saveUserDiary", err);
   }
 }
 
 export async function saveDiaryUser(diaryId, data) {
   try {
     await setDoc(doc(firestore, "diaryUser", diaryId), data, {
-      merge: true
+      merge: true,
     });
-  } catch(err) {
+  } catch (err) {
     console.log("saveDiaryUser", err);
   }
 }
 
 export async function saveCollection(diaryId, flag) {
   try {
-    await saveUserDiary({[diaryId]: flag});
-    await saveDiaryUser(diaryId, {[auth.currentUser.uid]: flag});
-  } catch(err) {
+    await saveUserDiary({ [diaryId]: flag });
+    await saveDiaryUser(diaryId, { [auth.currentUser.uid]: flag });
+  } catch (err) {
     console.log("saveCollection", err);
   }
 }
-
 
 export async function hasCollected(diaryId) {
   try {
@@ -279,8 +303,6 @@ export async function hasCollected(diaryId) {
   }
 }
 
-
-
 export async function diaryCollectionCount(diaryId) {
   let count = 0;
   try {
@@ -289,12 +311,12 @@ export async function diaryCollectionCount(diaryId) {
     if (docSnap.exists()) {
       const data = docSnap.data();
       let keys = Object.keys(data);
-      keys.forEach((key)=> {
+      keys.forEach((key) => {
         if (data[key]) {
           count++;
         }
       });
-   }
+    }
     return count;
   } catch (err) {
     console.log("diaryCollectionCount", err);
@@ -309,28 +331,27 @@ export async function getCollectedDiaryId() {
     if (docSnap.exists()) {
       const data = docSnap.data();
       let keys = Object.keys(data);
-      keys.forEach((key)=> {
+      keys.forEach((key) => {
         if (data[key]) {
           diaryIdList.push(key);
         }
       });
-   }
+    }
     return diaryIdList;
   } catch (err) {
     console.log("getCollectedDiaryId", err);
   }
 }
 
-export async function getDiaryById (diaryId) {
+export async function getDiaryById(diaryId) {
   try {
     const docRef = doc(firestore, "travelDiary", diaryId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data();
-   }
+    }
     return null;
   } catch (err) {
     console.log("getDiaryById", err);
   }
 }
-

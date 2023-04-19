@@ -95,6 +95,7 @@ const Itinerary = ({ navigation, route }) => {
     }
     startDate = formatDatestr(startDate);
     const days = getDiffDays(startDate);
+    console.log(days);
     if (days <= 0) {
       Alert.alert("please set your trip a future date");
       return;
