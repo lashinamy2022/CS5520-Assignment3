@@ -1,5 +1,14 @@
 import { useRef, useState, useEffect } from "react";
-import { SafeAreaView, StyleSheet, View, Alert } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  AlertModal,
+  ActivityIndicator,
+  Modal,
+  Text,
+  Alert,
+} from "react-native";
 import Editor from "../components/Editor";
 import Input from "../components/Input";
 import PressableArea from "../components/PressableArea";
@@ -18,6 +27,7 @@ export default function CreateDiary({ navigation, route }) {
   const [title, setTitle] = useState("");
   const [articleStatus, setArticleStatus] = useState("1"); //1 for private, 2 for public
   const [article, setArticle] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (route.params.type === "edit") {
@@ -67,6 +77,7 @@ export default function CreateDiary({ navigation, route }) {
               ]);
               return;
             }
+            setLoading(true);
             Alert.alert("Post", "Are you sure you want to post this?", [
               { text: "NO", onPress: () => console.log("No Pressed") },
               {
@@ -87,6 +98,7 @@ export default function CreateDiary({ navigation, route }) {
                       userPhoto: "",
                       diaryID: route.params.id,
                     };
+                    setLoading(false);
                     navigation.navigate("DiaryDetail", params);
                   }
                 },
@@ -142,6 +154,12 @@ export default function CreateDiary({ navigation, route }) {
           <Editor richText={richText} setArticle={setArticle} />
         </View>
       </View>
+      <Modal visible={loading} transparent={true} animationType="fade">
+        <View style={styles.modal}>
+          <ActivityIndicator size="large" color="white" />
+          <Text style={{ color: "white", marginTop: 10 }}>Loading...</Text>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -153,4 +171,10 @@ const styles = StyleSheet.create({
       padding: 15,
     },
   ],
+  modal: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

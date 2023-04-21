@@ -56,7 +56,6 @@ const AddPlace = ({ navigation, route }) => {
   const [locationPermission, requestLocationPermission] =
     Location.useForegroundPermissions();
   const [userLocation, setUserLocation] = useState(null);
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function locate() {
@@ -263,14 +262,7 @@ const AddPlace = ({ navigation, route }) => {
       </View>
 
       <Modal visible={loading} transparent={true} animationType="fade">
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.modal}>
           <ActivityIndicator size="large" color="white" />
           <Text style={{ color: "white", marginTop: 10 }}>Loading...</Text>
         </View>
@@ -321,5 +313,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 5,
     marginTop: 10,
+  },
+  modal: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
