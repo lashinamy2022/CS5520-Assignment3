@@ -37,7 +37,6 @@ import SetProfileNickname from "./screens/SetProfileNickname";
 import EditSettings from "./screens/EditSettings";
 import * as Notifications from "expo-notifications";
 
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -55,11 +54,11 @@ function MyTabs() {
         headerStyle: CommonStyles.lightGreenBackground,
         headerTintColor: "#fff",
         headerTitleAlign: "center",
-        tabBarStyle: [{ backgroundColor: "white" }, { height: "10%" }],
+        tabBarStyle: [{ backgroundColor: "white" }, { height: "9%" }],
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "black",
         tabBarLabelStyle: {
-          fontSize: 15,
+          fontSize: 12,
         },
       })}
     >
@@ -69,7 +68,7 @@ function MyTabs() {
           title: "Home",
           tabBarIcon: ({ focused }) => {
             return (
-              <Ionicons name={focused ? "home" : "home-outline"} size={24} />
+              <Ionicons name={focused ? "home" : "home-outline"} size={20} />
             );
           },
         }}
@@ -83,7 +82,7 @@ function MyTabs() {
             return (
               <AntDesign
                 name={focused ? "heart" : "hearto"}
-                size={24}
+                size={20}
                 style={{ marginTop: 2 }}
                 color={focused ? CommonStyles.heartRed : "black"}
               />
@@ -102,7 +101,7 @@ function MyTabs() {
               <Ionicons
                 name={focused ? "add-circle" : "add-circle-outline"}
                 style={{ marginTop: 2 }}
-                size={32}
+                size={28}
               />
             );
           },
@@ -115,7 +114,7 @@ function MyTabs() {
         options={{
           headerShown: true,
           tabBarIcon: ({ focused }) => {
-            return <FontAwesome name={focused ? "user" : "user-o"} size={24} />;
+            return <FontAwesome name={focused ? "user" : "user-o"} size={20} />;
           },
         }}
         name="Me"
@@ -128,7 +127,7 @@ function MyTabs() {
             return (
               <Ionicons
                 name={focused ? "settings" : "settings-outline"}
-                size={27}
+                size={25}
                 style={{ marginTop: 2 }}
               />
             );
