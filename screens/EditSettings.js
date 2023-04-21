@@ -16,8 +16,11 @@ import { updatePassword, signOut } from "firebase/auth";
 import { saveUserInfo } from "../firebase/firebase-helper";
 import { Entypo } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import EditNickName from "../components/EditNickName";
+import EditPassword from "../components/EditPassword";
 
-export default function EditSettings({ route, navigation }) {
+export default function EditSettings({ route, navigation, type }) {
+  // console.log("type", route.params.type);
   const [nickname, setNickname] = useState(route.params.nickname);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,6 +37,7 @@ export default function EditSettings({ route, navigation }) {
     setPwdErrMessage("");
     setConfirmPwdErrMessage("");
     setNameErrMessage("");
+    setShowPassword(false);
   }
 
   const editSaveHandler = async () => {
@@ -74,6 +78,7 @@ export default function EditSettings({ route, navigation }) {
       saveUserInfo({ nickname: nickname });
       // updateUserInfo({ nickname: nickname });
       //navigate back to the settings screen
+      // resetHandle();
       Alert.alert("Successfully", "Your information has been updated", [
         {
           text: "Ok",
@@ -82,6 +87,7 @@ export default function EditSettings({ route, navigation }) {
           },
         },
       ]);
+      resetHandle();
       console.log("save successfully");
     } catch (err) {
       if (err.code === "auth/requires-recent-login") {
@@ -109,7 +115,7 @@ export default function EditSettings({ route, navigation }) {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ height: height }}>
-      <View style={styles.infoContainer}>
+      {/* <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
           <View>
             <Label content="Nickname" customizedStyle={styles.label} />
@@ -204,7 +210,12 @@ export default function EditSettings({ route, navigation }) {
         >
           <Text style={styles.text}>Clear</Text>
         </PressableArea>
-      </View>
+      </View> */}
+      {route.params.type === "editName" ? (
+        <EditNickName nicknameOrigin={route.params.nickname} />
+      ) : (
+        <EditPassword />
+      )}
     </KeyboardAwareScrollView>
   );
 }
