@@ -21,6 +21,7 @@ export default function EditSettings({ route, navigation }) {
   const [nickname, setNickname] = useState(route.params.nickname);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [nameErrMessage, setNameErrMessage] = useState("");
   const [pwdErrMessage, setPwdErrMessage] = useState("");
   const [confirmPwdErrMessage, setConfirmPwdErrMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -32,11 +33,16 @@ export default function EditSettings({ route, navigation }) {
     setConfirmPassword("");
     setPwdErrMessage("");
     setConfirmPwdErrMessage("");
+    setNameErrMessage("");
   }
 
   const editSaveHandler = async () => {
     // console.log("000");
     let flag = true;
+    if (nickname.length <= 0) {
+      setNameErrMessage("Nickname cannot be empty");
+      flag = false;
+    }
     if (showPassword && password.length > 0 && password.length <= 8) {
       //   console.log("111");
       setPwdErrMessage("At least greater than 8 characters");
@@ -119,6 +125,7 @@ export default function EditSettings({ route, navigation }) {
             />
           </View>
         </View>
+        {nameErrMessage !== "" && <ErrorText message={nameErrMessage} />}
 
         <View style={styles.infoRow}>
           <View>
