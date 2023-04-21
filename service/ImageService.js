@@ -1,11 +1,7 @@
 import { Alert } from "react-native";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase-setup";
 
 export const verifyPermission = async (permissionInfo, requestPermission) => {
@@ -17,9 +13,12 @@ export const verifyPermission = async (permissionInfo, requestPermission) => {
 };
 
 export const takePhoto = async (permissionInfo, requestPermission) => {
-  const hasPermission = await verifyPermission(permissionInfo, requestPermission);
+  const hasPermission = await verifyPermission(
+    permissionInfo,
+    requestPermission
+  );
   if (!hasPermission) {
-    Alert.alert("You need to give access to the camera");
+    Alert.alert("We kindly request your permission to access the camera");
     return;
   }
   try {
@@ -37,9 +36,12 @@ export const takePhoto = async (permissionInfo, requestPermission) => {
 };
 
 export const pickPhoto = async (permissionInfo, requestPermission) => {
-  const hasPermission = await verifyPermission(permissionInfo, requestPermission);
+  const hasPermission = await verifyPermission(
+    permissionInfo,
+    requestPermission
+  );
   if (!hasPermission) {
-    Alert.alert("You need to give access to the gallery");
+    Alert.alert("We kindly request your permission to access the gallery");
     return;
   }
   try {

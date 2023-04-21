@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, Image, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  Alert,
+  Dimensions,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase/firebase-setup";
 import Label from "../components/Label";
@@ -7,14 +15,17 @@ import ErrorText from "../components/ErrorText";
 import { updatePassword, signOut } from "firebase/auth";
 import { saveUserInfo } from "../firebase/firebase-helper";
 import { Entypo } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function EditSettings({ route, navigation }) {
   const [nickname, setNickname] = useState(route.params.nickname);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [nameErrMessage, setNameErrMessage] = useState("");
   const [pwdErrMessage, setPwdErrMessage] = useState("");
   const [confirmPwdErrMessage, setConfirmPwdErrMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const height = Dimensions.get("screen").height;
 
   function resetHandle() {
     setNickname("");
@@ -22,11 +33,16 @@ export default function EditSettings({ route, navigation }) {
     setConfirmPassword("");
     setPwdErrMessage("");
     setConfirmPwdErrMessage("");
+    setNameErrMessage("");
   }
 
   const editSaveHandler = async () => {
     // console.log("000");
     let flag = true;
+    if (nickname.length <= 0) {
+      setNameErrMessage("Nickname cannot be empty");
+      flag = false;
+    }
     if (showPassword && password.length > 0 && password.length <= 8) {
       //   console.log("111");
       setPwdErrMessage("At least greater than 8 characters");
@@ -92,7 +108,7 @@ export default function EditSettings({ route, navigation }) {
   };
 
   return (
-    <>
+    <KeyboardAwareScrollView contentContainerStyle={{ height: height }}>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
           <View>
@@ -109,6 +125,7 @@ export default function EditSettings({ route, navigation }) {
             />
           </View>
         </View>
+        {nameErrMessage !== "" && <ErrorText message={nameErrMessage} />}
 
         <View style={styles.infoRow}>
           <View>
@@ -117,7 +134,7 @@ export default function EditSettings({ route, navigation }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               value={password}
-              placeholder={showPassword ? "Password Reset" : "*********"}
+              placeholder={showPassword ? "Password" : "*********"}
               editable={showPassword}
               style={styles.label}
               secureTextEntry={true}
@@ -148,7 +165,7 @@ export default function EditSettings({ route, navigation }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               value={confirmPassword}
-              placeholder={showPassword ? "Confirm Password" : "*********"}
+              placeholder={showPassword ? "Confirm" : "*********"}
               editable={showPassword}
               style={styles.label}
               secureTextEntry={true}
@@ -174,27 +191,27 @@ export default function EditSettings({ route, navigation }) {
           <ErrorText message={confirmPwdErrMessage} />
         )}
       </View>
-      <View style={{ flex: 2, justifyContent: "center" }}>
-        <PressableArea
-          areaPressed={resetHandle}
-          customizedStyle={styles.saveButton}
-        >
-          <Text style={styles.text}>Reset</Text>
-        </PressableArea>
+      <View style={styles.buttonContainer}>
         <PressableArea
           areaPressed={editSaveHandler}
           customizedStyle={styles.saveButton}
         >
           <Text style={styles.text}>Save</Text>
         </PressableArea>
+        <PressableArea
+          areaPressed={resetHandle}
+          customizedStyle={styles.saveButton}
+        >
+          <Text style={styles.text}>Clear</Text>
+        </PressableArea>
       </View>
-    </>
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   infoContainer: {
-    flex: 1,
+    flex: 2,
     padding: 10,
     justifyContent: "space-around",
   },
@@ -216,7 +233,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     marginLeft: "15%",
-    marginBottom: "12%",
+    marginBottom: "5%",
     width: "70%",
+  },
+  buttonContainer: {
+    flex: 6,
+    justifyContent: "center",
   },
 });
