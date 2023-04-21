@@ -7,6 +7,7 @@ import {
   StatusBar,
   Alert,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -131,14 +132,20 @@ export default function CreateItinerary({ navigation, route }) {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-      <PressableArea
-            areaPressed={createButtonPressed}
-            disabled={loading}
-            customizedStyle={styles.custmomizedStyle}
-          >
-            <Text style={styles.buttonText}>{buttonTitle}</Text>
-          </PressableArea>
+        <PressableArea
+          areaPressed={createButtonPressed}
+          // disabled={loading}
+          customizedStyle={styles.custmomizedStyle}
+        >
+          <Text style={styles.buttonText}>{buttonTitle}</Text>
+        </PressableArea>
       </View>
+      <Modal visible={loading} transparent={true} animationType="fade">
+        <View style={styles.modal}>
+          <ActivityIndicator size="large" color="white" />
+          <Text style={{ color: "white", marginTop: 10 }}>Loading...</Text>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -196,10 +203,15 @@ const styles = StyleSheet.create({
       marginLeft: "10%",
     },
   ],
-
   buttonText: {
     fontSize: 20,
     color: "white",
     fontWeight: "bold",
+  },
+  modal: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
