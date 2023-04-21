@@ -7,6 +7,8 @@ import {
   ScrollView,
   Image,
   Linking,
+  Modal,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Label from "../components/Label";
@@ -54,6 +56,7 @@ const AddPlace = ({ navigation, route }) => {
   const [locationPermission, requestLocationPermission] =
     Location.useForegroundPermissions();
   const [userLocation, setUserLocation] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function locate() {
@@ -62,7 +65,7 @@ const AddPlace = ({ navigation, route }) => {
           locationPermission,
           requestLocationPermission
         );
-        console.log(coords);
+        //console.log(coords);
         setUserLocation(coords);
       } catch (err) {
         console.log("location err", err);
@@ -85,6 +88,7 @@ const AddPlace = ({ navigation, route }) => {
               );
               return;
             }
+            setLoading(true);
             //uploadImage
 
             let uri = "";
@@ -103,17 +107,15 @@ const AddPlace = ({ navigation, route }) => {
               note: note,
             };
 
-            setLoading(true);
-
             if (itineraryItemID) {
               console.log(11);
-              editItineraryItemToDB(itineraryID, itineraryItemID, item);
+              await editItineraryItemToDB(itineraryID, itineraryItemID, item);
             } else {
               console.log(22);
-              writeItineraryItemToDB(itineraryID, item);
+              await writeItineraryItemToDB(itineraryID, item);
             }
-            navigation.navigate("Itinerary", { itineraryID: itineraryID });
             setLoading(false);
+            navigation.navigate("Itinerary", { itineraryID: itineraryID });
           }}
         >
           <Ionicons name="checkmark-outline" size={30} color="#fff" />
@@ -259,6 +261,20 @@ const AddPlace = ({ navigation, route }) => {
           </PressableArea>
         )}
       </View>
+
+      <Modal visible={loading} transparent={true} animationType="fade">
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color="white" />
+          <Text style={{ color: "white", marginTop: 10 }}>Loading...</Text>
+        </View>
+      </Modal>
     </KeyboardAwareScrollView>
   );
 };
