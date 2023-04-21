@@ -17,7 +17,18 @@ function MyItineraryList() {
 export default function MeScreen({}) {
   return (
     <View style={{ flex: 1 }}>
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{
+          // set the active tab's bottom border color to red
+          tabBarActiveTintColor: "black",
+          tabBarIndicatorStyle: {
+            // set the height of the active tab's bottom border
+            borderBottomWidth: 2,
+            // set the color of the active tab's bottom border
+            borderColor: "grey",
+          },
+        }}
+      >
         <Tab.Screen name="itinerary" component={MyItineraryList} />
         <Tab.Screen name="travel diary" component={MyTravelDiaryList} />
       </Tab.Navigator>
