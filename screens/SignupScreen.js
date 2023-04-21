@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TextInput,
   StatusBar,
   Alert,
@@ -15,6 +14,7 @@ import { auth } from "../firebase/firebase-setup";
 import { saveUserInfo } from "../firebase/firebase-helper";
 import ErrorText from "../components/ErrorText";
 import CommonStyles from "../style/CommonStyles";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function SignupScreen({ navigation }) {
   // const [nickname, setNickname] = useState("");
@@ -67,7 +67,8 @@ export default function SignupScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
+      {/* <SafeAreaView style={styles.container}> */}
       <StatusBar style="auto" />
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Travel Assistant</Text>
@@ -127,13 +128,15 @@ export default function SignupScreen({ navigation }) {
           <Text style={styles.buttonText}>Already Registered</Text>
         </PressableArea>
       </View>
-    </SafeAreaView>
+      {/* </SafeAreaView> */}
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 60,
   },
 
   headerContainer: {
@@ -147,6 +150,7 @@ const styles = StyleSheet.create({
   },
 
   middleContainer: {
+    marginTop: 40,
     flex: 4,
   },
 
