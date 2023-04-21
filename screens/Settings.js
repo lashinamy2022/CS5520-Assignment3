@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase-setup";
@@ -6,7 +6,7 @@ import Label from "../components/Label";
 import PressableArea from "../components/PressableArea";
 import ProfilePhoto from "../components/ProfilePhoto";
 import { Ionicons } from "@expo/vector-icons";
-import { getCurrentUserInfo, getUserInfo } from "../firebase/firebase-helper";
+import { getCurrentUserInfo } from "../firebase/firebase-helper";
 import { getImageURL } from "../service/ImageService";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -14,6 +14,7 @@ const Setting = ({ navigation }) => {
   const isFocused = useIsFocused("");
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
+  const [email, setEmail] = useState(auth.currentUser.email);
 
   useEffect(() => {
     async function getSettingsInfo() {
@@ -43,6 +44,12 @@ const Setting = ({ navigation }) => {
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
           <View>
+            <Label content="Email" customizedStyle={styles.label} />
+          </View>
+          <Label content={email} customizedStyle={styles.label} />
+        </View>
+        <View style={styles.infoRow}>
+          <View>
             <Label content="Nickname" customizedStyle={styles.label} />
           </View>
           <View style={{ flexDirection: "row" }}>
@@ -51,6 +58,7 @@ const Setting = ({ navigation }) => {
               areaPressed={() => {
                 navigation.navigate("EditSettings", {
                   nickname: nickname,
+                  type: "editName",
                 });
               }}
             >
@@ -73,6 +81,7 @@ const Setting = ({ navigation }) => {
               areaPressed={() => {
                 navigation.navigate("EditSettings", {
                   nickname: nickname,
+                  type: "editPassword",
                 });
               }}
             >
@@ -129,6 +138,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 2,
+    marginTop: 40,
   },
   infoRow: {
     flexDirection: "row",
