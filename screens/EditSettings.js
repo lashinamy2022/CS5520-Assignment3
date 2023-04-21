@@ -134,7 +134,7 @@ export default function EditSettings({ route, navigation }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               value={password}
-              placeholder={showPassword ? "Password Reset" : "*********"}
+              placeholder={showPassword ? "Password" : "*********"}
               editable={showPassword}
               style={styles.label}
               secureTextEntry={true}
@@ -165,7 +165,7 @@ export default function EditSettings({ route, navigation }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               value={confirmPassword}
-              placeholder={showPassword ? "Confirm Password" : "*********"}
+              placeholder={showPassword ? "Confirm" : "*********"}
               editable={showPassword}
               style={styles.label}
               secureTextEntry={true}
