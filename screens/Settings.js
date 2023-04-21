@@ -14,7 +14,10 @@ const Setting = ({ navigation }) => {
   const isFocused = useIsFocused("");
   const [nickname, setNickname] = useState("");
   const [photoUri, setPhotoUri] = useState("");
+  const [email, setEmail] = useState(auth.currentUser.email);
 
+  // const email = auth.currentUser.email;
+  console.log(email);
   useEffect(() => {
     async function getSettingsInfo() {
       const user = await getCurrentUserInfo();
@@ -41,6 +44,12 @@ const Setting = ({ navigation }) => {
         {photoUri && <ProfilePhoto photoUri={photoUri} />}
       </View>
       <View style={styles.infoContainer}>
+        <View style={styles.infoRow}>
+          <View>
+            <Label content="Email" customizedStyle={styles.label} />
+          </View>
+          <Label content={email} customizedStyle={styles.label} />
+        </View>
         <View style={styles.infoRow}>
           <View>
             <Label content="Nickname" customizedStyle={styles.label} />
