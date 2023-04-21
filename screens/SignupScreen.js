@@ -40,7 +40,7 @@ export default function SignupScreen({ navigation }) {
       setEmailErrMessage("");
     }
     if (password.length <= 8) {
-      setPwdErrMessage("At least greater than 8 characters");
+      setPwdErrMessage("At least 9 characters");
       flag = false;
     } else {
       setPwdErrMessage("");
