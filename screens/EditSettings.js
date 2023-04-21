@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, Image, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  Alert,
+  Dimensions,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase/firebase-setup";
 import Label from "../components/Label";
@@ -7,6 +15,7 @@ import ErrorText from "../components/ErrorText";
 import { updatePassword, signOut } from "firebase/auth";
 import { saveUserInfo } from "../firebase/firebase-helper";
 import { Entypo } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function EditSettings({ route, navigation }) {
   const [nickname, setNickname] = useState(route.params.nickname);
@@ -15,6 +24,7 @@ export default function EditSettings({ route, navigation }) {
   const [pwdErrMessage, setPwdErrMessage] = useState("");
   const [confirmPwdErrMessage, setConfirmPwdErrMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const height = Dimensions.get("screen").height;
 
   function resetHandle() {
     setNickname("");
@@ -92,7 +102,7 @@ export default function EditSettings({ route, navigation }) {
   };
 
   return (
-    <>
+    <KeyboardAwareScrollView contentContainerStyle={{ height: height }}>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
           <View>
@@ -174,27 +184,27 @@ export default function EditSettings({ route, navigation }) {
           <ErrorText message={confirmPwdErrMessage} />
         )}
       </View>
-      <View style={{ flex: 2, justifyContent: "center" }}>
-        <PressableArea
-          areaPressed={resetHandle}
-          customizedStyle={styles.saveButton}
-        >
-          <Text style={styles.text}>Reset</Text>
-        </PressableArea>
+      <View style={styles.buttonContainer}>
         <PressableArea
           areaPressed={editSaveHandler}
           customizedStyle={styles.saveButton}
         >
           <Text style={styles.text}>Save</Text>
         </PressableArea>
+        <PressableArea
+          areaPressed={resetHandle}
+          customizedStyle={styles.saveButton}
+        >
+          <Text style={styles.text}>Clear</Text>
+        </PressableArea>
       </View>
-    </>
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   infoContainer: {
-    flex: 1,
+    flex: 2,
     padding: 10,
     justifyContent: "space-around",
   },
@@ -216,7 +226,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     marginLeft: "15%",
-    marginBottom: "12%",
+    marginBottom: "5%",
     width: "70%",
+  },
+  buttonContainer: {
+    flex: 6,
+    justifyContent: "center",
   },
 });
