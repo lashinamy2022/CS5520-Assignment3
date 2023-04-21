@@ -51,6 +51,7 @@ const Setting = ({ navigation }) => {
               areaPressed={() => {
                 navigation.navigate("EditSettings", {
                   nickname: nickname,
+                  type: "editName",
                 });
               }}
             >
@@ -73,6 +74,7 @@ const Setting = ({ navigation }) => {
               areaPressed={() => {
                 navigation.navigate("EditSettings", {
                   nickname: nickname,
+                  type: "editPassword",
                 });
               }}
             >
