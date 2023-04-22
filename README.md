@@ -10,7 +10,7 @@ Added loading modals to CreateItinerary and CreateDiary Screens by Yixin Fan<br>
 
 In this iteration, we focused on fixing bugs in our applications after completing all the features in the previous iteration.<br>
 1.Notification Reminder issue in Itinerary Screen was fixed.<br>
-2.Sign up Screen and EditSetting Screen Button float up when keyboard showing issue was fixed.<br>
+2.Sign up Screen login and signup buttons float up when keyboard showing on an Android phone issue was fixed.<br>
  <img src="https://user-images.githubusercontent.com/113144833/233751960-ddf1f11b-1f3e-4f4a-b006-a71d485cfd1e.png" width="249" height="521"><br>
 3.The ask permission request message was changed to a more polite tone.<br>
 4.Layout of heart icon in DiaryDetail Screen was changed.<br>
