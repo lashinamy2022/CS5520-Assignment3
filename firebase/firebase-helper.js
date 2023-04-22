@@ -96,6 +96,7 @@ export async function writeItineraryItemToDB(itineraryID, item) {
       item
     );
     const startDate = await getFirstDateInIntinerary(itineraryID);
+    console.log("createItem", startDate);
     await updateStartDate(itineraryID, startDate);
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
@@ -127,7 +128,7 @@ export async function updateStartDate(itineraryID, startDate) {
   try {
     const docRef = doc(firestore, "itinerary", itineraryID);
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists() && (!docSnap.data().startDate)) {
+    if (docSnap.exists()) {
       await setDoc(
         doc(firestore, "itinerary", itineraryID),
         {
@@ -163,7 +164,7 @@ export async function getNotificationID(itineraryID) {
     if (docSnap.exists() && docSnap.data().notificationID) {
       return docSnap.data().notificationID;
     }
-    return "";
+    return null;
   } catch (err) {
     console.log("getNotificationID", err);
   }
@@ -181,6 +182,8 @@ export async function editItineraryItemToDB(
       item
     );
     const startDate = await getFirstDateInIntinerary(itineraryID);
+    console.log("editItem", startDate);
+
     await updateStartDate(itineraryID, startDate);
   } catch (err) {
     console.log("editItineraryItemToDB", err);
@@ -193,6 +196,7 @@ export async function deleteItineraryItemById(itineraryID, itineraryItemID) {
       doc(firestore, "itinerary", itineraryID, "items", itineraryItemID)
     );
     const startDate = await getFirstDateInIntinerary(itineraryID);
+    console.log("deleteItem", startDate);
     await updateStartDate(itineraryID, startDate);
   } catch (err) {
     console.log("deleteItineraryItemById", err);

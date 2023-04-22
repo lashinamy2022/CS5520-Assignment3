@@ -95,15 +95,18 @@ const Itinerary = ({ navigation, route }) => {
     }
     startDate = formatDatestr(startDate);
     const days = getDiffDays(startDate);
-    console.log(days);
     if (days <= 0) {
       Alert.alert("please set your trip a future date");
       return;
     }
     const notificationDate = notificationDatetimeHandler(startDate);
-    console.log(notificationDate);
     const notificationID = await scheduleNotificationHandler(notificationDate);
     // console.log(notificationID);
+    const oldNotificationID = await getNotificationID(itineraryID);
+    console.log("old", oldNotificationID);
+    if (oldNotificationID) {
+      cancelNotification(oldNotificationID);
+    }
     await editItineraryToDB(itineraryID, { notificationID: notificationID });
   }
   return (
@@ -154,7 +157,7 @@ const Itinerary = ({ navigation, route }) => {
             <PressableArea
               areaPressed={async () => {
                 let notificationID = await getNotificationID(itineraryID);
-                if (notificationID !== "") {
+                if (notificationID) {
                   Alert.alert(
                     "",
                     "You have set a reminder, do you want to reset it?",
