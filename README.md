@@ -1,6 +1,30 @@
 # Travel Assistant APP :world_map:
 Members: Yang Yang, Yu Sun, Yixin Fan
 
+## Iteration 3 :triangular_flag_on_post: :triangular_flag_on_post: :triangular_flag_on_post:
+
+Contributions: <br>
+Redesigned the notification feature in Itinerary Screen by Yang Yang<br>
+Redesigned the password feature in EditSetting Screen by Yu Sun<br>
+Added loading modals to CreateItinerary and CreateDiary Screens by Yixin Fan<br>
+
+In this iteration, we focused on fixing bugs in our applications after completing all the features in the previous iteration.<br>
+1.Notification Reminder issue in Itinerary Screen was fixed.<br>
+2.Sign up Screen and EditSetting Screen Button float up when keyboard showing issue was fixed.<br>
+ <img src="https://user-images.githubusercontent.com/113144833/233751960-ddf1f11b-1f3e-4f4a-b006-a71d485cfd1e.png" width="249" height="521"><br>
+3.The ask permission request message was changed to a more polite tone.<br>
+4.Layout of heart icon in DiaryDetail Screen was changed.<br>
+5.Password change function was updated.<br>
+6.Loading modals were added when the save button is pressed.<br>
+<img src="https://user-images.githubusercontent.com/113144833/233752293-60456e70-8655-4894-a629-998800cb95a1.png" width="249" height="521"><br>
+
+
+Firestore Index Setup:<br>
+<img width="880" alt="firestore index" src="https://user-images.githubusercontent.com/113144833/233752110-3640cea3-3143-4af6-81f7-aefd53e71f12.png">
+
+
+<br>
+
 ## Iteration 2 :triangular_flag_on_post: :triangular_flag_on_post:
 Contributions: <br>
 Designed and implemented the collection feature and notification feature by Yang Yang<br>
