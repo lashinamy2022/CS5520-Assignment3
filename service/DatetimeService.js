@@ -48,7 +48,8 @@ function format(number) {
 
 export const getDiffDays = (datestr) => {
   const date = new Date(datestr);
-  const now = new Date();
+  const nowstr = convertNowDateToStr()+"T"+convertNowTimeToStrWithSeconds();
+  const now = new Date(nowstr);
   return (date - now) / 1000 / 60 / 60 / 24;
 };
 
