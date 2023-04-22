@@ -19,7 +19,7 @@ export default function EditPassword() {
   const editSaveHandler = async () => {
     let flag = true;
     if (showPassword && password.length <= 8) {
-      setPwdErrMessage("At least greater than 8 characters");
+      setPwdErrMessage("At least 9 characters");
       flag = false;
     } else {
       setPwdErrMessage("");

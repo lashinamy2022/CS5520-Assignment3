@@ -92,12 +92,14 @@ export default function CreateItinerary({ navigation, route }) {
     setLoading(true);
     if (!itineraryID) {
       const id = await writeItineraryToDB(itinerary);
+      setLoading(false);
       navigation.navigate("Itinerary", { itineraryID: id });
     } else {
       const id = await editItineraryToDB(itineraryID, itinerary);
+      setLoading(false);
       navigation.navigate("Itinerary", { itineraryID: itineraryID });
     }
-    setLoading(false);
+    
   }
 
   return (

@@ -77,30 +77,31 @@ export default function CreateDiary({ navigation, route }) {
               ]);
               return;
             }
-            setLoading(true);
+            
             Alert.alert("Post", "Are you sure you want to post this?", [
               { text: "NO", onPress: () => console.log("No Pressed") },
               {
                 text: "YES",
-                onPress: () => {
+                onPress: async () => {
+                  setLoading(true);
                   const diary = {
                     title: title,
                     articleStatus: articleStatus,
                     article: article,
                   };
                   if (!route.params.id) {
-                    writeTravelDiaryToDB(diary);
+                    await writeTravelDiaryToDB(diary);
                     navigation.navigate("HomeTab");
                   } else {
-                    updateTravelDiaryById(route.params.id, diary);
+                    await updateTravelDiaryById(route.params.id, diary);
                     const params = {
                       // userPhoto: "../assets/scenery.jpg",//need change
                       userPhoto: "",
                       diaryID: route.params.id,
                     };
-                    setLoading(false);
                     navigation.navigate("DiaryDetail", params);
                   }
+                  setLoading(false);
                 },
               },
             ]);
