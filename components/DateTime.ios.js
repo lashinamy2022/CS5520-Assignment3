@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Label from "./Label";
 import {
   convertDateToStr,
+  convertNowDateToStr,
   convertTimeToStrWithoutSeconds,
 } from "../service/DatetimeService";
 
@@ -36,7 +37,7 @@ const DateTime = ({ navigation, route }) => {
         value={date}
         mode={"datetime"}
         display={"default"}
-        minimumDate={new Date()}
+        minimumDate={new Date(convertNowDateToStr())}
         style={{ marginTop: 100 }}
         onChange={(event, selectedDate) => {
           // console.log("ios",selectedDate);

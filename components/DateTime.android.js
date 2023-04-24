@@ -78,7 +78,7 @@ const DateTime = ({ navigation, route }) => {
           value={date}
           mode={"time"}
           display={"default"}
-          minimumDate={new Date()}
+          //minimumDate={new Date()}
           onChange={(event, selectedDate) => {
             setShowTime(false);
             const currentDate = selectedDate || date;
