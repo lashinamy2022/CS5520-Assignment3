@@ -1,5 +1,6 @@
 # Travel Assistant APP :world_map:
-Members: Yang Yang, Yu Sun, Yixin Fan
+Members: Yang Yang, Yu Sun, Yixin Fan<br>
+Project Demo: https://youtu.be/mwoGqCnsqmk
 
 ## Iteration 3 :triangular_flag_on_post: :triangular_flag_on_post: :triangular_flag_on_post:
 
