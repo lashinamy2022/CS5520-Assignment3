@@ -4,10 +4,6 @@ Slide: https://docs.google.com/presentation/d/1NBXgf7mVMpZejzqO94q6aghxyIxj6Krox
 
 ## Iteration 3 :triangular_flag_on_post: :triangular_flag_on_post: :triangular_flag_on_post:
 
-Contributions: <br>
-Redesigned the notification feature in Itinerary Screen by Yang Yang<br>
-Redesigned the password feature in EditSetting Screen by Yu Sun<br>
-Added loading modals to CreateItinerary and CreateDiary Screens by Yixin Fan<br>
 
 In this iteration, we focused on fixing bugs in our applications after completing all the features in the previous iteration.<br>
 1.Notification Reminder issue in Itinerary Screen was fixed.<br>
