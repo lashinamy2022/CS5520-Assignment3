@@ -23,10 +23,7 @@ Firestore Index Setup:<br>
 <br>
 
 ## Iteration 2 :triangular_flag_on_post: :triangular_flag_on_post:
-Contributions: <br>
-Designed and implemented the collection feature and notification feature by Yang Yang<br>
-Redesigned the style of tab icons, and added bell to the itineary screen by Yixin Fan<br>
-Change the view and functionality of editing screen and format the date/time by Yu Sun<br>
+
 
 ### Authentication<br>
 Log in Page<br>
@@ -58,10 +55,7 @@ Place auto complete<br>
 <img src="https://user-images.githubusercontent.com/113145079/230846802-83c1f9af-d6ea-4912-9d64-15a0d87f94ab.PNG" width="249" height="521"><br>
 
 ## Iteration 1 :triangular_flag_on_post:
-- Contributions: Developed the app's overall structure and implemented the Itinerary, CreateDiary, and AddPlace screens(contributed by Yang Yang).
-  Designed and implemented the Itinerary List and Travel Diary List component and HomeTabScreen, MeScreen and Notofication Screen(contributed by Yu Sun).
-  Implemented Tab navigation and SignUp, Login, Diary Detail,Create, Edit Place and Setting Screen (contributed by Yixin Fan).
-  Collaborated to establish the basis of CRUD (Create, Read, Update, Delete) operations with Firestore (contributed by Yang Yang and Yu Sun).
+
 - Screenshots:<br>
   1.Signup<br>
   <img src="https://user-images.githubusercontent.com/113144833/229254636-9041ecda-9898-48f2-8d70-6cb7367dcd00.png" width="249" height="521"><br>
